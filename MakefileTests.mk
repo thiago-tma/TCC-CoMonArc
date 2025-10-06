@@ -33,7 +33,7 @@ SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
 
 # Compiler flags
 CFLAGS += -std=c99
-CFLAGS += -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
+CFLAGS += -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
 
 # Linker flags
 LDFLAGS +=
