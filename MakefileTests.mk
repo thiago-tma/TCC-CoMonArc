@@ -32,10 +32,11 @@ CSOURCES += $(wildcard $(SRC_DIR)/*/*.c)
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
 
 # Compiler flags
-CFLAGS += -Wall -ffunction-sections 
+CFLAGS += -std=c99
+CFLAGS += -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings -Waggregate-return
 
 # Linker flags
-LDFLAGS += -lm
+LDFLAGS +=
 
 # Generate names for output object files (*.o)
 COBJECTS = $(patsubst %.c, %.o, $(CSOURCES))
