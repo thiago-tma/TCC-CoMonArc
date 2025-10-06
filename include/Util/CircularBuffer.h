@@ -25,12 +25,23 @@ bool            CircularBuffer_IsEmpty             (CircularBuffer buffer);
 /* Retorna 'true' se cheio */
 bool            CircularBuffer_IsFull              (CircularBuffer buffer);
 
-/* Retorna 'true' se valor foi inserido */
-/* Retorna 'false* se buffer está cheio, descartando o valor*/
+/* Retorna 'true' se valor foi inserido, 'false* se buffer está cheio, descartando o valor */
 bool            CircularBuffer_Write               (CircularBuffer buffer, void const  * elementIn);
 
-/* Retorna 'true' se valor foi lido     */
-/* Retorna 'false* se buffer está vazio */
+/* Retorna 'true' se valor foi lido, 'false* se buffer está vazio     */
 bool            CircularBuffer_Read                (CircularBuffer buffer, void *  elementOut);
+
+
+/* ####################################### FUNÇÕES DE EXTENSÃO #################################################### */
+
+/* Função de execução rápida, somente quando elementos tem 1 byte de tamanho*/
+/* Retorna 'true' se valor foi inserido, 'false* se buffer está cheio, descartando o valor */
+/* NÃO IMPLEMENTADO */
+bool            CircularBuffer_WriteByte               (CircularBuffer buffer, char elementIn);
+
+/* Função de execução rápida, somente quando elementos tem 1 byte de tamanho*/
+/* Retorna 'true' se valor foi lido, 'false* se buffer está vazio     */
+/* NÃO IMPLEMENTADO */
+bool            CircularBuffer_ReadByte                (CircularBuffer buffer, char *  elementOut);
 
 #endif  /* D_CircularBuffer_H */
