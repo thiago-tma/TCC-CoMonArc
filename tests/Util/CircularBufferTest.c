@@ -27,12 +27,28 @@
 #include "unity_fixture.h"
 #include "CircularBuffer.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 TEST_GROUP(CircularBuffer);
 
+static uint8_t  byteStorageBuffer[10];
+static uint32_t intStorageBuffer[10];
+
+static CircularBuffer myBuffer= 0;
+
+void resetStorageState(void)
+{
+    for (int i = 0; i < 10; i++)
+    {
+        byteStorageBuffer[i] = 0;
+        intStorageBuffer[i] = 0;
+    }
+}
+
 TEST_SETUP(CircularBuffer)
 {
-
+    resetStorageState();
+    myBuffer= 0;
 }
 
 TEST_TEAR_DOWN(CircularBuffer)
@@ -40,7 +56,24 @@ TEST_TEAR_DOWN(CircularBuffer)
 
 }
 
+TEST(CircularBuffer, BadInitializationNullMemory)
+{
+    TEST_ASSERT(!CircularBuffer_Create(myBuffer, 0, 1, 1));
+
+}
+
+TEST(CircularBuffer, BadInitializationNullElementsNumber)
+{
+    TEST_ASSERT(!CircularBuffer_Create( myBuffer, byteStorageBuffer, 0, 1));
+}
+
+TEST(CircularBuffer, BadInitializationNullElementSize)
+{
+    TEST_ASSERT(!CircularBuffer_Create( myBuffer, byteStorageBuffer, 1, 0));
+}
+
 TEST(CircularBuffer, CreateAndDestroy)
 {
-
+    TEST_ASSERT(CircularBuffer_Create(myBuffer, byteStorageBuffer, 1, 1));
+    TEST_ASSERT(CircularBuffer_Destroy(myBuffer));
 }

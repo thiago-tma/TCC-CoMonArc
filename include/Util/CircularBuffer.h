@@ -2,6 +2,7 @@
 #define D_CircularBuffer_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef struct CircularBufferStruct * CircularBuffer;
 
