@@ -14,3 +14,18 @@ bool CircularBuffer_Destroy (CircularBuffer buffer)
 {
     return true;
 }
+
+bool CircularBuffer_IsEmpty (CircularBuffer buffer)
+{
+    return true;
+}
+
+bool CircularBuffer_Read (CircularBuffer buffer, void *  elementOut)
+{
+    return false;
+}
+
+bool CircularBuffer_Write (CircularBuffer buffer, void const  * elementIn)
+{
+    return true;
+}
