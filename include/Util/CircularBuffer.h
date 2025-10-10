@@ -7,11 +7,11 @@
 typedef struct CircularBufferStruct * CircularBuffer;
 
 /* @param buffer            Ponteiro para o CircularBuffer a ser iniciado */
-/* @param bufferStorage     Vetor de memória usado como buffer. O usuário deve garantir que o tamanho do buffer passado está correto*/
+/* @param bufferMemory      Vetor de memória usado como buffer. O usuário deve garantir que o tamanho do buffer passado está correto*/
 /* @param elementsNumber    Capacidade de elementos do buffer                                             */
 /* @param elementSize       Número de bytes em um só elemento*/
 /* Retorna true com sucesso, false se um dos parâmetros for nulo                                                          */
-bool  CircularBuffer_Create   (CircularBuffer buffer ,void * const bufferStorage, size_t elementsNumber, size_t elementSize);
+bool  CircularBuffer_Create   (CircularBuffer * buffer ,void * const bufferMemory, size_t elementsNumber, size_t elementSize);
 
 /* Restante das funções abaixo supõem um parâmetro CircularBuffer buffer válido  */
 
