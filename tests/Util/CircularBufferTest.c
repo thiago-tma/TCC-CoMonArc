@@ -10,12 +10,13 @@
  *      Numero de elementos nulo    OK
  *      Tamanho de elemento nulo    OK
  * Inicialiação retorna true se houver sucesso                  OK
- * Inicialização altera ponteiro de CircularBuffer com sucesso  
+ * Inicialização altera ponteiro de CircularBuffer com sucesso  OK
  * Buffer aponta estar vazio ao iniciar                         OK
  * Buffer retorna falso ao tentar ler com buffer vazio          OK
  * Buffer guarda valor e retorna true                           OK
  * Buffer aponta não-vazio após inserir valor                   OK
- * Buffer guarda e retorna o mesmo byte aleatório
+ * Buffer guarda e retorna o mesmo byte aleatório               OK
+ * Buffer lê e retorna verdadeiro quando não vazio
  * Buffer guarda e retorna um int32 aleatório                           
  * Buffer aponta que está vazio após inserir e retirar byte aleatório
  * Buffer aponta que está vazio após inserir e destruir buffer
