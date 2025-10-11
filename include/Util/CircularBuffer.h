@@ -9,6 +9,8 @@ typedef struct CircularBufferStruct
 {
     uint8_t * buffer;
     size_t bufferSize;
+    size_t head;
+    size_t tail;
 } CircularBuffer;
 
 /* @param buffer            Ponteiro para o buffer a ser iniciado */
@@ -21,8 +23,7 @@ bool  CircularBuffer_Create   (CircularBuffer * buffer , uint8_t * bufferMemory,
 
 /* Reinicia (Resets) o uso do buffer, tornando-o vazio  */
 /* Não tenta desalocar/liberar a memória do buffer      */
-/* Retorna 'true' com o sucesso da operação             */
-bool            CircularBuffer_Destroy              (CircularBuffer * buffer);
+void            CircularBuffer_Destroy              (CircularBuffer * buffer);
 
 /* Retorna 'true' se vazio */
 bool            CircularBuffer_IsEmpty              (CircularBuffer * buffer);
