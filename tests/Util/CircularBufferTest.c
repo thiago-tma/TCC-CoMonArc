@@ -15,7 +15,7 @@
  * Buffer lê e retorna verdadeiro quando não vazio          
  * Buffer escreve e lê o mesmo byte aleatório                                        
  * Buffer aponta que está vazio após inserir e retirar byte aleatório
- * Buffer aponta que está vazio após inserir byte e destruir buffer
+ * Buffer é reiniciado e aponta que está vazio após inserir byte e destruir buffer
  * Buffer guarda dois bytes aleatórios e retorna os mesmos bytes            
  * Buffer aponta que está cheio corretamente               
  * Buffer aponta vazio após encher e esvaziar completamente 
@@ -36,14 +36,12 @@
 TEST_GROUP(CircularBuffer);
 
 static uint8_t  byteStorageBuffer[BUFFER_SIZE];
-static uint32_t intStorageBuffer[BUFFER_SIZE];
 
 void resetStorageState(void)
 {
     for (int i = 0; i < BUFFER_SIZE; i++)
     {
         byteStorageBuffer[i] = 0;
-        intStorageBuffer[i] = 0;
     }
 }
 

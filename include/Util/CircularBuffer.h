@@ -22,19 +22,27 @@ bool  CircularBuffer_Create   (CircularBuffer buffer , uint8_t * bufferMemory, s
 /* Reinicia (Resets) o uso do buffer, tornando-o vazio  */
 /* Não tenta desalocar/liberar a memória do buffer      */
 /* Retorna 'true' com o sucesso da operação             */
-bool            CircularBuffer_Destroy             (CircularBuffer buffer);
+bool            CircularBuffer_Destroy              (CircularBuffer buffer);
 
 /* Retorna 'true' se vazio */
-bool            CircularBuffer_IsEmpty             (CircularBuffer buffer);
+bool            CircularBuffer_IsEmpty              (CircularBuffer buffer);
 
 /* Retorna 'true' se cheio */
-bool            CircularBuffer_IsFull              (CircularBuffer buffer);
+bool            CircularBuffer_IsFull               (CircularBuffer buffer);
+
+/* Retorna espaço livre em bytes */
+size_t          CircularBuffer_FreeSpace            (CircularBuffer buffer);
 
 /* Retorna 'true' se valor foi inserido, 'false* se buffer está cheio, descartando o valor */
-bool            CircularBuffer_Write               (CircularBuffer buffer, void const  * elementIn);
+bool            CircularBuffer_WriteOne             (CircularBuffer buffer, uint8_t elementIn);
 
 /* Retorna 'true' se valor foi lido, 'false* se buffer está vazio     */
-bool            CircularBuffer_Read                (CircularBuffer buffer, void *  elementOut);
+bool            CircularBuffer_ReadOne              (CircularBuffer buffer, uint8_t * elementOut);
 
+/* Retorna o número de bytes escritos. Se buffer se tornar cheio, descarta o restante dos bytes */
+size_t          CircularBuffer_WriteMany            (CircularBuffer buffer, uint8_t * elementsIn, size_t lenght);
+
+/* Retorna o número de bytes lidos */
+size_t          CircularBuffer_ReadMany             (CircularBuffer buffer, uint8_t * elementsOut, size_t lenght);
 
 #endif  /* D_CircularBuffer_H */
