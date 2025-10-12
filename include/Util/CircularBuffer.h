@@ -11,6 +11,7 @@ typedef struct CircularBufferStruct
     size_t bufferSize;
     size_t head;
     size_t tail;
+    size_t count;
 } CircularBuffer;
 
 /* @param buffer            Ponteiro para o buffer a ser iniciado */

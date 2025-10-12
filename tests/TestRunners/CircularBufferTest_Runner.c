@@ -19,4 +19,10 @@ TEST_GROUP_RUNNER(CircularBuffer)
   RUN_TEST_CASE(CircularBuffer, Write2BytesAndRead2Bytes);
   RUN_TEST_CASE(CircularBuffer, ShowSpaceRemainingAfterWrite);
   RUN_TEST_CASE(CircularBuffer, ShowSpaceRemainingAfter4WriteAnd2Read);
+  RUN_TEST_CASE(CircularBuffer, BufferShowsFullCorrectly);
+  RUN_TEST_CASE(CircularBuffer, WriteWhileFullReturnsFalse);
+  RUN_TEST_CASE(CircularBuffer, WriteWhileFullDiscardsNewByte);
+  RUN_TEST_CASE(CircularBuffer, WriteManyReturnsNumberOfWrittenBytes);
+  RUN_TEST_CASE(CircularBuffer, ReadManyReturnsNumberOfReadBytes);
+  RUN_TEST_CASE(CircularBuffer, CheckWrapAroundFunction);
 }
