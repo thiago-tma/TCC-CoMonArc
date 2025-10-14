@@ -7,6 +7,7 @@ CXX ?= g++
 # Settings
 SRC_DIR = ./src
 INC_DIR = ./include
+HAL_INC_DIR = ./platform/include
 TEST_DIR = ./tests
 BUILD_DIR = .
 
@@ -17,8 +18,9 @@ NAME = app.elf
 CFLAGS += -I$(UNITY_HOME)/src
 CFLAGS += -I$(UNITY_HOME)/extras/fixture/src
 
-CFLAGS += -I$(INC_DIR)/Util
-
+CFLAGS += $(patsubst %, -I%, $(shell find $(INC_DIR) -type d))
+CFLAGS += $(patsubst %, -I%, $(shell find $(HAL_INC_DIR) -type d))
+CFLAGS += $(patsubst %, -I%, $(shell find $(TEST_DIR) -type d))
 
 
 # List module source files
