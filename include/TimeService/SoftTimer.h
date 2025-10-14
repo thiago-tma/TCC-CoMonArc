@@ -5,9 +5,9 @@
 
 typedef struct SoftTimerStruct * SoftTimer;
 
-SoftTimer   TimeService_CreateTimer     (timeMicroseconds timerPeriod);
-bool        TimeService_DestroyTimer    (SoftTimer softTimer);
-bool        TimeService_CheckTimer      (SoftTimer softTimer);
-void        TimeService_ResetTimer      (SoftTimer softTimer);
+SoftTimer   SoftTimer_Create     (timeMicroseconds timerPeriod);
+bool        SoftTimer_Destroy    (SoftTimer softTimer);
+bool        SoftTimer_Check    (SoftTimer softTimer);
+void        SoftTimer_Reset    (SoftTimer softTimer);
 
 #endif /*D_SOFTTIMER_H*/
