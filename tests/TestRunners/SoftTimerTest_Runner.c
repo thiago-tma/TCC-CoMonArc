@@ -3,5 +3,5 @@
 
 TEST_GROUP_RUNNER(SoftTimer)
 {
-    
+    RUN_TEST_CASE(SoftTimer, CreateAndDestroySoftwareTimer);
 }

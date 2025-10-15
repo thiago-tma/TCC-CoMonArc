@@ -1,6 +1,7 @@
 #ifndef D_SOFTTIMER_H
 #define D_SOFTTIMER_H
 
+#include <stdbool.h>
 #include "TimeTypes.h"
 
 typedef struct SoftTimerStruct
