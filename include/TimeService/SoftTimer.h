@@ -3,11 +3,16 @@
 
 #include "TimeTypes.h"
 
-typedef struct SoftTimerStruct * SoftTimer;
+typedef struct SoftTimerStruct
+{
+    timeMicroseconds startTime;
+    timeMicroseconds timerPeriod;
+} SoftTimer;
 
-SoftTimer   SoftTimer_Create     (timeMicroseconds timerPeriod);
-bool        SoftTimer_Destroy    (SoftTimer softTimer);
-bool        SoftTimer_Check    (SoftTimer softTimer);
-void        SoftTimer_Reset    (SoftTimer softTimer);
+
+bool        SoftTimer_Create    (SoftTimer * softTimer, timeMicroseconds timerPeriod);
+bool        SoftTimer_Destroy   (SoftTimer * softTimer);
+bool        SoftTimer_Check     (SoftTimer * softTimer);
+void        SoftTimer_Reset     (SoftTimer * softTimer);
 
 #endif /*D_SOFTTIMER_H*/
