@@ -2,8 +2,9 @@
  * Lista de Testes do SystemClock
  * Objetivo: Manter o tempo de sistema e gerenciar serviço de alarmes/temporizadores
  * 
- * Tempo de sistema é zero ao criar o módulo    OK
+ * Tempo de sistema é zero ao criar o módulo                                            OK
  * Tempo do sistema aumenta quando função de callback é chamada por X microsegundos     OK
+ * Módulo pode ser inicializado N vezes sem alterar relógio do sistema
  * Tempo de sistema é zero após destruir e criar módulo novamente                       OK
  * Leitura do tempo não é corrompida por interrupção (feito por pausa e continuação)    OK?
  * Tempo de sistema não aumenta após destruir módulo?
@@ -41,6 +42,15 @@ TEST(SystemClock, TimeIncreasedAfterSystemCallback)
 {
   FakeSystemTimer_AddTime(1000);
     
+  time = SystemClock_Time();
+
+  TEST_ASSERT_EQUAL_INT(1000, time);
+}
+
+TEST(SystemClock, MultipleInitializatonsDoNotChangeTime)
+{
+  FakeSystemTimer_AddTime(1000);
+  SystemClock_Create();
   time = SystemClock_Time();
 
   TEST_ASSERT_EQUAL_INT(1000, time);

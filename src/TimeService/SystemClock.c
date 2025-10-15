@@ -14,13 +14,13 @@ static void timerInterruptCallback(timeMicroseconds useconds)
 
 void SystemClock_Create(void)
 {
-    systemTime = 0;
     SystemTimer_Create(timerInterruptCallback);
 }
 
 void SystemClock_Destroy(void)
 {
     SystemTimer_Destroy();
+    systemTime = 0;
 }
 
 static void readCurrentTime(timeMicroseconds * time)
