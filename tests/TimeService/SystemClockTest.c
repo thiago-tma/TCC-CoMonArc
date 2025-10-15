@@ -4,8 +4,8 @@
  * 
  * Tempo de sistema é zero ao criar o módulo    OK
  * Tempo do sistema aumenta quando função de callback é chamada por X microsegundos     OK
- * Leitura do tempo não é corrompida por interrupção (feito por pausa e continuação)    OK?
  * Tempo de sistema é zero após destruir e criar módulo novamente                       OK
+ * Leitura do tempo não é corrompida por interrupção (feito por pausa e continuação)    OK?
  * Tempo de sistema não aumenta após destruir módulo?
  *      
 */
