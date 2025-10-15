@@ -2,11 +2,12 @@
  * Lista de Testes do SoftTimer
  * Objetivo: Gerenciar serviço de alarmes/temporizadores
  * 
- * Cria temporizador com tempo limite
- *      período = 0 retorna falso
- *      período != 0 retorna verdadeiro    
+ * Cria temporizador com tempo limite                                                           OK
+ *      período = 0 retorna falso           OK
+ *      período != 0 retorna verdadeiro     OK
  * Check retorna false caso tempo limite não tenha sido atingido ainda               
  * Check retorna true caso tempo limite tenha sido atingido e reinicia temporizador  
+ *      SoftTimer deve iniciar SystemClock(tolerante a múltiplas chamadas de inicialização)
  * Check retorna false depois de retornar true e outro período ainda não passou      
  * Check retorna true multiplas vezes sempre após o período de tempo do temporizador 
  * Se comporta corretamente durante overflow do tempo de sistema
@@ -32,29 +33,33 @@ TEST_SETUP(SoftTimer)
 {
     testTimer.timerPeriod = 0;
     testTimer.startTime = 0;
+
+    SoftTimer_Create(&testTimer, 1000);
 }
 
 TEST_TEAR_DOWN(SoftTimer)
 {
-
+    SystemClock_Destroy();
 }
 
 
 
 TEST(SoftTimer, CreateAndDestroySoftwareTimer)
 {
-
   SoftTimer_Create(&testTimer, 1000);
   SoftTimer_Destroy(&testTimer);
 }
 
+TEST(SoftTimer, TimerPeriodMustNotBeZeroInInitialization)
+{
+    TEST_ASSERT(SoftTimer_Create(&testTimer, 1000));
+    TEST_ASSERT_FALSE(SoftTimer_Create(&testTimer, 0));
+}
 
-/*
 TEST(SoftTimer, CheckTimerReturnsFalseWhenItsNotTime)
 {
-  FakeSystemTimer_AddTime(5000);
+  FakeSystemTimer_AddTime(10);
   bool itsTime = TimeService_CheckTimer(testTimer);
   
   TEST_ASSERT(!itsTime);
 }
-*/

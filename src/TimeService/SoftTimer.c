@@ -2,11 +2,13 @@
 
 bool SoftTimer_Create (SoftTimer * softTimer, timeMicroseconds timerPeriod)
 {
-    return false;
+    if (!timerPeriod) return false;
+
+    return true;
 }
 
 
 bool SoftTimer_Destroy (SoftTimer * softTimer)
 {
-    return false;
+    return true;
 }
