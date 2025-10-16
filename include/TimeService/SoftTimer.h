@@ -17,10 +17,12 @@ bool        SoftTimer_Create    (SoftTimer * softTimer, timeMicroseconds timerPe
 /* Sem efeito, retorna true */
 bool        SoftTimer_Destroy   (SoftTimer * softTimer);
 
-/* Retorna true se timer expirou, falso caso contrário */
-/* */
+/* Retorna true se timer expirou, falso caso contrário      */
+/* Contagem é reiniciada assim que chamada retornar 'true'  */
+/* Supõe que SystemClock foi inicializado para contar o tempo */
 bool        SoftTimer_Check     (SoftTimer * softTimer);
 
+/* Reinicia contagem */
 void        SoftTimer_Reset     (SoftTimer * softTimer);
 
 #endif /*D_SOFTTIMER_H*/
