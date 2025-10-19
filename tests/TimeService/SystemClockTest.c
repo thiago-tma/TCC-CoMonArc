@@ -4,10 +4,16 @@
  * 
  * Tempo de sistema é zero ao criar o módulo                                            OK
  * Tempo do sistema aumenta quando função de callback é chamada por X microsegundos     OK
- * Módulo pode ser inicializado N vezes sem alterar relógio do sistema
+ * Módulo pode ser inicializado N vezes sem alterar relógio do sistema                  OK
  * Tempo de sistema é zero após destruir e criar módulo novamente                       OK
  * Leitura do tempo não é corrompida por interrupção (feito por pausa e continuação)    OK?
- * Tempo de sistema não aumenta após destruir módulo?
+ * 
+ * Retorna o número do slot ocupado ao registrar função de callback
+ * Executa a função de callback registrada durante tique do sistema
+ * Registra múltiplas funções de callback e as executa durante tique do sistema
+ * Destruir módulo remove funções de callback registradas
+ * Retorna -1 caso todos os slots de callback estejam ocupados
+ * Remove função de callback mediante o número do slot passado
  *      
 */
 
