@@ -18,3 +18,24 @@
  * Transição do botão de baixo para alto (pino de baixo para alto) ativa função atrelada
  * 
 */
+
+#include "unity.h"
+#include "unity_fixture.h"
+#include "UserInterface.h"
+
+TEST_GROUP(UserInterface);
+
+TEST_SETUP(UserInterface)
+{
+
+}
+
+TEST_TEAR_DOWN(UserInterface)
+{
+
+}
+
+TEST(UserInterface, InitializeUsedGPIO)
+{
+
+}
