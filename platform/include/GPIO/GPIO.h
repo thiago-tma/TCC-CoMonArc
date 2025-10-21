@@ -29,7 +29,7 @@ typedef enum
     GPIO_INT_RISING_EDGE,
     GPIO_INT_FALLING_EDGE,
     GPIO_INT_TRANSITION
-} GPIO_Int_Trigger_t
+} GPIO_Int_Trigger_t;
 
 typedef void (GPIO_Callback_t)(void);
 
@@ -51,7 +51,7 @@ GPIO_Status_t GPIO_ReadPin(uint32_t channel, GPIO_Value_t *value);
 GPIO_Status_t GPIO_TogglePin(uint32_t channel);
 
 /* Attach  and enable interrupt on channel */
-GPIO_Status_t GPIO_EnableInterrupt(uint32_t channel, GPIO_Callback_t callback, GPIO_Trigger_t triggerType );
+GPIO_Status_t GPIO_EnableInterrupt(uint32_t channel, GPIO_Callback_t callback, GPIO_Int_Trigger_t triggerType );
 
 /* Disable interrupt on channel */
 GPIO_Status_t GPIO_DisableInterrupt(uint32_t channel);
