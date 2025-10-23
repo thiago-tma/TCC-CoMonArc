@@ -2,9 +2,11 @@
  * Lista de Testes do UserInterface
  * Objetivo: Gerenciar controle de Leds, Campainhas e Botões
  * 
- * Módulo inicializa GPIOs usados durante inicialização
- *      LED, Campainha e Botão
- * Módulo retorna pinos ao estado padrão ao ser destruido
+ * Módulo inicializa módulo GPIO
+ * Módulo inicializa GPIOs usados durante inicialização                                     OK
+ *      LED, Campainha e Botão                              OK
+ *      Inicializa LED e Campainha como saídas e desligados OK
+ *      Inicializa botão como entrada e pull-down           OK
  * Blink do LED com 1 repetição e 1 segundo
  *      InterfaceRun altera pino do LED
  *      Estado do pino se mantém com novo InterfaceRun se 1 segundo não passou
@@ -22,20 +24,39 @@
 #include "unity.h"
 #include "unity_fixture.h"
 #include "UserInterface.h"
+#include "FakeGPIO.h"
 
 TEST_GROUP(UserInterface);
 
 TEST_SETUP(UserInterface)
 {
-
+    UserInterface_Create();
 }
 
 TEST_TEAR_DOWN(UserInterface)
 {
-
+    UserInterface_Destroy();
 }
 
-TEST(UserInterface, InitializeUsedGPIO)
+TEST(UserInterface, CreateAndDestroy)
 {
+    UserInterface_Create();
+    UserInterface_Destroy();
+}
 
+TEST(UserInterface, InitializeGPIOModuleOnInitialization)
+{
+    TEST_ASSERT_TRUE(FakeGPIO_GetInitialized());
+}
+
+TEST(UserInterface, SetPinsDirectionAndValueOnInitialization)
+{
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_DIR_OUTPUT, FakeGPIO_GetPinDirection(BSP_PIN_LED), "LED Direction");
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW, FakeGPIO_GetPinValue(BSP_PIN_LED), "LED Value");
+    
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_DIR_OUTPUT, FakeGPIO_GetPinDirection(BSP_PIN_BUZZER), "Buzzer Direction");
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW, FakeGPIO_GetPinValue(BSP_PIN_BUZZER), "Buzzer Value");
+
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_DIR_INPUT, FakeGPIO_GetPinDirection(BSP_PIN_BUTTON),  "Button Direction");
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW, FakeGPIO_GetPinValue(BSP_PIN_BUTTON), "Button Value");
 }
