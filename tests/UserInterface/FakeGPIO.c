@@ -53,3 +53,10 @@ GPIO_Status_t GPIO_ConfigPin(GPIO_Pin_t channel, GPIO_Direction_t direction, GPI
 
     return GPIO_OK;
 }
+
+GPIO_Status_t GPIO_WritePin(GPIO_Pin_t channel, GPIO_Value_t value)
+{
+    storedPinStates[channel.pin].pinValue = value;
+
+    return GPIO_OK;
+}
