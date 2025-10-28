@@ -37,18 +37,23 @@ void UserInterface_Destroy (void)
     
 }
 
+static void actuatorWrite(actuator_t actuator, GPIO_Value_t value)
+{
+    GPIO_WritePin(*actuatorPins[actuator], value);
+    actuatorSchedulers[actuator].currentState = value;
+}
+
 void checkActuatorsBlink(void)
 {
-    /* Check if it's time to change state of actuator */
     for (int i = 0; i < ACTUATOR_COUNT; i++)
     {
-
+        /* Check if it's time to change state of actuator */
         if (SoftTimer_Check(&actuatorSchedulers[i].actuatorTimer))
         {
             if (actuatorSchedulers[i].currentState == GPIO_VALUE_HIGH)
             {
-                actuatorSchedulers[i].currentState = GPIO_VALUE_LOW;
-                GPIO_WritePin(*actuatorPins[i], GPIO_VALUE_LOW);
+                /* Turn off actuator, reset timer to wait for next blink if needed */
+                actuatorWrite(i, GPIO_VALUE_LOW);
                 actuatorSchedulers[i].repetitions--;
                 if (actuatorSchedulers[i].repetitions > 0)
                 {
@@ -57,8 +62,8 @@ void checkActuatorsBlink(void)
             }
             else
             {
-                actuatorSchedulers[i].currentState = GPIO_VALUE_HIGH;
-                GPIO_WritePin(*actuatorPins[i], GPIO_VALUE_HIGH);
+                /* Turn on actuator, reset timer to wait for turning off */
+                actuatorWrite(i, GPIO_VALUE_HIGH);
                 SoftTimer_Create(&actuatorSchedulers[i].actuatorTimer, actuatorSchedulers[i].intervalOn);
             }
         }
