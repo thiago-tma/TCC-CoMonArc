@@ -11,7 +11,7 @@
  *      InterfaceRun altera pino do LED                                                                 ok
  *      Estado do pino se mantém com novo InterfaceRun se 1 segundo não passou                          ok
  *      Pino é desligado após 1 segundo                                                                 ok
- * Blink com zero repetições desliga atuador imediatamente
+ * Blink com zero repetições desliga atuador imediatamente                                              OK
  * Chamar função de blink para pino com operação em andamento sobreescreve blink anterior               OK
  *      Blink do LED com 1 repetição e 1 segundo ON, passa 500ms e é chamada novamente                  ok
  * Blink do buzzer com 3 repetições, 500ms ligado e 100ms desligado                                     OK
