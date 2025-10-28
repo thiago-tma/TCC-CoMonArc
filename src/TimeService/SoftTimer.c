@@ -7,19 +7,21 @@ bool SoftTimer_Create (SoftTimer * softTimer, timeMicroseconds timerPeriod)
 
     softTimer->startTime = SystemClock_Time();
     softTimer->timerPeriod = timerPeriod;
+    softTimer->active = true;
 
     return true;
 }
 
 bool SoftTimer_Destroy (SoftTimer * softTimer)
 {
-    /* Maximiza periodo para forçar o retorno de falso ao checar timer  */
-    softTimer->timerPeriod = -1;
+    softTimer->active = false;
     return true;
 }
 
 bool SoftTimer_Check (SoftTimer * softTimer)
 {
+    if (softTimer->active == false) return false;
+
     timeMicroseconds currentTime = SystemClock_Time();
 
     /* Esta equação funciona mesmo para casos de overflow, mas depende das variáveis serem 'unsigned' */

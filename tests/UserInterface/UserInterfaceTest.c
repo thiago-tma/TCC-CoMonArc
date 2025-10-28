@@ -84,6 +84,22 @@ TEST(UserInterface, BlinkLEDOneTime)
     TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_LED), "LED is still on when it should not");
 }
 
+TEST(UserInterface, CallBlinkLedWithZeroRepetitionsTurnsOffActuator)
+{
+    UserInterface_BlinkComponent(ACTUATOR_LED, 1, 1000000, 0);
+    UserInterface_Run();
+
+    FakeSystemTimer_AddTime(500000);
+    UserInterface_Run();
+    UserInterface_BlinkComponent(ACTUATOR_LED, 0, 1000000, 0);
+    UserInterface_Run();
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_LED), "LED should be turned off");
+
+    FakeSystemTimer_AddTime(500001);
+    UserInterface_Run();
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_LED), "LED should still be off");
+}
+
 TEST(UserInterface, CallBlinkLedWhileAlreadyBlinkingOverwritesLastBlinkCommand)
 {
     UserInterface_BlinkComponent(ACTUATOR_LED, 1, 1000000, 0);

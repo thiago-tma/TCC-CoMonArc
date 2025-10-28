@@ -78,10 +78,16 @@ void UserInterface_Run (void)
 
 void UserInterface_BlinkComponent (actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff)
 {
-    /* Put pin on ACTIVE state and time when it should be turned off */
-    GPIO_WritePin(*actuatorPins[blinkActuator], GPIO_VALUE_HIGH);
-    actuatorSchedulers[blinkActuator].currentState = GPIO_VALUE_HIGH;
+    if (repetitions == 0)
+    {
+        actuatorWrite(blinkActuator, GPIO_VALUE_LOW);
+        actuatorSchedulers[blinkActuator].repetitions = repetitions;
+        SoftTimer_Destroy(&actuatorSchedulers[blinkActuator].actuatorTimer);
+        return;
+    }
 
+    /* Put pin on ACTIVE state and time when it should be turned off */
+    actuatorWrite(blinkActuator, GPIO_VALUE_HIGH);
     SoftTimer_Create(&actuatorSchedulers[blinkActuator].actuatorTimer, intervalOn);
 
     actuatorSchedulers[blinkActuator].repetitions = repetitions;

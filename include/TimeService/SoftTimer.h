@@ -8,6 +8,7 @@ typedef struct SoftTimerStruct
 {
     timeMicroseconds startTime;
     timeMicroseconds timerPeriod;
+    bool active;
 } SoftTimer;
 
 /* Configura timer para retornar verdadeiro em [timerPeriod] microssegundos */
