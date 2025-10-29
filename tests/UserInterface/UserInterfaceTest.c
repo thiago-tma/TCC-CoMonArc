@@ -17,6 +17,7 @@
  * Blink do buzzer com 3 repetições, 500ms ligado e 100ms desligado                                     OK
  *      Operação é feita no pino correto                                                                ok
  *      Pino alterna estados após períodos selecionados                                                 ok    
+ * Destroy/DeInit do módulo desliga atuadores
  *             
  * Debounce do estado do botão (botão deve manter estado fixo por 50 ms para ser válido)                OK
  *      Pressionamento do botão pós debounce (50ms ativo) ativa função atrelada                         ok
@@ -166,6 +167,20 @@ TEST(UserInterface, BlinkBuzzerThreeTimes500msOnAnd100msOff)
     FakeSystemTimer_AddTime(500001);
     UserInterface_Run();
     TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_BUZZER), "Buzzer is still on third blink");
+}
+
+TEST(UserInterface, DestroyTurnsOffAllActuators)
+{
+    UserInterface_BlinkComponent(ACTUATOR_BUZZER, 1, 500000, 0);
+    UserInterface_BlinkComponent(ACTUATOR_LED, 1, 500000, 0);
+    UserInterface_Run();
+
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_HIGH, FakeGPIO_GetPinValue(BSP_PIN_BUZZER), "Buzzer should be active");
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_HIGH, FakeGPIO_GetPinValue(BSP_PIN_LED), "Led should be active");
+    
+    UserInterface_Destroy();
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW, FakeGPIO_GetPinValue(BSP_PIN_BUZZER), "Buzzer should not be active");
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW, FakeGPIO_GetPinValue(BSP_PIN_LED), "Led should not be active");
 }
 
 TEST(UserInterface, DebouncedButtonActivatesCallback)

@@ -10,6 +10,7 @@ TEST_GROUP_RUNNER(UserInterface)
     RUN_TEST_CASE(UserInterface, CallBlinkLedWithZeroRepetitionsTurnsOffActuator);
     RUN_TEST_CASE(UserInterface, CallBlinkLedWhileAlreadyBlinkingOverwritesLastBlinkCommand);
     RUN_TEST_CASE(UserInterface, BlinkBuzzerThreeTimes500msOnAnd100msOff);
+    RUN_TEST_CASE(UserInterface, DestroyTurnsOffAllActuators);
     RUN_TEST_CASE(UserInterface, DebouncedButtonActivatesCallback);
     RUN_TEST_CASE(UserInterface, ButtonPressWithoutCallbackHasNoEffect);
     RUN_TEST_CASE(UserInterface, ButtonBounceIsIgnored);

@@ -20,6 +20,15 @@ static GPIO_Value_t buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
 static SoftTimer    buttonTimer;
 static triggerFunction buttonCallback = 0;
 
+static void actuatorWrite(Actuator_t actuator, GPIO_Value_t value)
+{
+    if (actuatorPins[actuator])
+    {
+        GPIO_WritePin(*actuatorPins[actuator], value);
+        actuatorSchedulers[actuator].currentState = value;
+    }
+}
+
 void UserInterface_Create (void)
 {
     GPIO_Create();
@@ -36,6 +45,10 @@ void UserInterface_Create (void)
 
 void UserInterface_Destroy (void)
 {
+    /* Turn off actuators and reset static memory */
+    actuatorWrite(ACTUATOR_LED, GPIO_VALUE_LOW);
+    actuatorWrite(ACTUATOR_BUZZER, GPIO_VALUE_LOW);
+    
     for (int index = 0; index < ACTUATOR_COUNT; index++)
     {
         /* Define all elements of struct as zero */
@@ -47,12 +60,6 @@ void UserInterface_Destroy (void)
     buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
     buttonTimer = (SoftTimer){0};
     buttonCallback = 0;
-}
-
-static void actuatorWrite(Actuator_t actuator, GPIO_Value_t value)
-{
-    GPIO_WritePin(*actuatorPins[actuator], value);
-    actuatorSchedulers[actuator].currentState = value;
 }
 
 void checkActuatorsBlink(void)
