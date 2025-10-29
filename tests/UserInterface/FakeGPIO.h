@@ -12,6 +12,7 @@ bool FakeGPIO_GetInitialized(void);
 
 GPIO_Direction_t FakeGPIO_GetPinDirection(BSP_Pin_Id_t pin);
 GPIO_Value_t     FakeGPIO_GetPinValue(BSP_Pin_Id_t pin);
+void             FakeGPIO_SetPinValue(BSP_Pin_Id_t pin, GPIO_Value_t value);
 
 
 #endif /*D_FAKEGPIO_H*/

@@ -37,6 +37,11 @@ GPIO_Value_t FakeGPIO_GetPinValue(BSP_Pin_Id_t pin)
     return (storedPinStates[pin].pinValue);
 }
 
+void FakeGPIO_SetPinValue(BSP_Pin_Id_t pin, GPIO_Value_t value)
+{
+    storedPinStates[pin].pinValue = value;
+}
+
 GPIO_Status_t GPIO_Create(void)
 {
     initialized = true;
@@ -58,5 +63,11 @@ GPIO_Status_t GPIO_WritePin(GPIO_Pin_t channel, GPIO_Value_t value)
 {
     storedPinStates[channel.pin].pinValue = value;
 
+    return GPIO_OK;
+}
+
+GPIO_Status_t GPIO_ReadPin(GPIO_Pin_t channel, GPIO_Value_t *value)
+{   
+    *value = storedPinStates[channel.pin].pinValue;
     return GPIO_OK;
 }

@@ -16,9 +16,14 @@
  *      Blink do LED com 1 repetição e 1 segundo ON, passa 500ms e é chamada novamente                  ok
  * Blink do buzzer com 3 repetições, 500ms ligado e 100ms desligado                                     OK
  *      Operação é feita no pino correto                                                                ok
- *      Pino alterna estados após períodos selecionados                                                 ok                
- * Debounce do estado do botão (botão deve manter estado fixo por 50 ms para ser válido) 
- * Pressinamento do botão pós debounce ativa função atrelada
+ *      Pino alterna estados após períodos selecionados                                                 ok    
+ *             
+ * Debounce do estado do botão (botão deve manter estado fixo por 50 ms para ser válido)                OK
+ *      Pressionamento do botão pós debounce (50ms ativo) ativa função atrelada                         ok
+ *      Pressionamento do botão pós debounce sem função atrelada não tem efeito                         ok
+ *      Pressionar o botão por 20ms, soltar e pressionar novamente ativa função somente aos 70ms        ok
+ *      Para botão ir de pressionado para não pressionado, deve ficar não pressionado por 50ms          ok
+ *      Ativar botão duas vezes                                                                         ok
  * 
 */
 
@@ -31,8 +36,18 @@
 
 TEST_GROUP(UserInterface);
 
+static unsigned int timesCallbackCalled = 0;
+
+static void testCallback(void)
+{
+    timesCallbackCalled++;
+}
+
+
 TEST_SETUP(UserInterface)
 {
+    timesCallbackCalled = 0;
+
     FakeGPIO_Reset();
     SystemClock_Create();
 
@@ -153,3 +168,91 @@ TEST(UserInterface, BlinkBuzzerThreeTimes500msOnAnd100msOff)
     TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_BUZZER), "Buzzer is still on third blink");
 }
 
+TEST(UserInterface, DebouncedButtonActivatesCallback)
+{
+    Button_State_t buttonState;
+
+    UserInterface_AddButtonFunction(testCallback);
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_INACTIVE, buttonState, "Button should be inactive");
+    TEST_ASSERT_EQUAL_MESSAGE(0, timesCallbackCalled, "Button activates function when it shouldn't");
+
+    FakeSystemTimer_AddTime(50001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_ACTIVE, buttonState, "Button should be active");
+    TEST_ASSERT_EQUAL_MESSAGE(1, timesCallbackCalled, "Button should activate callback function");
+}
+
+TEST(UserInterface, ButtonPressWithoutCallbackHasNoEffect)
+{
+    Button_State_t buttonState;
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+    FakeSystemTimer_AddTime(50001);
+    UserInterface_Run();
+
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_ACTIVE, buttonState, "Button should be active");
+    TEST_ASSERT_EQUAL_MESSAGE(0, timesCallbackCalled, "Button should activate callback function");
+}
+
+TEST(UserInterface, ButtonBounceIsIgnored)
+{
+    Button_State_t buttonState;
+
+    UserInterface_AddButtonFunction(testCallback);
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+
+    FakeSystemTimer_AddTime(20000);
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_LOW);
+    UserInterface_Run();
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+
+    FakeSystemTimer_AddTime(30001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_INACTIVE, buttonState, "Button should be inactive");
+    TEST_ASSERT_EQUAL_MESSAGE(0, timesCallbackCalled, "Button should not have activated callback function");
+
+    FakeSystemTimer_AddTime(20000);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_ACTIVE, buttonState, "Button should be active");
+    TEST_ASSERT_EQUAL_MESSAGE(1, timesCallbackCalled, "Button should have activated callback function");
+}
+
+TEST(UserInterface, PressButtonTwice)
+{
+    Button_State_t buttonState;
+    UserInterface_AddButtonFunction(testCallback);
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+    
+    FakeSystemTimer_AddTime(50001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_ACTIVE, buttonState, "Button should be active");
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_LOW);
+    UserInterface_Run();
+    FakeSystemTimer_AddTime(50001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_INACTIVE, buttonState, "Button should be inactive");
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+    FakeSystemTimer_AddTime(50001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_ACTIVE, buttonState, "Button should be active");
+    TEST_ASSERT_EQUAL_MESSAGE(2, timesCallbackCalled, "Callback should have been called twice");
+}

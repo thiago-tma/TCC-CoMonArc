@@ -13,10 +13,12 @@ typedef struct
 }Actuator_Scheduler_t;
 
 static Actuator_Scheduler_t actuatorSchedulers[ACTUATOR_COUNT];
-static GPIO_Pin_t  *buttonPin;
-
 static GPIO_Pin_t * actuatorPins[ACTUATOR_COUNT];
 
+static GPIO_Pin_t  *buttonPin;
+static GPIO_Value_t buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
+static SoftTimer    buttonTimer;
+static triggerFunction buttonCallback = 0;
 
 void UserInterface_Create (void)
 {
@@ -34,10 +36,20 @@ void UserInterface_Create (void)
 
 void UserInterface_Destroy (void)
 {
+    for (int index = 0; index < ACTUATOR_COUNT; index++)
+    {
+        /* Define all elements of struct as zero */
+        actuatorSchedulers[index] = (Actuator_Scheduler_t){0};
+        actuatorPins[index] = 0;
+    }
     
+    buttonPin = 0;
+    buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
+    buttonTimer = (SoftTimer){0};
+    buttonCallback = 0;
 }
 
-static void actuatorWrite(actuator_t actuator, GPIO_Value_t value)
+static void actuatorWrite(Actuator_t actuator, GPIO_Value_t value)
 {
     GPIO_WritePin(*actuatorPins[actuator], value);
     actuatorSchedulers[actuator].currentState = value;
@@ -70,13 +82,34 @@ void checkActuatorsBlink(void)
     }
 }
 
+void checkButton(void)
+{
+    GPIO_Value_t newReading;
+    GPIO_ReadPin(*buttonPin, &newReading);
+
+    if (newReading != lastReading && newReading != buttonState)
+    {
+        SoftTimer_Create(&buttonTimer, 50000);
+    }
+
+    if (SoftTimer_Check(&buttonTimer))
+    {
+        buttonState = newReading;
+        if (buttonState && buttonCallback) buttonCallback();
+
+        SoftTimer_Destroy(&buttonTimer);
+    }
+
+    lastReading = newReading;
+}
+
 void UserInterface_Run (void)
 {
     checkActuatorsBlink();
-
+    checkButton();
 }
 
-void UserInterface_BlinkComponent (actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff)
+void UserInterface_BlinkComponent (Actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff)
 {
     if (repetitions == 0)
     {
@@ -93,4 +126,14 @@ void UserInterface_BlinkComponent (actuator_t  blinkActuator, unsigned int repet
     actuatorSchedulers[blinkActuator].repetitions = repetitions;
     actuatorSchedulers[blinkActuator].intervalOn = intervalOn;
     actuatorSchedulers[blinkActuator].intervalOff = intervalOff;
+}
+
+void UserInterface_AddButtonFunction (triggerFunction function)
+{
+    buttonCallback = function;
+}
+
+void UserInterface_ReadButton (Button_State_t * state)
+{
+    *state = (buttonState == GPIO_VALUE_HIGH) ? BUTTON_ACTIVE : BUTTON_INACTIVE;
 }
