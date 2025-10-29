@@ -7,6 +7,8 @@ typedef enum {
   BSP_PIN_LED,
   BSP_PIN_BUZZER,
   BSP_PIN_BUTTON,
+  BSP_PIN_ADC0,
+  BSP_PIN_PWM0,
   BSP_PIN_COUNT
 } BSP_Pin_Id_t;
 
