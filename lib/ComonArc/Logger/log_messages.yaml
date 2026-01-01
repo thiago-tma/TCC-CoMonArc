@@ -1,0 +1,75 @@
+# Log messages
+# Generic format for logs:
+# LOG_[SUBSYSTEM]_[LEVEL]_[MESSAGE]
+#   subsystem: [SUBSYSTEM]
+#   level: [LEVEL]
+#   args: [[ARG_0_TYPE], [ARG_1_TYPE], ...]
+#   format: "Text and arguments {0} and {1} go here"
+
+# ------------------------------
+# Global definitions
+# ------------------------------
+
+subsystems:
+  - LOGGER
+  - COMMAND
+  - SERVO
+  - MAGNETOMETER
+  - CURRENT
+  - USER_INTERFACE
+  - SYSTEM
+
+levels:
+  - ERROR
+  - EVENT
+  - TRACE
+  - DATA
+
+args: 
+  - u8
+  - i8
+  - u16
+  - i16
+  - u32
+  - i32
+  - f32
+
+# ------------------------------
+# Log messages
+# ------------------------------
+
+messages:
+
+#LOGGER
+  LOG_LOGGER_TRACE_INITIALIZED:
+    subsystem: LOGGER
+    level: TRACE
+    args: []
+    format: "Initialized"
+
+#COMMAND HANDLER
+  LOG_COMMAND_TRACE_INITIALIZED:
+    subsystem: COMMAND
+    level: TRACE
+    args: []
+    format: "Initialized"
+
+#SERVO CONTROLLER
+  LOG_SERVO_DATA_DIRECTION:
+    subsystem: SERVO
+    level: DATA
+    args: [i16]
+    format: "Servo arm: {0}º"
+
+#MAGNETOMETER
+
+#CURRENT SENSOR
+
+#USER INTERFACE
+
+#SYSTEM
+  LOG_SYSTEM_TRACE_INITIALIZED:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Initialized"

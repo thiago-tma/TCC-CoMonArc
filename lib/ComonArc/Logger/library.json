@@ -1,0 +1,7 @@
+{
+  "name": "Logger",
+  "version": "1.0.0",
+  "build": {
+    "extraScript": "generate_logs.py"
+  }
+}
