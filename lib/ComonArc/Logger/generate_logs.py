@@ -106,7 +106,7 @@ for name, msg in messages.items():
 
 # Assign IDs deterministically
 sorted_names = sorted(messages.keys())
-for i, name in enumerate(sorted_names, start=1):
+for i, name in enumerate(sorted_names, start=0):    # Must start at zero to enable ID count in enum
     messages[name]["id"] = i
 
 # ------------------------------------------------------------
@@ -121,16 +121,19 @@ with open(GEN_DIR / "log_ids.h", "w") as f:
     f.write("typedef enum {\n")
     for name in sorted_names:
         f.write(f"    {name} = {messages[name]['id']},\n")
+    f.write("    LOG_MESSAGEID_COUNT\n")
     f.write("} Log_MessageId_t;\n\n")
 
     f.write("typedef enum {\n")
     for s in subsystems:
         f.write(f"    LOG_SUBSYS_{s},\n")
+    f.write("    LOG_SUBSYSTEM_COUNT\n")
     f.write("} Log_Subsystem_t;\n\n")
 
     f.write("typedef enum {\n")
     for l in levels:
         f.write(f"    LOG_LEVEL_{l},\n")
+    f.write("    LOG_LEVEL_COUNT\n")
     f.write("} Log_Level_t;\n")
 
     f.write("#endif /* D_LOGS_IDS_H */")

@@ -4,10 +4,11 @@
 #define D_LOGS_IDS_H
 
 typedef enum {
-    LOG_COMMAND_TRACE_INITIALIZED = 1,
-    LOG_LOGGER_TRACE_INITIALIZED = 2,
-    LOG_SERVO_DATA_DIRECTION = 3,
-    LOG_SYSTEM_TRACE_INITIALIZED = 4,
+    LOG_COMMAND_TRACE_INITIALIZED = 0,
+    LOG_LOGGER_TRACE_INITIALIZED = 1,
+    LOG_SERVO_DATA_DIRECTION = 2,
+    LOG_SYSTEM_TRACE_INITIALIZED = 3,
+    LOG_MESSAGEID_COUNT
 } Log_MessageId_t;
 
 typedef enum {
@@ -18,6 +19,7 @@ typedef enum {
     LOG_SUBSYS_CURRENT,
     LOG_SUBSYS_USER_INTERFACE,
     LOG_SUBSYS_SYSTEM,
+    LOG_SUBSYSTEM_COUNT
 } Log_Subsystem_t;
 
 typedef enum {
@@ -25,5 +27,6 @@ typedef enum {
     LOG_LEVEL_EVENT,
     LOG_LEVEL_TRACE,
     LOG_LEVEL_DATA,
+    LOG_LEVEL_COUNT
 } Log_Level_t;
 #endif /* D_LOGS_IDS_H */

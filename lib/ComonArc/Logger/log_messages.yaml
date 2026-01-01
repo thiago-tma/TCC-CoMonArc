@@ -20,7 +20,7 @@ subsystems:
   - SYSTEM
 
 levels:
-  - ERROR
+  - ERROR   #REQUIRED
   - EVENT
   - TRACE
   - DATA
