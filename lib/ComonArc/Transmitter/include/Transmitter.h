@@ -1,5 +1,5 @@
-#ifndef H_TRANSMITTER_D
-#define H_TRANSMITTER_D
+#ifndef H_COMONARCTRANSMITTER_D
+#define H_COMONARCTRANSMITTER_D
 
 #include <stdint.h>
 #include <stddef.h>
@@ -13,9 +13,9 @@ void Transmitter_Create     (void);
 void Transmitter_Destroy    (void);
 
 bool Transmitter_AttachTransmitCallback(TransmitCallback_t channel);
-bool Transmitter_DetachTransmitCallback(TransmitCallback_t channel);
+/* bool Transmitter_DetachTransmitCallback(TransmitCallback_t channel); */
 
 /*Transmit payload to attached*/
 void Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize);
 
-#endif /*H_TRANSMITTER_D*/
+#endif /*H_COMONARCTRANSMITTER_D*/
