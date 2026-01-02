@@ -15,6 +15,14 @@ static inline void log_command_trace_initialized()
         LOG_COMMAND_TRACE_INITIALIZED, NULL, 0);
 }
 
+static inline void log_logger_error_buffer_overflow()
+{
+    Logger_Log(
+        LOG_SUBSYS_LOGGER,
+        LOG_LEVEL_ERROR,
+        LOG_LOGGER_ERROR_BUFFER_OVERFLOW, NULL, 0);
+}
+
 static inline void log_logger_trace_initialized()
 {
     Logger_Log(

@@ -1,7 +1,7 @@
 #include "FakeTransmitter.h"
 
 static size_t bufferWriteIndex;
-static uint8_t transmissionBuffer[100];
+static uint8_t transmissionBuffer[500];
 
 void Transmitter_Create     (void){}
 void Transmitter_Destroy    (void){}

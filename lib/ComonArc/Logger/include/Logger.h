@@ -18,9 +18,14 @@ void Logger_Destroy     (void);
 /* Verifica nível da mensagem e armazena caso esteja habilitada */
 void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
-/* Estado inicial do filtro sempre está em todos os níveis desabilitados, exceto 'Error' */
-/* Filtro tem o nível 'Error' sempre habilitado */
-void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable);
+/* Passar LOG_SUBSYSTEM_COUNT (número de subsistemas existentes) aplica o filtro para todos os subsistemas      */
+/* inclusive = true aplica o estado do filtro para os outros níveis                                             */
+/*      enable = true: níveis antecessores também são habilitados                                               */
+/*      enable = false: níveis posteriores também são desabilitados                                             */
+/* Estado inicial do filtro sempre está em todos os níveis desabilitados                                        */
+/* Supõe-se que Log_Subsystem_t e Log_Level_t sejam enums com começo em zero e tenham o último elemento         */
+/*      reservado para contagem dos subsistemas e níveis existentes (LOG_SUBSYSTEM_COUNT e LOG_LEVEL_COUNT)     */
+void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive);
 
 /* Realiza a transmissão síncrona das mensagens acumuladas através do Transmitter */
 void Logger_Flush (void);
