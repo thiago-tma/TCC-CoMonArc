@@ -9,6 +9,8 @@
 #define LOGGER_MAX_BUFFER_SIZE 180
 #define LOGGER_BUFFER_OVERFLOW_ERROR_SPACE 10       /* Espaço no buffer reservado para registrar erro de buffer overflow */
 
+typedef void (*Log_ErrorCallback_t)(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
+
 /* Habilita módulo */
 void Logger_Create      (void);
 
@@ -31,6 +33,7 @@ void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable,
 void Logger_Flush (void);
 
 /* Função chamada quando uma mensagem do tipo 'Error' é registrada (Logger_log) */
-void Logger_AttachErrorHandler(void (*errorCallback)(void));
+void Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
+
 
 #endif  /*D_LOGGER_H*/

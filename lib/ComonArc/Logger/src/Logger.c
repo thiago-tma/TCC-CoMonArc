@@ -5,6 +5,8 @@ static uint8_t logBuffer[LOGGER_MAX_BUFFER_SIZE];
 static size_t logBufferIndex;
 static bool logFilter[LOG_SUBSYSTEM_COUNT][LOG_LEVEL_COUNT];
 static bool loggerEnable = false;
+static bool overflowFlag = false;
+static Log_ErrorCallback_t storedErrorCallback = 0;
 
 static void resetFilter (void)
 {
@@ -21,6 +23,8 @@ void Logger_Create      (void)
 {
     logBufferIndex = 0;
     resetFilter();
+    overflowFlag = false;
+    storedErrorCallback = 0;
 
     loggerEnable = true;
 }
@@ -34,6 +38,25 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
 {
     if (!loggerEnable) return;
 
+    /* If not enough space available in buffer for the whole message */
+    /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (4 + payloadSize)*/
+    if ((LOGGER_MAX_BUFFER_SIZE) < (4 + payloadSize + logBufferIndex + LOGGER_BUFFER_OVERFLOW_ERROR_SPACE))
+    {
+        if (!overflowFlag)
+        {
+            overflowFlag = true;
+
+            logBuffer[logBufferIndex++] = LOG_SUBSYS_LOGGER;
+            logBuffer[logBufferIndex++] = LOG_LEVEL_ERROR;
+            logBuffer[logBufferIndex++] = LOG_LOGGER_ERROR_BUFFER_OVERFLOW;
+            logBuffer[logBufferIndex++] = 0;
+
+            if (storedErrorCallback) storedErrorCallback(origin, level, messageID, payload, payloadSize);
+        }
+        return;
+    }
+
+    /* Keep message */
     if (logFilter[origin][level] == true)
     {
         logBuffer[logBufferIndex++] = origin;
@@ -47,6 +70,9 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
 
             logBuffer[logBufferIndex++] = payload[index];
         }
+
+        /* Run error callback if error message and callback available */
+        if (storedErrorCallback && level == LOG_LEVEL_ERROR) storedErrorCallback(origin, level, messageID, payload, payloadSize);
     }
     
 }
@@ -101,9 +127,12 @@ void Logger_Flush (void)
 
     Transmitter_TransmitPayload(logBuffer, logBufferIndex);
     logBufferIndex = 0;
+    overflowFlag = false;
 }
 
-void Logger_AttachErrorHandler(void (*errorCallback)(void)) 
+void Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback) 
 {
     if (!loggerEnable) return;
+
+    storedErrorCallback = errorCallback;
 }

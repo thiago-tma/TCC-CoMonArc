@@ -15,11 +15,12 @@
  * Habilitar nível inclusivo para todos os sistemas                                     OK
  * Armazenar e enviar mensagem, duas vezes separadamente                                OK
  * Log com payload transmite payload corretamente                                       OK
- * Tentar Log com buffer cheio causa mensagem de erro
- *      Tentar múltiplas vezes causa somente uma única mensagem de erro
- * Mensagem de erro causa execução de callback caso seja registrado
- * Destruir módulo apaga callback
- * 
+ * Tentar Log com buffer cheio causa mensagem de erro                                   OK
+ *      Tentar múltiplas vezes causa somente uma única mensagem de erro                 OK
+ * Mensagem de erro causa execução de callback caso seja registrado                     OK
+ *      Não executa callback se mensagem de erro não estiver habilitada                 OK
+ *      Erro de overflow também causa execução de callback                              OK
+ * Destruir módulo apaga callback                                                       OK
 */
 
 #include <unity.h>
@@ -28,6 +29,12 @@
 
 static size_t payloadTransmittedSize;
 static uint8_t * payloadTransmitted; 
+static int callbackVar = 0;
+
+void testCallback (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize)
+{
+    callbackVar++;
+}
 
 void setUp(void)
 {
@@ -35,6 +42,7 @@ void setUp(void)
     FakeTransmitter_ResetTransmitBuffer();
     payloadTransmitted = 0;
     payloadTransmittedSize = 0;
+    callbackVar = 0;
 
     Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, true, false);
 }
@@ -77,6 +85,7 @@ void test_NoInitializationPreventsLogging (void)
     uint8_t testID = 10;
     uint8_t expectedTransmit[] = {LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0};
     Logger_Destroy();
+    Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, true, false);
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, testID, 0, 0);
     Logger_Flush();
 
@@ -203,12 +212,58 @@ void test_AddLoggerErrorWhenBufferOverflows (void)
     }
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[4], payloadSize);
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[4], payloadSize); /* Overflow, no bytes kept */
+    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[4], payloadSize); /* Multiple attempts before a flush incurs in only one error message */
     Logger_Flush();
 
+    FakeTransmitter_GetTransmitBuffer(&payloadTransmitted, &payloadTransmittedSize);
     TEST_ASSERT_EQUAL_INT(sizeof(expectedTransmit)+4, payloadTransmittedSize);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(expectedTransmit, payloadTransmitted, payloadTransmittedSize);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(expectedTransmit, payloadTransmitted, sizeof(expectedTransmit));
     TEST_ASSERT_EQUAL_UINT8_ARRAY(expectedErrorMessage, &payloadTransmitted[LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE], 4);
 }
+
+void test_ErrorCallbackOnErrorMessageReceivedIfCallbackRegistered (void)
+{
+    Logger_AttachErrorCallback(testCallback);
+    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0, 0);
+    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 11, 0, 0);   /* Mensagem de outro nível não deve ativar callback */
+
+    TEST_ASSERT_EQUAL_INT(1, callbackVar);
+}
+
+void test_NoErrorCallbackIfErrorMessageIsNotEnabled (void)
+{
+    Logger_AttachErrorCallback(testCallback);
+    Logger_Log(LOG_SUBSYS_SYSTEM, LOG_LEVEL_ERROR, 10, 0, 0);   /* Error Messages not enabled*/
+
+    TEST_ASSERT_EQUAL_INT(0, callbackVar);
+}
+
+void test_ErrorCallbackOnLoggerBufferOverflowError (void)
+{
+    uint8_t expectedTransmit[] = {LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, LOG_LOGGER_ERROR_BUFFER_OVERFLOW, 0};
+
+    uint8_t emptyPayload[LOGGER_MAX_BUFFER_SIZE+1];
+    Logger_AttachErrorCallback(testCallback);
+    Logger_Log(LOG_SUBSYS_SYSTEM, LOG_LEVEL_ERROR, 10, emptyPayload, sizeof(emptyPayload)); 
+    Logger_Flush();
+
+    TEST_ASSERT_EQUAL_INT(1, callbackVar);  /* Assert if callbakk is called */
+    FakeTransmitter_GetTransmitBuffer(&payloadTransmitted, &payloadTransmittedSize);
+    TEST_ASSERT_EQUAL_INT(sizeof(expectedTransmit), payloadTransmittedSize);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(expectedTransmit, payloadTransmitted, payloadTransmittedSize);    /* Assert if overflow error occured*/
+}
+
+void test_LoggerDestroyErasesAttachedCallback (void)
+{
+    Logger_AttachErrorCallback(testCallback);
+    Logger_Destroy();
+    Logger_Create();
+    Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, true, false);
+    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0, 0);
+
+    TEST_ASSERT_EQUAL_INT(0, callbackVar);
+}
+
 
 int main( int argc, char **argv) {
     UNITY_BEGIN();
@@ -225,6 +280,10 @@ int main( int argc, char **argv) {
     RUN_TEST(test_SendAndFlushMessageSeparatedelyTwice);
     RUN_TEST(test_LogAndFlushMessageWithPayload);
     RUN_TEST(test_AddLoggerErrorWhenBufferOverflows);
+    RUN_TEST(test_ErrorCallbackOnErrorMessageReceivedIfCallbackRegistered);
+    RUN_TEST(test_NoErrorCallbackIfErrorMessageIsNotEnabled);
+    RUN_TEST(test_ErrorCallbackOnLoggerBufferOverflowError);
+    RUN_TEST(test_LoggerDestroyErasesAttachedCallback);
 
     UNITY_END();
 }
