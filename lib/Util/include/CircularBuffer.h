@@ -47,4 +47,10 @@ size_t          CircularBuffer_WriteMany            (CircularBuffer * buffer, ui
 /* Retorna o número de bytes lidos */
 size_t          CircularBuffer_ReadMany             (CircularBuffer * buffer, uint8_t * elementsOut, size_t lenght);
 
+/* Retorna true se for lido, 'false' se buffer está vazio. Mantém bytes lidos no buffer */
+bool            CircularBuffer_PeekOne              (CircularBuffer * buffer, uint8_t * elementOut);
+
+/* Retorna o número de bytes lidos.  Mantém bytes lidos no buffer*/
+size_t          CircularBuffer_PeekMany             (CircularBuffer * buffer, uint8_t * elementsOut, size_t lenght);
+
 #endif  /* D_CircularBuffer_H */

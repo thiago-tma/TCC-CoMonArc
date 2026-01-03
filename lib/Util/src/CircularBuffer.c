@@ -111,3 +111,32 @@ size_t CircularBuffer_ReadMany (CircularBuffer * buffer, uint8_t * elementsOut, 
 
     return i;
 }
+
+bool CircularBuffer_PeekOne (CircularBuffer * buffer, uint8_t * elementOut)
+{
+    if (!CircularBuffer_IsEmpty(buffer))
+    {
+        *elementOut = buffer->buffer[buffer->tail];
+        return true;
+    }
+
+    return false;
+}
+
+size_t CircularBuffer_PeekMany (CircularBuffer * buffer, uint8_t * elementsOut, size_t lenght)
+{
+    size_t currentCount = buffer->count;
+    size_t currentTail = buffer->tail;
+    size_t peekedNumber = (lenght > currentCount ? currentCount : lenght);
+
+    for (size_t index = 0; index < peekedNumber; index++)
+    {
+        elementsOut[index] = buffer->buffer[currentTail];
+        currentTail++;
+        if (currentTail == buffer->bufferSize)
+        {
+            currentTail = 0;
+        }
+    }
+    return peekedNumber;
+}

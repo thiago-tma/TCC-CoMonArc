@@ -27,6 +27,8 @@
  * Função de escrever muitos retorna corretamente o número de bytes de fato escritos    OK
  * Função de ler muitos retorna corretamente o número de bytes de fato lidos            OK   
  * Buffer realiza o wrap-around corretamente com bytes                                  OK
+ * Buffer peek one
+ * Buffer peek many
 
 */
 
@@ -288,6 +290,54 @@ void test_CheckWrapAroundFunction (void)
     TEST_ASSERT_EQUAL_INT64_MESSAGE(CB_TEST_BUFFERSIZE, CircularBuffer_FreeSpace(&myBuffer), "Available space left is incorrect");
 }
 
+void test_PeekOne (void)
+{
+    uint8_t testByte = randomByte();
+    uint8_t peekedByte = 0, readByte = 0;
+
+    /* Test if returns false when buffer is empty */
+    TEST_ASSERT_FALSE_MESSAGE(CircularBuffer_PeekOne(&myBuffer, &peekedByte), "First peek returned true");
+
+    CircularBuffer_WriteOne(&myBuffer, testByte);
+    TEST_ASSERT_TRUE_MESSAGE(CircularBuffer_PeekOne(&myBuffer, &peekedByte),"Second peek returned false");   /*Returns true when buffer is not empty*/
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE(testByte, peekedByte, "Second peek, wrong character");                       /*Correct reading of buffer */
+    TEST_ASSERT_TRUE_MESSAGE(CircularBuffer_PeekOne(&myBuffer, &peekedByte),"Third peek returned false");   /*Peeking must not change buffer, must have the same result*/
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE(testByte, peekedByte, "Third peek, wrong character");
+
+    CircularBuffer_ReadOne(&myBuffer, &readByte);                       /*Consume written byte*/
+
+    TEST_ASSERT_FALSE_MESSAGE(CircularBuffer_PeekOne(&myBuffer, &peekedByte), "Fourth peek returned true");  /*Buffer empty again, return false*/
+}
+
+void test_PeekMany (void)
+{
+    uint8_t writeBytes[CB_TEST_BUFFERSIZE];
+    uint8_t peekedBytes[CB_TEST_BUFFERSIZE];
+    uint8_t readBytes[CB_TEST_BUFFERSIZE];
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)),"Buffer is empty");
+    
+    writeRandomBytes(writeBytes, sizeof(writeBytes)/2);
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(sizeof(writeBytes)/2, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)),"Wrong number of peeked bytes");
+    TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(writeBytes, peekedBytes, sizeof(writeBytes)/2, "Peeked bytes are wrong");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(sizeof(writeBytes)/2, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)),"Number of bytes peeked must be the same");
+    TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(writeBytes, peekedBytes, sizeof(writeBytes)/2, "Peeked bytes must be the same, no change to the buffer");    
+
+    CircularBuffer_ReadMany(&myBuffer, readBytes, CB_TEST_BUFFERSIZE);
+
+    writeRandomBytes(writeBytes, sizeof(writeBytes));
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(sizeof(writeBytes)/2, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)/2),"Wrong number of peeked bytes on full buffer");
+    TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(writeBytes, peekedBytes, sizeof(writeBytes)/2, "Peeked bytes are wrong on full buffer");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(sizeof(writeBytes)/2, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)/2),"Number of bytes peeked must be the same on full buffer");
+    TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(writeBytes, peekedBytes, sizeof(writeBytes)/2, "Peeked bytes must be the same, no change to the buffer on full buffer");    
+
+    CircularBuffer_ReadMany(&myBuffer, readBytes, CB_TEST_BUFFERSIZE);
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0, CircularBuffer_PeekMany(&myBuffer, peekedBytes, sizeof(peekedBytes)),"Shouldn't be no more bytes to peek");
+}
+
 int main( int argc, char **argv) {
     UNITY_BEGIN();
 
@@ -313,6 +363,8 @@ int main( int argc, char **argv) {
     RUN_TEST(test_WriteManyReturnsNumberOfWrittenBytes);
     RUN_TEST(test_ReadManyReturnsNumberOfReadBytes);
     RUN_TEST(test_CheckWrapAroundFunction);
+    RUN_TEST(test_PeekOne);
+    RUN_TEST(test_PeekMany);
 
     UNITY_END();
 }
