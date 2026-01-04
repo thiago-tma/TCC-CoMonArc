@@ -2,24 +2,34 @@
 #define D_COMONARCCOMMANDHANDLER_H
 
 #include <stdint.h>
+#include <stddef.h>
 
-typedef void (*CommHandler_CommandFuntion_t)(char const * charStream);
+#define COMMHANDLER_MAX_ARGUMENTS_IN_COMMAND 5
+
+typedef enum
+{
+    COMMHANDLER_OK = 0,
+    COMMHANDLER_ERROR_NO_COMMAND_TABLE,
+    COMMHANDLER_ERROR_NOT_INITIALIZED,
+    COMMHANDLER_ERROR_NO_COMMAND_FOUND,
+    COMMHANDLER_ERROR_NO_STRING
+} CommHandler_Error_t;
+
+typedef void (*CommHandler_CommandFunction_t)(int argc, char **argv);
 
 typedef struct
 {
-    CommHandler_CommandFuntion_t command;
-    char const * const commandString;
-    uint8_t parameterSize;
+    const char * name;
+    CommHandler_CommandFunction_t function;
+
 } CommHandler_Command_t;
 
-void CommandHandler_Create(CommHandler_Command_t * commandTable);
-void CommandHandler_Destroy(void);
+/* Último comando de command table deve ter nome vazio ("") para identificar fim da lista */
+CommHandler_Error_t CommandHandler_Create(CommHandler_Command_t * commandTable);
+CommHandler_Error_t CommandHandler_Destroy(void);
 
-/* Busca o comando compatível. 
-/* O começo de receivedString deve ser igual a string de um dos comandos armazenados */
-/* Para comandos com parâmetros, o restante deve ter o número de bytes equivalente ao número de bytes de parâmetro */
-CommHandler_Command_t * CommandHandler_FindCommand (char * receivedString, uint8_t commandStringSize);
-
-void CommandHandler_ExecuteCommand(CommHandler_Command_t * command, char * receivedString);
+/* Recebe uma string terminada com \n */
+/* Os argumentos do comando devem estar separados por espaços ' ' */
+CommHandler_Error_t CommandHandler_ProcessCommand (char * commandString, size_t commandStringSize);
 
 #endif /*D_COMONARCCOMMANDHANDLER_H*/
