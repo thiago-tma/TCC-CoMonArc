@@ -16,8 +16,8 @@
  * Operação sem callback
  *      Entrega de dados retorna OK ao armazenar dados                                      OK
  *      Entrega de dados retorna Erro ao estourar buffer de armazenamento                   OK
- *      Entregar string sem terminação '\n' mantém string armazenada
- *      Entregar string com terminação '\n' chama função de command handle com a string
+ *      Entregar string com terminação '\n' chama função de command handler com a string
+ *      Entregar string sem terminação '\n' mantém string armazenada                        
  *      Entrega de string com terminação '\n' em duas chamadas separadas
  *      Destruir módulo descarta caracters armazenados
  *      Timeout após tempo limite descarta string armazenada
@@ -28,6 +28,7 @@
 
 #include <unity.h>
 #include <Receiver/include/Receiver.h>
+#include "FakeCommandHandler.h"
 
 static timeMicroseconds systemTime = 0;
 static char storedMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
@@ -58,6 +59,7 @@ void setUp (void)
     storedMessageSize = 0;
     receivedMaxMessageSize = 0;
 
+    FakeCommandHandler_Reset();
     Receiver_Create(false, 0, testSystemTimeCallback);
 }
 
@@ -114,6 +116,31 @@ void test_OverflowOfInternalBufferOnSendingCharactersReturnsError (void)
     TEST_ASSERT_EQUAL(RECEIVER_MAX_COMMAND_BUFFER_SIZE - RECEIVER_MAX_COMMAND_BUFFER_SIZE/2, receivedBytes);
 }
 
+void test_ReceiverSendsFinishedMessageToCommandHandler (void)
+{
+    size_t receivedBytes, commHandlerBytes;
+    char * commHandlerMessage;
+    char testMessage[] = {"This is a test message\n"};
+
+    TEST_ASSERT_EQUAL(RECEIVER_OK, Receiver_ReceiveMessage(testMessage, sizeof(testMessage), &receivedBytes));
+    TEST_ASSERT_EQUAL(sizeof(testMessage), receivedBytes);
+    FakeCommandHandler_GetSentString(&commHandlerMessage, &commHandlerBytes);
+    TEST_ASSERT_EQUAL(sizeof(testMessage), commHandlerBytes);
+    TEST_ASSERT_EQUAL_CHAR_ARRAY(testMessage, commHandlerMessage, sizeof(testMessage));
+    
+}
+
+/*
+void test_ReceiverKeepsUnfinishedMessages (void)
+{
+    size_t receivedBytes;
+    char testMessage1[] = {"This is a test "};
+    char testMessage2[] = {"message"};
+
+
+}
+*/
+
 int main (int argc, char ** argv)
 {
     UNITY_BEGIN();
@@ -124,6 +151,7 @@ int main (int argc, char ** argv)
     RUN_TEST(test_CallingFunctionsWithoutInitializationReturnsError);
     RUN_TEST(test_SendingCharactersReturnsOKOnReception);
     RUN_TEST(test_OverflowOfInternalBufferOnSendingCharactersReturnsError);
+    RUN_TEST(test_ReceiverSendsFinishedMessageToCommandHandler);
 
     UNITY_END();
 }
