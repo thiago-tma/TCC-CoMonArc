@@ -11,5 +11,6 @@ void FakeCommandHandler_Reset (void);
 
 void FakeCommandHandler_GetSentString(char ** string, size_t * sizeofString);
 void FakeCommandHandler_SetInitialized(bool state);
+void FakeCommandHandler_SetError(CommHandler_Error_t error);
 
 #endif /*D_COMMANDHANDLERFAKE_H*/
