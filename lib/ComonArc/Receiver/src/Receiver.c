@@ -1,4 +1,5 @@
 #include <Receiver/include/Receiver.h>
+#include <CommandHandler/include/CommandHandler.h>
 
 static bool initialized = false;
 static char commandBuffer[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
@@ -25,9 +26,50 @@ Receiver_Error_t Receiver_Destroy (void)
     return RECEIVER_OK;
 }
 
+static Receiver_Error_t commHandlerErrorTranslate (CommHandler_Error_t commHandlerError)
+{
+    switch (commHandlerError)
+    {
+    case COMMHANDLER_ERROR_NOT_INITIALIZED:
+        return RECEIVER_ERROR_COMMANDHANDLER_NOT_INITIALIZED;
+        break;
+    case COMMHANDLER_ERROR_NO_COMMAND_FOUND:
+        return RECEIVER_ERROR_NO_COMMAND_FOUND;
+        break;
+    default:
+        return RECEIVER_ERROR_COMMAND_HANDLER_ERROR;
+        break;
+    }
+}
+
 Receiver_Error_t Receiver_Run()
 {
+    size_t index = 0;
+    bool fullCommandDetected = false;
+    CommHandler_Error_t commHandlerError;
+
     if (!initialized) return RECEIVER_ERROR_NOT_INITIALIZED;
+
+    for (index = 0; index < commandBufferIndex; index++)
+    {
+        if (commandBuffer[index] == RECEIVER_COMMAND_TERMINATING_CHARACTER)
+        {
+            fullCommandDetected = true;
+            break;
+        }
+    }
+
+    if (fullCommandDetected)
+    {
+        index++;
+        commHandlerError = CommandHandler_ProcessCommand(commandBuffer, index);
+        
+        if (commHandlerError != COMMHANDLER_OK)
+        {
+            return commHandlerErrorTranslate(commHandlerError);
+        }
+            
+    }
 
     return RECEIVER_OK;
 }

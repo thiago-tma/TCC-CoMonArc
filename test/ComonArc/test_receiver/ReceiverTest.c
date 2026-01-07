@@ -16,7 +16,10 @@
  * Operação sem callback
  *      Entrega de dados retorna OK ao armazenar dados                                      OK
  *      Entrega de dados retorna Erro ao estourar buffer de armazenamento                   OK
- *      Entregar string com terminação '\n' chama função de command handler com a string
+ *      Entregar string com terminação '\n' chama função de command handler com a string    OK
+ *      Chamar commandHandler sem inicialização do command handler resulta em erro          OK
+ *      Chamar commandHandler com string sem comando reconhecido resulta em erro
+ *      Chamar commandHandler retornando erro desconnhecido resulta em erro
  *      Entregar string sem terminação '\n' mantém string armazenada                        
  *      Entrega de string com terminação '\n' em duas chamadas separadas
  *      Destruir módulo descarta caracters armazenados
@@ -122,12 +125,24 @@ void test_ReceiverSendsFinishedMessageToCommandHandler (void)
     char * commHandlerMessage;
     char testMessage[] = {"This is a test message\n"};
 
-    TEST_ASSERT_EQUAL(RECEIVER_OK, Receiver_ReceiveMessage(testMessage, sizeof(testMessage), &receivedBytes));
-    TEST_ASSERT_EQUAL(sizeof(testMessage), receivedBytes);
+    TEST_ASSERT_EQUAL_MESSAGE(RECEIVER_OK, Receiver_ReceiveMessage(testMessage, sizeof(testMessage), &receivedBytes), "Receive Message not OK");
+    TEST_ASSERT_EQUAL_MESSAGE(sizeof(testMessage), receivedBytes, "Message received by Receiver wrong");
+    Receiver_Run();
     FakeCommandHandler_GetSentString(&commHandlerMessage, &commHandlerBytes);
-    TEST_ASSERT_EQUAL(sizeof(testMessage), commHandlerBytes);
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(testMessage, commHandlerMessage, sizeof(testMessage));
+    /*sizeof(testMessage)-1, como o caractere de final de string '\0' não é contabilizado*/
+    TEST_ASSERT_EQUAL_MESSAGE(sizeof(testMessage)-1, commHandlerBytes, "Number of bytes received by CommandHalnder wrong");     
+    TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(testMessage, commHandlerMessage, commHandlerBytes, "Message received by CommandHAndler wrong");
     
+}
+
+void test_CallingCommandHandleWithNoInitializationReturnsError (void)
+{
+    size_t receivedBytes;
+    char testMessage[] = {"This is a test message\n"};
+
+    Receiver_ReceiveMessage(testMessage, sizeof(testMessage), &receivedBytes);
+    FakeCommandHandler_SetInitialized(false);
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_COMMANDHANDLER_NOT_INITIALIZED, Receiver_Run());   
 }
 
 /*
@@ -152,6 +167,7 @@ int main (int argc, char ** argv)
     RUN_TEST(test_SendingCharactersReturnsOKOnReception);
     RUN_TEST(test_OverflowOfInternalBufferOnSendingCharactersReturnsError);
     RUN_TEST(test_ReceiverSendsFinishedMessageToCommandHandler);
+    RUN_TEST(test_CallingCommandHandleWithNoInitializationReturnsError);
 
     UNITY_END();
 }
