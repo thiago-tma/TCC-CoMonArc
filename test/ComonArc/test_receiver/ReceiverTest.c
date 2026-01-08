@@ -13,6 +13,9 @@
  *      Retorna OK se já inicializado                                                       OK
  *      Retorna erro se já deinicializado                                                   OK
  * Funções de manutenção e entrega de dados retornam erro sem inicialização do módulo       OK
+ * Função de entrega de dados retorna erro ao não passar parâmetros válidos                 OK
+ *      Ponteiro de string Inexistente                                                      OK
+ *      Ponteiro para inteiro inexistente                                                   OK
  * Operação sem callback
  *      Entrega de dados retorna OK ao armazenar dados                                      OK
  *      Entrega de dados retorna Erro ao estourar buffer de armazenamento                   OK
@@ -27,9 +30,9 @@
  *      Adição de novos caracteres renova timer de timeout                                  OK
  * Operação com callback de comando
  *      Envia string completa para o Command Handler                                        OK
- *      Chamar função ReceiveMessage resulta em erro
- *      Timeout
- *      CommandCallback tem mais bytes para entregar que o buffer consegue (erro)
+ *      Chamar função ReceiveMessage resulta em erro                                        OK
+ *      Timeout                                                                             OK
+ *      CommandCallback tem mais bytes para entregar que o buffer consegue (erro)           OK
  * 
 */
 
@@ -39,7 +42,7 @@
 #include <string.h>
 
 static timeMicroseconds systemTime = 0;
-static char storedMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
+static char storedMessage[500];
 static size_t storedMessageSize = 0;
 static size_t receivedMaxMessageSize = 0;
 
@@ -103,6 +106,16 @@ void test_CallingFunctionsWithoutInitializationReturnsError (void)
     Receiver_Destroy();
     TEST_ASSERT_EQUAL(RECEIVER_ERROR_NOT_INITIALIZED, Receiver_Run());
     TEST_ASSERT_EQUAL(RECEIVER_ERROR_NOT_INITIALIZED, Receiver_ReceiveMessage(testMessage, RECEIVER_MAX_COMMAND_BUFFER_SIZE, &receivedBytes));
+}
+
+void test_ReceiveMessageReturnsErrorOnNoParameter (void)
+{
+    char testMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
+    size_t receivedBytes;
+
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_NO_PARAMETER, Receiver_ReceiveMessage(0, RECEIVER_MAX_COMMAND_BUFFER_SIZE, 0));
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_NO_PARAMETER, Receiver_ReceiveMessage(testMessage, RECEIVER_MAX_COMMAND_BUFFER_SIZE, 0));
+
 }
 
 void test_SendingCharactersReturnsOKOnReception (void)
@@ -263,6 +276,41 @@ void test_ReceiverSendsFinishedMessageToCommandHandlerWithCallbackOperation (voi
     
 }
 
+void test_CallingReceiveMessageOnCallbackOperationReturnsError (void)
+{
+    size_t receivedBytes;
+    char testMessage[] = {"This is a test message\n"};
+
+    Receiver_Create(true, testCommandCallback, testSystemTimeCallback);
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_CALLBACK_OPERATION_ACTIVE, Receiver_ReceiveMessage(testMessage, sizeof(testMessage), &receivedBytes));
+}
+
+void test_CallbackOperationTimeout (void)
+{
+    size_t receivedBytes;
+    char testMessage[] = {"This is a test message\n"};
+
+    Receiver_Create(true, testCommandCallback, testSystemTimeCallback);
+    memcpy(storedMessage, testMessage, sizeof(testMessage)/2);
+    storedMessageSize = sizeof(testMessage)/2;
+
+    Receiver_Run();
+    systemTime += RECEIVER_TIMEOUT_MICROSECONDS+1;
+    storedMessageSize = 0;      /* Message received, no more bytes to receive (and no '\n' incoming)*/
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_TIMEOUT, Receiver_Run());
+}
+
+void test_CallbackOperationBufferCapacityReached (void)
+{
+    size_t receivedBytes;
+    char testMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE+50] = {"This is a big test message with no end"};
+
+    Receiver_Create(true, testCommandCallback, testSystemTimeCallback);
+    memcpy(storedMessage, testMessage, sizeof(testMessage));
+    storedMessageSize = sizeof(testMessage);
+    TEST_ASSERT_EQUAL(RECEIVER_ERROR_BUFFER_CAPACITY_REACHED, Receiver_Run());
+}
+
 int main (int argc, char ** argv)
 {
     UNITY_BEGIN();
@@ -271,6 +319,7 @@ int main (int argc, char ** argv)
     RUN_TEST(test_InitializationWithCommandCallback);
     RUN_TEST(test_Deinitialization);
     RUN_TEST(test_CallingFunctionsWithoutInitializationReturnsError);
+    RUN_TEST(test_ReceiveMessageReturnsErrorOnNoParameter);
     RUN_TEST(test_SendingCharactersReturnsOKOnReception);
     RUN_TEST(test_OverflowOfInternalBufferOnSendingCharactersReturnsError);
     RUN_TEST(test_ReceiverSendsFinishedMessageToCommandHandler);
@@ -282,6 +331,9 @@ int main (int argc, char ** argv)
     RUN_TEST(test_MessageTimeoutErasesInternalBuffer);
     RUN_TEST(test_NewCharactersResetTimeout);
     RUN_TEST(test_ReceiverSendsFinishedMessageToCommandHandlerWithCallbackOperation);
+    RUN_TEST(test_CallingReceiveMessageOnCallbackOperationReturnsError);
+    RUN_TEST(test_CallbackOperationTimeout);
+    RUN_TEST(test_CallbackOperationBufferCapacityReached);
 
     UNITY_END();
 }

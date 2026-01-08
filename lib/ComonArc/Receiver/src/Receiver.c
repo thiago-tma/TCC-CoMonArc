@@ -2,6 +2,8 @@
 #include <CommandHandler/include/CommandHandler.h>
 
 static bool initialized = false;
+static bool commandCallbackOperation = false;
+
 static char commandBuffer[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
 static size_t commandBufferIndex = 0;
 
@@ -16,6 +18,7 @@ Receiver_Error_t Receiver_Create (bool callbackOperation, Receiver_Command_Callb
     {
         if (!commandCallback) return RECEIVER_ERROR_NO_COMMAND_CALLBACK;
         storedCommandCallback = commandCallback;
+        commandCallbackOperation = true;
     }
 
     commandBufferIndex = 0;
@@ -29,6 +32,7 @@ Receiver_Error_t Receiver_Destroy (void)
     if (!initialized) return RECEIVER_ERROR_NOT_INITIALIZED;
 
     initialized = false;
+    commandCallbackOperation = false;
     storedCommandCallback = 0;
     return RECEIVER_OK;
 }
@@ -59,7 +63,7 @@ Receiver_Error_t Receiver_Run()
     if (!initialized) return RECEIVER_ERROR_NOT_INITIALIZED;
 
     /* If callback operation is active */
-    if (storedCommandCallback)
+    if (commandCallbackOperation)
     {
         storedCommandCallback(sizeof(commandBuffer)-commandBufferIndex, &commandBuffer[commandBufferIndex], &messageSize);
         if (messageSize != 0)
@@ -104,6 +108,11 @@ Receiver_Error_t Receiver_Run()
         }
             
     }
+    else if (commandBufferIndex == RECEIVER_MAX_COMMAND_BUFFER_SIZE)
+    {
+        /*Check if buffer is full and no command is detected*/
+        return RECEIVER_ERROR_BUFFER_CAPACITY_REACHED;
+    }
 
     return RECEIVER_OK;
 }
@@ -115,6 +124,9 @@ Receiver_Error_t Receiver_ReceiveMessage(const char * message, size_t messageSiz
     size_t setReceivedBytes = messageSize;
 
     if (!initialized) return RECEIVER_ERROR_NOT_INITIALIZED;
+    if (!message || !receivedBytes) return RECEIVER_ERROR_NO_PARAMETER;
+
+    if (commandCallbackOperation) return RECEIVER_ERROR_CALLBACK_OPERATION_ACTIVE;
 
     /* If message is too big for space left in buffer, fill until buffer is full and return error */
     bufferSpaceLeft = RECEIVER_MAX_COMMAND_BUFFER_SIZE - commandBufferIndex;
