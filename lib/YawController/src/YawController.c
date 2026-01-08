@@ -7,15 +7,21 @@
 static bool initialized = false;
 
 static SoftTimer resetTimer;
-
 static bool referenceSet = false;
-static uint16_t currentReferece = 0;
-static uint16_t currentHeading  = 0;
 
-static void setServoHeading (uint16_t heading)
+static int16_t currentReference = 0;
+static int16_t currentServoHeading  = 0;
+
+static void setServoHeading (int16_t heading)
 {
-    currentHeading = heading;
+    currentServoHeading = heading;
     ServoController_SetServo(heading);
+}
+
+static void setUpResetTimer (void)
+{
+    SoftTimer_Create(&resetTimer, YAWCONTROLLER_RESET_TIME_MICROSECONDS);
+    referenceSet = false;
 }
 
 YawController_Error_t YawController_Create(void)
@@ -23,11 +29,10 @@ YawController_Error_t YawController_Create(void)
     if (initialized) return YAWCONTROLLER_ERROR_ALREADY_INITIALIZED;
     
     ServoController_Create();
-    ServoController_SetServo(90);
+    setServoHeading(90);
     
     Magnetometer_Create();
-
-    SoftTimer_Create(&resetTimer, YAWCONTROLLER_RESET_TIME_MICROSECONDS);
+    setUpResetTimer();
 
     initialized = true;
 
@@ -43,17 +48,24 @@ YawController_Error_t YawController_Destroy(void)
 
 YawController_Error_t YawController_Run(void)
 {
-    int32_t control;
+    int16_t controlError, magnetometerReading;
 
     if (!initialized) return YAWCONTROLLER_ERROR_NOT_INITIALIZED;
 
     if (SoftTimer_Check(&resetTimer) && !referenceSet)
     {
-        Magnetometer_GetHeading(&currentReferece);
+        Magnetometer_GetHeading(&currentReference);
+        referenceSet = true;
         return YAWCONTROLLER_OK;
     }
 
-    control = currentReferece - Magnetometer_GetHeading(); 
+    if (referenceSet)
+    {
+        /*Run P control loop*/
+        Magnetometer_GetHeading(&magnetometerReading);
+        controlError = magnetometerReading - currentReference;
+        setServoHeading(currentServoHeading-controlError);
+    }
 
     return YAWCONTROLLER_OK;
 }

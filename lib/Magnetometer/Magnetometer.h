@@ -11,6 +11,6 @@ void Magnetometer_Destroy();
 void Magnetometer_NewRead();
 
 /* heading é uma variável de valor entre 0-359, indicando a direção no plano horizontal */
-void Magnetometer_GetHeading(uint16_t * heading);
+void Magnetometer_GetHeading(int16_t * heading);
 
 #endif /*D_MAGNETOMETER_H*/

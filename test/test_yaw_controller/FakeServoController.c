@@ -1,7 +1,7 @@
 #include "FakeServoController.h"
 #include <stdbool.h>
 
-static uint16_t currentHeading = 0;
+static int16_t currentHeading = 0;
 static bool initialized = false;
 
 ServoController_Error_t ServoController_Create(void)
@@ -14,12 +14,12 @@ ServoController_Error_t ServoController_Destroy(void)
     initialized = false;
 }
 
-ServoController_Error_t ServoController_SetServo(uint16_t heading)
+ServoController_Error_t ServoController_SetServo(int16_t heading)
 {
     currentHeading = heading;
 }
 
-uint16_t FakeServoController_ReadHeading (void)
+int16_t FakeServoController_ReadHeading (void)
 {
     return currentHeading;
 }

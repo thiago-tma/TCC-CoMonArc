@@ -5,7 +5,7 @@
 #include <ServoController.h>
 #include <stdbool.h>
 
-uint16_t FakeServoController_ReadHeading (void);
+int16_t FakeServoController_ReadHeading (void);
 bool FakeServoController_IsInitialized (void);
 
 void FakeServoController_Reset(void);

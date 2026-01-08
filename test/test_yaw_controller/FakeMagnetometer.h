@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 bool FakeMagnetometer_IsInitialized (void);
-void FakeMagnetometer_SetReading (uint16_t heading);
+void FakeMagnetometer_SetReading (int16_t heading);
 
 void FakeMagnetometer_Reset(void);
 

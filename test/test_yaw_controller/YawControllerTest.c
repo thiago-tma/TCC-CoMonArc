@@ -11,8 +11,8 @@
  * 
  * Inicialização inicializa módulo de controle do servo                                     OK
  * Inicialização define direção do servo em 90º                                             OK
- * Run() toma sensor como referência após timeout
- *      Run() consequente corrige direção
+ * Run() toma sensor como referência após timeout                                           OK
+ *      Run() consequente corrige direção                                                   OK
  * Reset() realinha direção em 90º
  *      Run() pós timeout toma nova leitura de sensor como referência
  *      Run() em sequência corrige direção
@@ -86,22 +86,22 @@ void test_GetReferenceAfterTimeoutAndCorrectHeading (void)
 {
     FakeMagnetometer_SetReading(45);
     YawController_Run();
-    TEST_ASSERT_EQUAL(90, FakeServoController_ReadHeading());
+    TEST_ASSERT_EQUAL_MESSAGE(90, FakeServoController_ReadHeading(), "Timer has not expired yet");
 
     FakeSystemTimer_AddTime(YAWCONTROLLER_RESET_TIME_MICROSECONDS+1);
     FakeMagnetometer_SetReading(60);
     YawController_Run();
-    TEST_ASSERT_EQUAL(90, FakeServoController_ReadHeading());
+    TEST_ASSERT_EQUAL_MESSAGE(90, FakeServoController_ReadHeading(), "YawController must only get the reference signal");
 
     FakeSystemTimer_AddTime(YAWCONTROLLER_RESET_TIME_MICROSECONDS+1);
     FakeMagnetometer_SetReading(60-5);
     YawController_Run();
-    TEST_ASSERT_EQUAL(90+5, FakeServoController_ReadHeading());
+    TEST_ASSERT_EQUAL_MESSAGE(90+5, FakeServoController_ReadHeading(), "First yaw correction failed");
 
     FakeSystemTimer_AddTime(YAWCONTROLLER_RESET_TIME_MICROSECONDS+1);
     FakeMagnetometer_SetReading(60+5);
     YawController_Run();
-    TEST_ASSERT_EQUAL(90-5, FakeServoController_ReadHeading());
+    TEST_ASSERT_EQUAL_MESSAGE(90+5-5, FakeServoController_ReadHeading(),  "Second yaw correction failed");
 }
 
 int main (int argc, char ** argv)
