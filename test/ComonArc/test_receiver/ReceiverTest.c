@@ -44,6 +44,7 @@
 static timeMicroseconds systemTime = 0;
 static char storedMessage[500];
 static size_t storedMessageSize = 0;
+static size_t storedMessageIndex = 0;
 static size_t receivedMaxMessageSize = 0;
 
 static timeMicroseconds testSystemTimeCallback (void)
@@ -58,16 +59,18 @@ static void testCommandCallback (size_t messageMaxSize, char * message, size_t *
 
     for (size_t i = 0; i < setMessageSize; i++)
     {
-        message[i] = storedMessage[i];
+        message[i] = storedMessage[storedMessageIndex++];
     }
 
     *messageSize = setMessageSize;
+    storedMessageSize -= setMessageSize;
 }
 
 void setUp (void)
 {
     systemTime = 0;
     storedMessageSize = 0;
+    storedMessageIndex = 0;
     receivedMaxMessageSize = 0;
 
     FakeCommandHandler_Reset();
@@ -271,7 +274,7 @@ void test_ReceiverSendsFinishedMessageToCommandHandlerWithCallbackOperation (voi
     Receiver_Run();
     FakeCommandHandler_GetSentString(&commHandlerMessage, &commHandlerBytes);
     
-    TEST_ASSERT_EQUAL_MESSAGE(storedMessageSize, commHandlerBytes, "Number of bytes received by CommandHalnder wrong");     
+    TEST_ASSERT_EQUAL_MESSAGE(sizeof(testMessage)-1, commHandlerBytes, "Number of bytes received by CommandHalnder wrong");     
     TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(storedMessage, commHandlerMessage, commHandlerBytes, "Message received by CommandHAndler wrong");
     
 }
@@ -296,7 +299,6 @@ void test_CallbackOperationTimeout (void)
 
     Receiver_Run();
     systemTime += RECEIVER_TIMEOUT_MICROSECONDS+1;
-    storedMessageSize = 0;      /* Message received, no more bytes to receive (and no '\n' incoming)*/
     TEST_ASSERT_EQUAL(RECEIVER_ERROR_TIMEOUT, Receiver_Run());
 }
 
