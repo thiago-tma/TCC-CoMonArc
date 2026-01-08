@@ -148,7 +148,7 @@ with open(log_api_h, "w") as f:
     f.write("#define D_LOG_API_H\n\n")
     f.write("#include <stdint.h>\n")
     f.write("#include \"log_ids.h\"\n")
-    f.write("#include \"logger.h\"\n\n")
+    f.write("#include \"Logger.h\"\n\n")
 
     for name in sorted_names:
         msg = messages[name]
