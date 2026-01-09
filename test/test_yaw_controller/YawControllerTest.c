@@ -16,8 +16,11 @@
  * Reset() realinha direção em 90º                                                          OK
  *      Run() pós timeout toma nova leitura de sensor como referência                       OK
  *      Run() em sequência corrige direção                                                  OK
- * Controle de servo é limitado entre 0 a 180 mesmo passando do limite                      OK
- * Controle de servo vai para outro extremo quando referência passa por '270º'
+ * Controle de servo é limitado entre 0 a 180 mesmo passando do limite                      OK              
+ * Controlle se comporta bem com referência próxima de 0 (passando para 360)                OK
+ * Controlle se comporta bem com referência próxima de 360 (passando para 0)                OK
+ * Controle de servo vai para outro extremo quando referência passa por '270º'              OK
+ *      Histerese entre trocas de extremos(?)
  * 
  * 
 */
@@ -106,7 +109,7 @@ void test_GetReferenceAfterTimeoutAndCorrectHeading (void)
     TEST_ASSERT_EQUAL_MESSAGE(90+5-5, FakeServoController_ReadHeading(),  "Second yaw correction failed");
 }
 
-void test_ResetAction (void)
+void test_ResetRedefinesReferenceAfterTimeout (void)
 {
     nextRunAfterTimeout(60);
     TEST_ASSERT_EQUAL_MESSAGE(90, FakeServoController_ReadHeading(), "YawController must only get the reference signal");
@@ -135,6 +138,37 @@ void test_YawControllerLimitsServoBetween0And180Deg (void)
     TEST_ASSERT_EQUAL_MESSAGE(90-90+180/*+5*/, FakeServoController_ReadHeading(), "YawCorrection failed (4)"); /*Servo set to 180 deg, servo can't go further*/
 }
 
+void test_YawControllerWithReferenceCloseTo0Deg (void)
+{
+    nextRunAfterTimeout(10); /*Reference set at 10 deg */
+    nextRunAfterTimeout(350); /*Magnetometer says heading is 20 deg behind the reference, crossing zero */
+    TEST_ASSERT_EQUAL_MESSAGE(90+20, FakeServoController_ReadHeading(), "YawCorrection failed (1)"); /*Servo set to 110 deg*/
+}
+
+void test_YawControllerWithReferenceCloseTo360Deg (void)
+{
+    nextRunAfterTimeout(350); /*Reference set at 10 deg */
+    nextRunAfterTimeout(50); /*Magnetometer says heading is 20 deg behind the reference, crossing zero */
+    TEST_ASSERT_EQUAL_MESSAGE(90-60, FakeServoController_ReadHeading(), "YawCorrection failed (1)"); /*Servo set to 30 deg*/
+}
+
+void test_YawControllerSwitchesExtremesWhenMagnetometerWrapsAround (void)
+{
+    nextRunAfterTimeout(90); /*Reference set at 90 deg */
+    nextRunAfterTimeout(90+90); /* Magnetometer says heading is 90 deg beyond reference */
+    TEST_ASSERT_EQUAL_MESSAGE(90-90, FakeServoController_ReadHeading(), "YawCorrection failed (1)"); /*Servo set to 0 deg*/
+    nextRunAfterTimeout(90+90); /* Magnetometer says heading is 90 deg beyond reference */
+    TEST_ASSERT_EQUAL_MESSAGE(90-90/*-90*/, FakeServoController_ReadHeading(), "YawCorrection failed (2)"); /*Servo still set to 0 deg*/
+    nextRunAfterTimeout(90+90+1);
+    TEST_ASSERT_EQUAL_MESSAGE(90-90+180, FakeServoController_ReadHeading(), "YawCorrection failed (3)"); /*Servo switches to the other extreme*/
+    nextRunAfterTimeout(90-89); /* Magnetometer now says heading is 89 deg behind reference */
+    TEST_ASSERT_EQUAL_MESSAGE(90-90+180, FakeServoController_ReadHeading(), "YawCorrection failed (4)"); /*Servo stays other extreme*/
+    nextRunAfterTimeout(90-90);
+    TEST_ASSERT_EQUAL_MESSAGE(90-90+180, FakeServoController_ReadHeading(), "YawCorrection failed (5)"); /*Servo stays other extreme*/
+    nextRunAfterTimeout(90-91+360);
+    TEST_ASSERT_EQUAL_MESSAGE(90-90+180-180, FakeServoController_ReadHeading(), "YawCorrection failed (6)"); /*Servo switches back to the other extreme*/
+}
+
 int main (int argc, char ** argv)
 {
     UNITY_BEGIN();
@@ -147,8 +181,11 @@ int main (int argc, char ** argv)
     RUN_TEST(test_InitializationInitializesMagnetometer);
     RUN_TEST(test_FirstRunSetsServoOn90Deg);
     RUN_TEST(test_GetReferenceAfterTimeoutAndCorrectHeading);
-    RUN_TEST(test_ResetAction);
+    RUN_TEST(test_ResetRedefinesReferenceAfterTimeout);
     RUN_TEST(test_YawControllerLimitsServoBetween0And180Deg);
+    RUN_TEST(test_YawControllerWithReferenceCloseTo0Deg);
+    RUN_TEST(test_YawControllerWithReferenceCloseTo360Deg);
+    RUN_TEST(test_YawControllerSwitchesExtremesWhenMagnetometerWrapsAround);
 
     UNITY_END();
 }

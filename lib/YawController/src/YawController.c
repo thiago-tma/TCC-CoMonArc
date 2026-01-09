@@ -1,5 +1,7 @@
-#include <YawController.h>
 #include <stdbool.h>
+#include <stdlib.h>
+
+#include <YawController.h>
 #include <ServoController.h>
 #include <Magnetometer.h>
 #include <SoftTimer.h>
@@ -12,9 +14,11 @@ static bool referenceSet = false;
 static int16_t currentReference = 0;
 static int16_t currentServoHeading  = 0;
 
-static void setServoHeading (int16_t heading)
+static void setServoHeadingDeg (int16_t heading)
 {
-    if (heading > 180) heading = 180;
+    if      (heading > 270) heading = 0;
+    else if (heading > 180) heading = 180;
+    else if (heading < -90 ) heading = 180;
     else if (heading < 0) heading = 0;
     
     currentServoHeading = heading;
@@ -32,7 +36,7 @@ YawController_Error_t YawController_Create(void)
     if (initialized) return YAWCONTROLLER_ERROR_ALREADY_INITIALIZED;
     
     ServoController_Create();
-    /*setServoHeading(90);*/
+    /*setServoHeadingDeg(90);*/
     
     Magnetometer_Create();
     resetYawControl();
@@ -51,14 +55,14 @@ YawController_Error_t YawController_Destroy(void)
 
 YawController_Error_t YawController_Run(void)
 {
-    int16_t controlError, magnetometerReading;
+    int16_t readingError, controlError, magnetometerReading, newServoHeading;
 
     if (!initialized) return YAWCONTROLLER_ERROR_NOT_INITIALIZED;
 
 
     if (!referenceSet)
     {
-        setServoHeading(90);
+        setServoHeadingDeg(90);
         if (SoftTimer_Check(&resetTimer))
         {
             Magnetometer_GetHeading(&currentReference);
@@ -71,8 +75,17 @@ YawController_Error_t YawController_Run(void)
     {
         /*Run P control loop*/
         Magnetometer_GetHeading(&magnetometerReading);
-        controlError = magnetometerReading - currentReference;
-        setServoHeading(currentServoHeading-controlError);
+
+        /* Check if is shorter to turn the servo inside the [0,360º] interval or to cross the 0/360 point */
+        readingError = magnetometerReading - currentReference;
+        if (abs(readingError) <= (360-abs(readingError))) controlError = readingError;
+        else 
+        {
+            controlError = 360 - abs(readingError);
+            controlError *= (readingError > 0 ? -1 : 1);
+        }
+
+        setServoHeadingDeg(currentServoHeading-controlError);
     }
 
     return YAWCONTROLLER_OK;
