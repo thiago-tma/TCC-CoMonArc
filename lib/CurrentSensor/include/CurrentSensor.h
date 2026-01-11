@@ -3,16 +3,24 @@
 
 #include <stdint.h>
 
-typedef int32_t currentMicroamps;
+typedef int32_t Current_Microamps_t;
 
-void CurrentSensor_Create();
-void CurrentSensor_Destroy();
+typedef enum 
+{
+    CURRENTSENSOR_OK,
+    CURRENTSENSOR_ERROR_ALREADY_INITIALIZED,
+    CURRENTSENSOR_ERROR_NOT_INITIALIZED,
+    CURRENTSENSOR_ERROR_NO_AVAILABLE_READING,
+    CURRENTSENSOR_ERROR_ADC_NULL_PARAMETER,
+}   CurrentSensor_Error_t;
 
-/* Leitura assíncrona do sensor de corrente */
-/* Traduz leitura para os formatos utilizados pelo sistema */
-void CurrentSensor_NewRead();
+CurrentSensor_Error_t CurrentSensor_Create(void);
+CurrentSensor_Error_t CurrentSensor_Destroy(void);
 
-/*  */
-void CurrentSensor_GetValue(currentMicroamps * current);
+/* Leitura síncrona do sensor de corrente */
+/* Traduz leitura para os formatos utilizados pelo sistema, disponível em CurrentSensor_GetValue */
+CurrentSensor_Error_t CurrentSensor_NewRead(void);
+
+CurrentSensor_Error_t CurrentSensor_GetValue(Current_Microamps_t * current);
 
 #endif /*H_CURRENTSENSOR_D*/
