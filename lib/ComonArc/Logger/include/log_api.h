@@ -3,9 +3,13 @@
 #ifndef D_LOG_API_H
 #define D_LOG_API_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include "log_ids.h"
-#include "logger.h"
+#include "Logger.h"
 
 static inline void log_command_trace_initialized()
 {
@@ -50,5 +54,9 @@ static inline void log_system_trace_initialized()
         LOG_LEVEL_TRACE,
         LOG_SYSTEM_TRACE_INITIALIZED, NULL, 0);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* D_LOG_API_H */

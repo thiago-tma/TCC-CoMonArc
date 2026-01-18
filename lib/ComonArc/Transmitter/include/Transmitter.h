@@ -1,6 +1,10 @@
 #ifndef H_COMONARCTRANSMITTER_D
 #define H_COMONARCTRANSMITTER_D
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -17,5 +21,9 @@ bool Transmitter_AttachTransmitCallback(TransmitCallback_t channel);
 
 /*Transmit payload to attached*/
 void Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*H_COMONARCTRANSMITTER_D*/

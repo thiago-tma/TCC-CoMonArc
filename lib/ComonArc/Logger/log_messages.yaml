@@ -19,8 +19,9 @@ subsystems:
   - USER_INTERFACE
   - SYSTEM
 
+# In order, most critical first
 levels:
-  - ERROR   #REQUIRED
+  - ERROR
   - EVENT
   - TRACE
   - DATA
@@ -65,7 +66,7 @@ messages:
     subsystem: SERVO
     level: DATA
     args: [i16]
-    format: "Servo arm: {0}º"
+    format: "Servo arm: {0} deg"
 
 #MAGNETOMETER
 

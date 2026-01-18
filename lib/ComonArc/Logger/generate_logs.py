@@ -1,7 +1,7 @@
 # Script to generate logs used in the target device and in the serial decoder.
 # Purpose is to keep the messages in the target and in the host matched.
-# Script gets messages from log_messages.py
-# Existing subsystems and levels are infered from the messages
+# Script gets messages from log_messages.yaml
+# Existing subsystems and levels are inferred from the messages
 #   log_ids.h: header with message IDs, the existing subsystems and message levels
 #   log_api.h: functions to call each message (prevents mistakes in sending messages)
 #   log_db.py: messages in JSON for the host-side decoder to use
@@ -10,12 +10,29 @@ import yaml
 import sys
 from pathlib import Path
 
-SCHEMA_FILE = Path("log_messages.yaml")
-GEN_DIR = Path("include")
-TOOLS_DIR = Path("tools")
+# ------------------------------------------------------------
+# Path handling
+# ------------------------------------------------------------
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+
+def find_project_root(start: Path) -> Path:
+    for p in [start] + list(start.parents):
+        if (p / "platformio.ini").exists():
+            return p
+    sys.exit("Error: Could not find PlatformIO project root (platformio.ini)")
+
+
+PROJECT_ROOT = find_project_root(SCRIPT_DIR)
+
+# Inputs / outputs
+SCHEMA_FILE = SCRIPT_DIR / "log_messages.yaml"
+GEN_DIR = SCRIPT_DIR / "include"          # stays inside the library
+MONITOR_DIR = PROJECT_ROOT / "monitor"        # goes to project root
 
 GEN_DIR.mkdir(exist_ok=True)
-TOOLS_DIR.mkdir(exist_ok=True)
+MONITOR_DIR.mkdir(exist_ok=True)
 
 # --- Argument sizes --------------------------------------------
 
@@ -103,10 +120,12 @@ for name, msg in messages.items():
         payload_size += ARG_TYPE_INFO[a]["size"]
     msg["payload_size"] = payload_size
 
-
+# ------------------------------------------------------------
 # Assign IDs deterministically
+# ------------------------------------------------------------
+
 sorted_names = sorted(messages.keys())
-for i, name in enumerate(sorted_names, start=0):    # Must start at zero to enable ID count in enum
+for i, name in enumerate(sorted_names, start=1):  # ID 0 reserved for raw strings
     messages[name]["id"] = i
 
 # ------------------------------------------------------------
@@ -117,6 +136,10 @@ with open(GEN_DIR / "log_ids.h", "w") as f:
     f.write("// AUTO-GENERATED — DO NOT EDIT\n\n")
     f.write("#ifndef D_LOGS_IDS_H\n")
     f.write("#define D_LOGS_IDS_H\n\n")
+
+    f.write("#ifdef __cplusplus\n")
+    f.write('extern "C" {\n')
+    f.write("#endif\n\n")
 
     f.write("typedef enum {\n")
     for name in sorted_names:
@@ -134,18 +157,30 @@ with open(GEN_DIR / "log_ids.h", "w") as f:
     for l in levels:
         f.write(f"    LOG_LEVEL_{l},\n")
     f.write("    LOG_LEVEL_COUNT\n")
-    f.write("} Log_Level_t;\n")
+    f.write("} Log_Level_t;\n\n")
+
+    f.write("#ifdef __cplusplus\n")
+    f.write("}\n")
+    f.write("#endif\n\n")
 
     f.write("#endif /* D_LOGS_IDS_H */")
 
-# --- Generate log_api.h ---------------------------------------
+# ------------------------------------------------------------
+# Generate log_api.h
+# ------------------------------------------------------------
 
 log_api_h = GEN_DIR / "log_api.h"
 
 with open(log_api_h, "w") as f:
     f.write("// AUTO-GENERATED FILE — DO NOT EDIT\n\n")
+
     f.write("#ifndef D_LOG_API_H\n")
     f.write("#define D_LOG_API_H\n\n")
+
+    f.write("#ifdef __cplusplus\n")
+    f.write('extern "C" {\n')
+    f.write("#endif\n\n")
+
     f.write("#include <stdint.h>\n")
     f.write("#include \"log_ids.h\"\n")
     f.write("#include \"Logger.h\"\n\n")
@@ -196,15 +231,35 @@ with open(log_api_h, "w") as f:
 
         f.write("}\n\n")
 
+    f.write("#ifdef __cplusplus\n")
+    f.write("}\n")
+    f.write("#endif\n\n")
+
     f.write("#endif /* D_LOG_API_H */")
 
-# --- Generate decoder database --------------------------------
+# ------------------------------------------------------------
+# Generate decoder database (PROJECT ROOT / tools)
+# ------------------------------------------------------------
 
-log_db_py = TOOLS_DIR / "log_db.py"
+log_db_py = MONITOR_DIR / "log_db.py"
 
 with open(log_db_py, "w") as f:
     f.write("# AUTO-GENERATED FILE — DO NOT EDIT\n\n")
-    f.write("LOG_DB = {\n")
+    f.write("LOG_SUBSYSTEMS ={\n")
+    index = 0
+    for s in subsystems:
+        f.write(f"        {index}: '{s}',\n")
+        index += 1
+    f.write("}\n\n")
+
+    f.write("LOG_LEVELS ={\n")
+    index = 0
+    for l in levels:
+        f.write(f"        {index}: '{l}',\n")
+        index += 1
+    f.write("}\n\n")
+
+    f.write("LOG_MESSAGES = {\n")
     for name in sorted_names:
         msg = messages[name]
         f.write(f"    {msg['id']}: {{\n")

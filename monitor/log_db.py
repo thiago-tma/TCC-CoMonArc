@@ -1,6 +1,23 @@
 # AUTO-GENERATED FILE — DO NOT EDIT
 
-LOG_DB = {
+LOG_SUBSYSTEMS ={
+        0: 'LOGGER',
+        1: 'COMMAND',
+        2: 'SERVO',
+        3: 'MAGNETOMETER',
+        4: 'CURRENT',
+        5: 'USER_INTERFACE',
+        6: 'SYSTEM',
+}
+
+LOG_LEVELS ={
+        0: 'ERROR',
+        1: 'EVENT',
+        2: 'TRACE',
+        3: 'DATA',
+}
+
+LOG_MESSAGES = {
     1: {
         'name': 'LOG_COMMAND_TRACE_INITIALIZED',
         'subsystem': 'COMMAND',
@@ -27,7 +44,7 @@ LOG_DB = {
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
-        'format': "Servo arm: {0}º",
+        'format': "Servo arm: {0} deg",
     },
     5: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',

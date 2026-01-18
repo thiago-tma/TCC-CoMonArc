@@ -3,12 +3,16 @@
 #ifndef D_LOGS_IDS_H
 #define D_LOGS_IDS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum {
-    LOG_COMMAND_TRACE_INITIALIZED = 0,
-    LOG_LOGGER_ERROR_BUFFER_OVERFLOW = 1,
-    LOG_LOGGER_TRACE_INITIALIZED = 2,
-    LOG_SERVO_DATA_DIRECTION = 3,
-    LOG_SYSTEM_TRACE_INITIALIZED = 4,
+    LOG_COMMAND_TRACE_INITIALIZED = 1,
+    LOG_LOGGER_ERROR_BUFFER_OVERFLOW = 2,
+    LOG_LOGGER_TRACE_INITIALIZED = 3,
+    LOG_SERVO_DATA_DIRECTION = 4,
+    LOG_SYSTEM_TRACE_INITIALIZED = 5,
     LOG_MESSAGEID_COUNT
 } Log_MessageId_t;
 
@@ -30,4 +34,9 @@ typedef enum {
     LOG_LEVEL_DATA,
     LOG_LEVEL_COUNT
 } Log_Level_t;
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* D_LOGS_IDS_H */

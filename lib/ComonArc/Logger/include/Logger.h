@@ -1,6 +1,10 @@
 #ifndef D_LOGGER_H
 #define D_LOGGER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -18,6 +22,7 @@ void Logger_Create      (void);
 void Logger_Destroy     (void);
 
 /* Verifica nível da mensagem e armazena caso esteja habilitada */
+/* Use messageID = 0 para passar uma string como o payload ao invés de um token */
 void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
 /* Passar LOG_SUBSYSTEM_COUNT (número de subsistemas existentes) aplica o filtro para todos os subsistemas      */
@@ -35,5 +40,9 @@ void Logger_Flush (void);
 /* Função chamada quando uma mensagem do tipo 'Error' é registrada (Logger_log) */
 void Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /*D_LOGGER_H*/
