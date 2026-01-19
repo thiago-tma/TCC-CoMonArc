@@ -23,8 +23,8 @@ subsystems:
 levels:
   - ERROR
   - EVENT
-  - TRACE
   - DATA
+  - TRACE
 
 args: 
   - u8

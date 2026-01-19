@@ -13,8 +13,8 @@ LOG_SUBSYSTEMS ={
 LOG_LEVELS ={
         0: 'ERROR',
         1: 'EVENT',
-        2: 'TRACE',
-        3: 'DATA',
+        2: 'DATA',
+        3: 'TRACE',
 }
 
 LOG_MESSAGES = {

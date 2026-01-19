@@ -39,13 +39,14 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
     if (!loggerEnable) return;
 
     /* If not enough space available in buffer for the whole message */
-    /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (4 + payloadSize)*/
-    if ((LOGGER_MAX_BUFFER_SIZE) < (4 + payloadSize + logBufferIndex + LOGGER_BUFFER_OVERFLOW_ERROR_SPACE))
+    /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize)*/
+    if ((LOGGER_MAX_BUFFER_SIZE) < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize + logBufferIndex + LOGGER_BUFFER_OVERFLOW_ERROR_SPACE))
     {
         if (!overflowFlag)
         {
             overflowFlag = true;
 
+            logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
             logBuffer[logBufferIndex++] = LOG_SUBSYS_LOGGER;
             logBuffer[logBufferIndex++] = LOG_LEVEL_ERROR;
             logBuffer[logBufferIndex++] = LOG_LOGGER_ERROR_BUFFER_OVERFLOW;
@@ -59,6 +60,7 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
     /* Keep message */
     if (logFilter[origin][level] == true)
     {
+        logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
         logBuffer[logBufferIndex++] = origin;
         logBuffer[logBufferIndex++] = level;
         logBuffer[logBufferIndex++] = messageID;

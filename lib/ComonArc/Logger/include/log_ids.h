@@ -30,8 +30,8 @@ typedef enum {
 typedef enum {
     LOG_LEVEL_ERROR,
     LOG_LEVEL_EVENT,
-    LOG_LEVEL_TRACE,
     LOG_LEVEL_DATA,
+    LOG_LEVEL_TRACE,
     LOG_LEVEL_COUNT
 } Log_Level_t;
 

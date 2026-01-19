@@ -12,6 +12,8 @@ extern "C" {
 
 #define LOGGER_MAX_BUFFER_SIZE 180
 #define LOGGER_BUFFER_OVERFLOW_ERROR_SPACE 10       /* Espaço no buffer reservado para registrar erro de buffer overflow */
+#define LOGGER_START_BYTE 0xAA
+#define LOGGER_MESSAGE_MIN_LENGHT 5
 
 typedef void (*Log_ErrorCallback_t)(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
