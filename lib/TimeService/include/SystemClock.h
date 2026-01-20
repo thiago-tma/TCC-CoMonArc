@@ -1,6 +1,10 @@
 #ifndef D_SYSTEMCLOCK_H
 #define D_SYSTEMCLOCK_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "TimeTypes.h"
 #include <stdbool.h>
 
@@ -26,5 +30,9 @@ int                 SystemClock_AddCallback (callBack function);
 /* Retorna true se uma função foi encontrada e removida */
 /* Retorna false se valor não corresponde a um slot ou slot está vazio */
 bool                 SystemClock_RemoveCallback (int functionId);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_SYSTEMCLOCK_H*/

@@ -1,6 +1,10 @@
 #ifndef D_SOFTTIMER_H
 #define D_SOFTTIMER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 #include "TimeTypes.h"
 
@@ -25,5 +29,9 @@ bool        SoftTimer_Check     (SoftTimer * softTimer);
 
 /* Reinicia contagem */
 void        SoftTimer_Reset     (SoftTimer * softTimer);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_SOFTTIMER_H*/

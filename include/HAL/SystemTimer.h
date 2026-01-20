@@ -1,6 +1,11 @@
 #ifndef D_SYSTEMTIMER_H
 #define D_SYSTEMTIMER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include <TimeTypes.h>
 
 typedef void (*Callback)(timeMicroseconds useconds);
@@ -18,5 +23,10 @@ void SystemTimer_Destroy(void);
 /* para que a leitura do tempo seja feita sem erros de concorrência */
 void SystemTimer_Pause(void);
 void SystemTimer_Continue(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /*D_SYSTEMTIMER_H*/
