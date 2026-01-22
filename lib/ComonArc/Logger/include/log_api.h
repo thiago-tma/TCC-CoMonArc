@@ -11,6 +11,14 @@ extern "C" {
 #include "log_ids.h"
 #include "Logger.h"
 
+static inline void log_command_event_ping()
+{
+    Logger_Log(
+        LOG_SUBSYS_COMMAND,
+        LOG_LEVEL_EVENT,
+        LOG_COMMAND_EVENT_PING, NULL, 0);
+}
+
 static inline void log_command_trace_initialized()
 {
     Logger_Log(

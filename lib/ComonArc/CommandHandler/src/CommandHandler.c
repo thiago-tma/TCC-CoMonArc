@@ -3,9 +3,9 @@
 #include <string.h>
 
 static bool initialized = false;
-static CommHandler_Command_t * storedCommandTable;
+static const CommHandler_Command_t * storedCommandTable;
 
-CommHandler_Error_t CommandHandler_Create(CommHandler_Command_t * commandTable)
+CommHandler_Error_t CommandHandler_Create(const CommHandler_Command_t * commandTable)
 {
     if (!commandTable) return COMMHANDLER_ERROR_NO_COMMAND_TABLE;
     
@@ -26,7 +26,7 @@ CommHandler_Error_t CommandHandler_Destroy(void)
     return COMMHANDLER_ERROR_NOT_INITIALIZED;
 }
     
-static CommHandler_Command_t * searchCommand (char * commandName)
+static const CommHandler_Command_t * searchCommand (char * commandName)
 {
     unsigned int index = 0;
     while (storedCommandTable[index].function)
@@ -57,7 +57,7 @@ void parseCommandString (char * commandString, int * argc, char ** argv)
 
 CommHandler_Error_t CommandHandler_ProcessCommand (char * commandString, size_t commandStringSize)
 {
-    CommHandler_Command_t * receivedCommand;
+    CommHandler_Command_t const * receivedCommand;
     int argc = 0;
     char * argv[COMMHANDLER_MAX_ARGUMENTS_IN_COMMAND];
 

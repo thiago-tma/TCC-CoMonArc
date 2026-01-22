@@ -55,6 +55,12 @@ messages:
     format: "Message buffer overflow, too many messages were accumulated"
 
 #COMMAND HANDLER
+  LOG_COMMAND_EVENT_PING:
+    subsystem: COMMAND
+    level: EVENT
+    args: []
+    format: "Ping"
+
   LOG_COMMAND_TRACE_INITIALIZED:
     subsystem: COMMAND
     level: TRACE

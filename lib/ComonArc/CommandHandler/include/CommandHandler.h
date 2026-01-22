@@ -25,7 +25,7 @@ typedef struct
 } CommHandler_Command_t;
 
 /* Último comando de command table deve ter nome vazio ("") para identificar fim da lista */
-CommHandler_Error_t CommandHandler_Create(CommHandler_Command_t * commandTable);
+CommHandler_Error_t CommandHandler_Create(const CommHandler_Command_t * commandTable);
 CommHandler_Error_t CommandHandler_Destroy(void);
 
 /* Recebe uma string terminada com \n */

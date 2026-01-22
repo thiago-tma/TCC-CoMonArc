@@ -70,7 +70,7 @@ static void testFunction3 (int argc, char **argv)
     testVar += convertedValue;
 }
 
-CommHandler_Command_t testCommandTable[] =
+const CommHandler_Command_t testCommandTable[] =
 {
     /*   Name       CommandFunction           */
     {"Ping1",       testFunction1},
