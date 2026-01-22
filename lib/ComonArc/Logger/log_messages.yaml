@@ -59,7 +59,7 @@ messages:
     subsystem: COMMAND
     level: EVENT
     args: []
-    format: "Ping"
+    format: "Pingback"
 
   LOG_COMMAND_TRACE_INITIALIZED:
     subsystem: COMMAND

@@ -1,6 +1,10 @@
 #ifndef D_COMONARCCOMMANDHANDLER_H
 #define D_COMONARCCOMMANDHANDLER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -31,5 +35,9 @@ CommHandler_Error_t CommandHandler_Destroy(void);
 /* Recebe uma string terminada com \n */
 /* Os argumentos do comando devem estar separados por espaços ' ' */
 CommHandler_Error_t CommandHandler_ProcessCommand (char * commandString, size_t commandStringSize);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_COMONARCCOMMANDHANDLER_H*/

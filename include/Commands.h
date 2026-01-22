@@ -7,10 +7,10 @@ extern "C" {
 
 #include <CommandHandler/include/CommandHandler.h>
 
-extern const CommHandler_Command_t * systemCommands;
+const CommHandler_Command_t * Commands_GetCommandTable (void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif D_COMONARC_COMMANDS_TABLE_H
+#endif /*D_COMONARC_COMMANDS_TABLE_H*/

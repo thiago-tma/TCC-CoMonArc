@@ -23,7 +23,7 @@ LOG_MESSAGES = {
         'subsystem': 'COMMAND',
         'level': 'EVENT',
         'args': [],
-        'format': "Ping",
+        'format': "Pingback",
     },
     2: {
         'name': 'LOG_COMMAND_TRACE_INITIALIZED',

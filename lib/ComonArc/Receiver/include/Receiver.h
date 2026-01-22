@@ -1,6 +1,11 @@
 #ifndef D_COMONARCRECEIVER_H
 #define D_COMONARCRECEIVER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /* Receiver coleta uma stream de caracteres de uma fonte e identifica um comando com a terminação da stream por \n */
 /* Caso a stream acumulada não recebe caracterres dentor de um prazo, a stream é descartada por um timeout */
 /* Receber novos caracteres dentro do prazo e ainda não completar uma mensagem reinicia o período de timeout*/
@@ -56,5 +61,9 @@ Receiver_Error_t Receiver_Run();
 /*Receiver_Run() ainda precisa ser chamado para analisar o que foi recebido */
 /*Reinicia período de timeout*/
 Receiver_Error_t Receiver_ReceiveMessage(const char * message, size_t messageSize, size_t * receivedBytes);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_COMONARCRECEIVER_H*/
