@@ -8,6 +8,11 @@
 #include <HAL/UART.h>
 #include <SystemClock.h>
 
+static void buttonCallback (void)
+{
+    UserInterface_BlinkComponent(ACTUATOR_BUZZER, 3, 50000, 50000);
+}
+
 static void initializeLogger (void)
 {
     Logger_Create();
@@ -33,6 +38,7 @@ void setup (void)
 
     SystemClock_Create();
     UserInterface_Create();
+    UserInterface_AddButtonFunction(buttonCallback);
 }
 
 void loop (void)

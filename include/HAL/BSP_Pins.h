@@ -15,6 +15,8 @@ typedef enum {
   BSP_PIN_PWM0,
   BSP_PIN_SDA,    /* I2C data  */
   BSP_PIN_SCL,    /* I2C clock */
+  BSP_PIN_UART0_RX,
+  BSP_PIN_UART0_TX,
   BSP_PIN_COUNT
 } BSP_Pin_Id_t;
 
