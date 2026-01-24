@@ -1,6 +1,10 @@
 #ifndef D_BSP_PINS_H
 #define D_BSP_PINS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "GPIO.h"
 
 typedef enum {
@@ -15,5 +19,9 @@ typedef enum {
 } BSP_Pin_Id_t;
 
 GPIO_Pin_t * BSP_GetPin(BSP_Pin_Id_t id);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* D_BSP_PINS_H */

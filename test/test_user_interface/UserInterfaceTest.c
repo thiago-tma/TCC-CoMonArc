@@ -95,6 +95,10 @@ void test_BlinkLEDOneTime (void)
     FakeSystemTimer_AddTime(500001);
     UserInterface_Run();
     TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_LED), "LED is still on when it should not");
+
+    FakeSystemTimer_AddTime(1000001);
+    UserInterface_Run();
+    TEST_ASSERT_EQUAL_MESSAGE(GPIO_VALUE_LOW ,FakeGPIO_GetPinValue(BSP_PIN_LED), "LED should still be off");
 }
 
 void test_CallBlinkLedWithZeroRepetitionsTurnsOffActuator (void)

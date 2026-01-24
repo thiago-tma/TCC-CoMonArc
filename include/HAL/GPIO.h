@@ -1,6 +1,10 @@
 #ifndef D_GPIO_H
 #define D_GPIO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -63,5 +67,9 @@ GPIO_Status_t GPIO_EnableInterrupt(GPIO_Pin_t channel, GPIO_Callback_t callback,
 
 /* Disable interrupt on channel */
 GPIO_Status_t GPIO_DisableInterrupt(GPIO_Pin_t channel);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_GPIO_H*/

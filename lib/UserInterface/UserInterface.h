@@ -1,6 +1,11 @@
 #ifndef D_USERINTERFACE_H
 #define D_USERINTERFACE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "TimeTypes.h"
 
 typedef void (*triggerFunction)(void);
@@ -28,5 +33,9 @@ void UserInterface_BlinkComponent   (Actuator_t  blinkActuator, unsigned int rep
 void UserInterface_ReadButton (Button_State_t * state);
 
 void UserInterface_AddButtonFunction (triggerFunction function);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*D_USERINTERFACE_H*/

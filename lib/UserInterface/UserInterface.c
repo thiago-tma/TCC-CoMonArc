@@ -78,6 +78,10 @@ void checkActuatorsBlink(void)
                 {
                     SoftTimer_Create(&actuatorSchedulers[index].actuatorTimer, actuatorSchedulers[index].intervalOff);
                 }
+                else
+                {
+                    SoftTimer_Destroy(&actuatorSchedulers[index].actuatorTimer);
+                }
             }
             else
             {

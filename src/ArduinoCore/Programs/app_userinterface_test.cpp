@@ -1,0 +1,43 @@
+#include <Arduino.h>
+#include <UserInterface.h>
+#include <CommandHandler/include/CommandHandler.h>
+#include <Commands.h>
+#include <Receiver/include/Receiver.h>
+#include <Logger/include/Logger.h>
+#include <Transmitter/include/Transmitter.h>
+#include <HAL/UART.h>
+#include <SystemClock.h>
+
+static void initializeLogger (void)
+{
+    Logger_Create();
+
+    Transmitter_Create();
+    Transmitter_AttachTransmitCallback(HAL_UART_SendPayload);
+
+    Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_TRACE, true, true); /* Enable all messages */
+}
+
+static void initializeCommandHandler (void)
+{
+    CommandHandler_Create(Commands_GetCommandTable());
+    Receiver_Create(true, HAL_UART_ReceivePayload, micros);       
+}
+
+void setup (void)
+{
+    HAL_UART_Init(9600);
+
+    initializeCommandHandler();
+    initializeLogger();
+
+    SystemClock_Create();
+    UserInterface_Create();
+}
+
+void loop (void)
+{
+    UserInterface_Run();
+    Receiver_Run();
+    Logger_Flush();
+}
