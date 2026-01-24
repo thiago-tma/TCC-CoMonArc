@@ -16,7 +16,6 @@ class LogDecoder(DeviceMonitorFilterBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._buffer = bytearray()
-        self._firstRun = True
         print("comonarc_log_decoder is loaded\n")
 
 
@@ -24,12 +23,6 @@ class LogDecoder(DeviceMonitorFilterBase):
     # RX entry point (byte stream)
     # ---------------------------------------------------------
     def rx(self, data):
-        if self._firstRun:
-            #Dump accumulated buffer over time
-            self._firstRun = False
-            print("FirstRun!")
-            return ""
-
         START_BYTE = 0xAA
         MIN_LENGHT = 5
         output = []

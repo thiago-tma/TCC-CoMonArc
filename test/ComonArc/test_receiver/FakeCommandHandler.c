@@ -6,7 +6,7 @@ static size_t characterCount = 0;
 static bool initialized = true;
 static CommHandler_Error_t storedError = COMMHANDLER_OK;
 
-CommHandler_Error_t CommandHandler_Create(CommHandler_Command_t * commandTable)
+CommHandler_Error_t CommandHandler_Create(const CommHandler_Command_t * commandTable)
 {
     return COMMHANDLER_OK;
 }
