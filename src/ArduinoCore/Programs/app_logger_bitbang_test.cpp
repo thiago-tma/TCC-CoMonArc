@@ -4,6 +4,9 @@
 #include <Logger/include/log_api.h>
 #include <HAL/UART.h>
 #include <SystemClock.h>
+#include <CommandHandler/include/CommandHandler.h>
+#include <Receiver/include/Receiver.h>
+#include <Commands.h>
 
 void setup() 
 {
@@ -14,6 +17,10 @@ void setup()
     HAL_UART_Init(4800);
     Transmitter_Create();
     Transmitter_AttachTransmitCallback(HAL_UART_SendPayload);
+
+    //CommandHandler_Create(Commands_GetCommandTable());
+
+    //Receiver_Create(true, HAL_UART_ReceivePayload, micros);
 
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_TRACE, true, true); /* Enable all messages */
 }
@@ -28,6 +35,7 @@ void loop()
     log_logger_error_buffer_overflow();
     log_servo_data_direction(reading); /* test data message with one argument */
     Logger_Flush();
+    //Receiver_Run();
     reading++;
     delay(3000);
 }
