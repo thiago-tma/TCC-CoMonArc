@@ -37,5 +37,5 @@ void loop()
     Logger_Flush();
     //Receiver_Run();
     reading++;
-    delay(3000);
+    delay(2000);
 }

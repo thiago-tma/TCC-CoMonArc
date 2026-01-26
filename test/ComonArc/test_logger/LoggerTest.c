@@ -61,7 +61,7 @@ void test_CreateAndDestroy (void)
 void test_LogAndFlushErrorMessage (void)
 {
     uint8_t testID = 10;
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0};
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, testID, 0, 0);
     Logger_Flush();
 
@@ -83,7 +83,7 @@ void test_LogAndFlushLowLevelMessageDoesNotTransmit (void)
 void test_NoInitializationPreventsLogging (void)
 {
     uint8_t testID = 10;
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0};
     Logger_Destroy();
     Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, true, false);
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, testID, 0, 0);
@@ -96,7 +96,7 @@ void test_NoInitializationPreventsLogging (void)
 void test_LoggerDestroyClearsLogs (void)
 {
     uint8_t testID = 10;
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0};
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, testID, 0, 0);
     Logger_Destroy();
     Logger_Create();
@@ -108,7 +108,7 @@ void test_LoggerDestroyClearsLogs (void)
 
 void test_SetFilterEnablingLowerLevelMessageFromSingleSubsystemAndLevel (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 10, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0};
 
     Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, true, false);
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 10, 0, 0);
@@ -124,7 +124,7 @@ void test_SetFilterEnablingLowerLevelMessageFromSingleSubsystemAndLevel (void)
 
 void test_SetFilterInclusiveEnableAllLowerLevels (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 10, 0, LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_DATA, 11, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0, LOGGER_START_BYTE, 11, 0};
 
     Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_DATA, true, true);
 
@@ -141,7 +141,7 @@ void test_SetFilterInclusiveEnableAllLowerLevels (void)
 
 void test_SetFilterEnableLevelForAllSubsystems (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 10, 0, LOGGER_START_BYTE, LOG_SUBSYS_SYSTEM, LOG_LEVEL_EVENT, 12, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0, LOGGER_START_BYTE, 12, 0};
 
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_EVENT, true, false);
 
@@ -158,7 +158,7 @@ void test_SetFilterEnableLevelForAllSubsystems (void)
 
 void test_SetFilterEnableInclusiveForAllSystems (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, 10, 0, LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_DATA, 11, 0, LOGGER_START_BYTE, LOG_SUBSYS_SYSTEM, LOG_LEVEL_EVENT, 12, 0, LOGGER_START_BYTE, LOG_SUBSYS_SYSTEM, LOG_LEVEL_DATA, 13, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0, LOGGER_START_BYTE, 11, 0, LOGGER_START_BYTE, 12, 0, LOGGER_START_BYTE, 13, 0};
 
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_DATA, true, true);
 
@@ -175,7 +175,7 @@ void test_SetFilterEnableInclusiveForAllSystems (void)
 
 void test_SendAndFlushMessageSeparatedelyTwice (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0, LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 11, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, 0, LOGGER_START_BYTE, 11, 0};
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, 0, 0);
     Logger_Flush();
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 11, 0, 0);
@@ -189,7 +189,7 @@ void test_SendAndFlushMessageSeparatedelyTwice (void)
 void test_LogAndFlushMessageWithPayload (void)
 {
     uint8_t payload[] = {13, 23, 43, 53};
-    uint8_t expectedTransmit[9] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, sizeof(payload), 13, 23, 43, 53};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, 10, sizeof(payload), 13, 23, 43, 53};
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, payload, sizeof(payload));
     Logger_Flush();
 
@@ -200,9 +200,9 @@ void test_LogAndFlushMessageWithPayload (void)
 
 void test_AddLoggerErrorWhenBufferOverflows (void)
 {
-    int payloadSize = LOGGER_MAX_BUFFER_SIZE-10-LOGGER_MESSAGE_MIN_LENGHT;
-    uint8_t expectedTransmit[LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, payloadSize};
-    uint8_t expectedErrorMessage[LOGGER_MESSAGE_MIN_LENGHT] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, LOG_LOGGER_ERROR_BUFFER_OVERFLOW, 0};
+    int payloadSize = LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE-LOGGER_MESSAGE_MIN_LENGHT;
+    uint8_t expectedTransmit[LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE] = {LOGGER_START_BYTE, 10, payloadSize};
+    uint8_t expectedErrorMessage[LOGGER_MESSAGE_MIN_LENGHT] = {LOGGER_START_BYTE, LOG_LOGGER_ERROR_BUFFER_OVERFLOW, 0};
     
     int index = LOGGER_MESSAGE_MIN_LENGHT;
     while (index < (LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE))
@@ -240,7 +240,7 @@ void test_NoErrorCallbackIfErrorMessageIsNotEnabled (void)
 
 void test_ErrorCallbackOnLoggerBufferOverflowError (void)
 {
-    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, LOG_LOGGER_ERROR_BUFFER_OVERFLOW, 0};
+    uint8_t expectedTransmit[] = {LOGGER_START_BYTE, LOG_LOGGER_ERROR_BUFFER_OVERFLOW, 0};
 
     uint8_t emptyPayload[LOGGER_MAX_BUFFER_SIZE+1];
     Logger_AttachErrorCallback(testCallback);

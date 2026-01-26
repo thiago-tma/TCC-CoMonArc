@@ -24,7 +24,7 @@ class LogDecoder(DeviceMonitorFilterBase):
     # ---------------------------------------------------------
     def rx(self, data):
         START_BYTE = 0xAA
-        MIN_LENGHT = 5
+        MIN_LENGHT = 3
         output = []
 
         try:
@@ -49,10 +49,8 @@ class LogDecoder(DeviceMonitorFilterBase):
                 break
 
             # Collect parameters
-            origin       =  frame[1]
-            level        =  frame[2]
-            msg_id       =  frame[3]
-            payload_size =  frame[4]
+            msg_id       =  frame[1]
+            payload_size =  frame[2]
 
             # Wait for the rest of the message
             if (len(frame) < MIN_LENGHT + payload_size):
@@ -64,7 +62,7 @@ class LogDecoder(DeviceMonitorFilterBase):
         
             # If messageID = 0, payload is raw text
             if msg_id == 0:
-                output.append(f"[{LOG_SUBSYSTEMS.get(origin, '?')}][{LOG_LEVELS.get(level,'?')}]: {payload.decode('ascii', 'replace')}\n")
+                output.append(f"[RAW MESSAGE][RAW MESSAGE]: {payload.decode('ascii', 'replace')}\n")
                 del self._buffer[:messageEnd]
                 break
 
@@ -72,18 +70,6 @@ class LogDecoder(DeviceMonitorFilterBase):
             message = LOG_MESSAGES.get(msg_id, None)
             if (message is None):
                 print(f"Message ID doesn't have a match (messageID = {msg_id})\n")
-                del self._buffer[:messageEnd]
-                break
-    
-            # Detect mismatch between received message and local message origin subsystem
-            if message.get('subsystem', '?') != LOG_SUBSYSTEMS.get(origin, '??'):
-                print(f"Mismatch between message (id {msg_id}) struct subsystem and received subsystem origin (received {LOG_SUBSYSTEMS.get(origin, '??')}, expected {(message.get('subsystem', '?'))}) \n")
-                del self._buffer[:messageEnd]
-                break
-        
-            # Detect mismatch between received message and local message level
-            if message.get('level', '?') != LOG_LEVELS.get(level, '??'):
-                print(f"Mismatch between message (id {msg_id}) struct level and received level (received {LOG_LEVELS.get(level, '??')}, expected {(message.get('level', '?'))}) \n")
                 del self._buffer[:messageEnd]
                 break
 
@@ -98,7 +84,7 @@ class LogDecoder(DeviceMonitorFilterBase):
                 print("Error: Unable to decode\n")
                 text = f"[DECODE ERROR id={msg_id}] {e}"
 
-            output.append(f"[{LOG_SUBSYSTEMS.get(origin,'?')}][{LOG_LEVELS.get(level,'?')}]: {text}\n")
+            output.append(f"[{message.get('subsystem', '?')}][{message.get('level', '?')}]: {text}\n")
             del self._buffer[:messageEnd]
 
         separator = ""

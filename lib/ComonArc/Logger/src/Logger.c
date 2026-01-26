@@ -47,8 +47,6 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
             overflowFlag = true;
 
             logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
-            logBuffer[logBufferIndex++] = LOG_SUBSYS_LOGGER;
-            logBuffer[logBufferIndex++] = LOG_LEVEL_ERROR;
             logBuffer[logBufferIndex++] = LOG_LOGGER_ERROR_BUFFER_OVERFLOW;
             logBuffer[logBufferIndex++] = 0;
 
@@ -61,8 +59,6 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
     if (logFilter[origin][level] == true)
     {
         logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
-        logBuffer[logBufferIndex++] = origin;
-        logBuffer[logBufferIndex++] = level;
         logBuffer[logBufferIndex++] = messageID;
 
         logBuffer[logBufferIndex++] = payloadSize;
