@@ -1,191 +1,139 @@
 #include <Arduino.h>
 #include <HAL/UART.h>
-#include <SystemClock.h>
-#include <SoftTimer.h>
-#include <BSP_Pins.h>
-#include <GPIO.h>
 
-/* Write Baudrate limit, using delayMicros and no interrupts, is 2400 for the Arduino Uno */
+/* Implementação estável entre 9600 e 38400 de baudrate */
 
-#define HAL_UART_BITBANG_RECEIVE_BUFFER_SIZE 100
-#define HAL_UART_BITBANG_DATA_BITS 8
+#define TX_PIN 1   // Arduino D1 (USB TX)
+#define TX_PORT PORTD
+#define TX_DDR  DDRD
+#define TX_BIT  1
 
+#define UART_BUFFER_SIZE 128
 
-static bool initialized = false;
-static int callbackId = 0;
-static uint32_t setBaudrate = 0;
-static timeMicroseconds writeWaitPeriod = 0;
-static timeMicroseconds readWaitPeriod = 0;
-static timeMicroseconds readSkipPeriod = 0;
+static volatile uint8_t txBuffer[UART_BUFFER_SIZE];
+static volatile uint8_t txHead = 0;
+static volatile uint8_t txTail = 0;
 
+static volatile uint8_t currentByte = 0;
+static volatile uint8_t bitIndex = 0;
+static volatile bool transmitting = false;
 
-static GPIO_Pin_t * TXPin, * RXPin;
-
-static volatile uint8_t receiveBuffer[HAL_UART_BITBANG_RECEIVE_BUFFER_SIZE];
-static volatile uint16_t receiveBufferIndex = 0;
-
-static SoftTimer writeTimer, readTimer, timeoutTimer;
-
-typedef enum 
+// ===== Timer2 setup =====
+static void timer2Start(uint32_t baudrate)
 {
-    RECEIVE_STATE_WAITING,
-    RECEIVE_STATE_RECEIVING,
-    RECEIVE_STATE_END
-} Receive_State_t;
+    cli();
 
-static volatile Receive_State_t RXState = RECEIVE_STATE_WAITING;
+    UCSR0B = 0; // disable USART
 
-void receiveCallback (void)
+    TCCR2A = 0;
+    TCCR2B = 0;
+    TCNT2  = 0;
+
+    // CTC mode
+    TCCR2A |= (1 << WGM21);
+
+    // prescaler = 8
+    TCCR2B |= (1 << CS21);
+
+    /* 1/baudrate = prescaler*ocr/F_CPU */
+    uint32_t ocr = (F_CPU / (8UL * baudrate)) - 1;
+    OCR2A = (uint8_t)ocr;
+
+    TIMSK2 |= (1 << OCIE2A);
+
+    sei();
+}
+
+static void timer2Stop(void)
 {
-    GPIO_Value_t readVal;
-    static uint8_t receivedByte = 0;
-    static uint8_t currentBit = 0;
+    TIMSK2 &= ~(1 << OCIE2A);
+}
 
-    GPIO_ReadPin(*RXPin, &readVal);
-    switch (RXState)
+// ===== ISR =====
+ISR(TIMER2_COMPA_vect)
+{
+    if (!transmitting)
     {
-    case RECEIVE_STATE_WAITING:
-        if (RXState == RECEIVE_STATE_WAITING && readVal == LOW)
+        if (txHead == txTail)
         {
-            /* Beginning of the start bit */
-            SoftTimer_Create(&readTimer, readSkipPeriod); /* Skip to sample in the middle of the next bit */
-            currentBit = 0;
-            RXState = RECEIVE_STATE_RECEIVING;
+            // idle high
+            TX_PORT |= (1 << TX_BIT);
+            return;
         }
-        return;
-    case RECEIVE_STATE_RECEIVING:
-        if (SoftTimer_Check(&readTimer))
+
+        currentByte = txBuffer[txTail];
+        txTail++;
+        if (txTail >= UART_BUFFER_SIZE)
         {
-            /* Middle of the [currentBit] data bit */
-            receivedByte = (readVal << currentBit) | receivedByte;
-            currentBit++;
-            if (currentBit >= 8)    /* 8 data bits */
-            {
-                RXState = RECEIVE_STATE_END;
-                SoftTimer_Create(&readTimer, readSkipPeriod);     /* Wait for the end of the stop bit    */
-            }
-            else SoftTimer_Create(&readTimer, readWaitPeriod);    /* Wait for the middle of the next bit */
+            txTail = 0;
         }
+        bitIndex = 0;
+        transmitting = true;
+
+        // start bit
+        TX_PORT &= ~(1 << TX_BIT);
         return;
-    case RECEIVE_STATE_END:
-        if (SoftTimer_Check(&readTimer))
-        {
-            /*End of the stop bit*/
-            receiveBuffer[receiveBufferIndex] = receivedByte;
-            receivedByte = 0;
-            RXState = RECEIVE_STATE_WAITING;
-        }
-        return;
-    default:
-        return;
+    }
+
+    if (bitIndex < 8)
+    {
+        if (currentByte & 0x01)
+            TX_PORT |= (1 << TX_BIT);
+        else
+            TX_PORT &= ~(1 << TX_BIT);
+
+        currentByte >>= 1;
+        bitIndex++;
+    }
+    else
+    {
+        // stop bit
+        TX_PORT |= (1 << TX_BIT);
+        transmitting = false;
     }
 }
 
-void HAL_UART_Init (uint32_t baudrate)
+// ===== API =====
+
+void HAL_UART_Init(uint32_t baudrate)
 {
-    if (initialized == true) return;
+    // configure TX pin (D1)
+    TX_DDR |= (1 << TX_BIT);
+    TX_PORT |= (1 << TX_BIT); // idle high
 
-    setBaudrate = baudrate;
-    writeWaitPeriod = 1000000UL/setBaudrate;
-    //readWaitPeriod = 1000000UL/setBaudrate;
-    //readSkipPeriod = (readWaitPeriod*3*1000000UL)/(2*setBaudrate);
-    TXPin = BSP_GetPin(BSP_PIN_UART0_TX);
-    RXPin =  BSP_GetPin(BSP_PIN_UART0_RX);
-    GPIO_ConfigPin(*TXPin, GPIO_DIR_OUTPUT, GPIO_VALUE_HIGH);
-    GPIO_ConfigPin(*RXPin, GPIO_DIR_INPUT, GPIO_VALUE_HIGH);
+    txHead = txTail = 0;
+    transmitting = false;
 
-    //receiveBufferIndex = 0;
-    //RXState = RECEIVE_STATE_WAITING;
-
-    //SoftTimer_Create(&timeoutTimer, 500000UL);
-
-    //callbackId = SystemClock_AddCallback(receiveCallback);
-    initialized = true;
+    timer2Start(baudrate);
 }
 
-void HAL_UART_Deinit (void)
+void HAL_UART_Deinit(void)
 {
-    if (initialized == false) return;
-
-    //SystemClock_RemoveCallback(callbackId);
-
-    GPIO_ConfigPin(*TXPin, GPIO_DIR_INPUT, GPIO_VALUE_LOW);
-    GPIO_ConfigPin(*RXPin, GPIO_DIR_INPUT, GPIO_VALUE_LOW);
-
-    initialized = false;
+    timer2Stop();
 }
 
-/* delayMicros Implementation*/
-void bitbangWrite(uint8_t byte)
+void HAL_UART_SendPayload(uint8_t *payload, size_t payloadSize)
 {
-    GPIO_WritePin(*TXPin, GPIO_VALUE_LOW);  /*Start bit*/
-    delayMicroseconds(writeWaitPeriod);
-    for (int index = 0; index < HAL_UART_BITBANG_DATA_BITS; index++)
+    for (size_t i = 0; i < payloadSize; i++)
     {
-        GPIO_WritePin(*TXPin, (((byte >> index) & (uint8_t)1) ? GPIO_VALUE_HIGH : GPIO_VALUE_LOW));
-        delayMicroseconds(writeWaitPeriod); 
+        while (((txHead + 1) % UART_BUFFER_SIZE) == txTail);
+
+        cli();
+        txBuffer[txHead] = payload[i];
+        txHead++;
+        if (txHead >= UART_BUFFER_SIZE)
+        {
+            txHead = 0;
+        }
+        sei();
     }
-    GPIO_WritePin(*TXPin, GPIO_VALUE_HIGH); /*Stop bit*/
-    delayMicroseconds(writeWaitPeriod);
+
+    // synchronous: wait until done
+    while (txHead != txTail || transmitting);
 }
 
-/* SoftTimer Implementation */
-//void bitbangWrite(uint8_t byte)
-//{
-//    SoftTimer_Create(&writeTimer, writeWaitPeriod);
-//    GPIO_WritePin(*TXPin, GPIO_VALUE_LOW);  /*Start bit*/
-//    while(!SoftTimer_Check(&writeTimer));
-//    for (int index = 0; index < HAL_UART_BITBANG_DATA_BITS; index++)
-//    {
-//        GPIO_WritePin(*TXPin, (((byte >> index) & (uint8_t)1) ? GPIO_VALUE_HIGH : GPIO_VALUE_LOW));
-//        while(!SoftTimer_Check(&writeTimer)); 
-//    }
-//    GPIO_WritePin(*TXPin, GPIO_VALUE_HIGH); /*Stop bit*/
-//    while(!SoftTimer_Check(&writeTimer));
-//}
-
-
-void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize)
-{
-    if (initialized == false) return;
-    for (size_t index = 0; index < payloadSize; index++)
-    {
-        //cli();
-        bitbangWrite(payload[index]);
-        //sei();
-    }   
-}
-
-void HAL_UART_ReceivePayload (size_t messageMaxSize, char * message, size_t * messageSize)
+// RX not implemented
+void HAL_UART_ReceivePayload(size_t messageMaxSize, char *message, size_t *messageSize)
 {
     *messageSize = 0;
-    
-    //Receive_State_t currentReceiveState;
-    //uint16_t currentReceiveBufferIndex;
-    //uint16_t index = 0;
-    //cli();
-    //currentReceiveState = RXState;
-    //currentReceiveBufferIndex = receiveBufferIndex;    
-    //if (currentReceiveBufferIndex != 0)
-    //{
-    //    while (index < currentReceiveBufferIndex && index < messageMaxSize)
-    //    {
-    //        message[index] = receiveBuffer[index];
-    //        index++;
-    //    }
-    //    receiveBufferIndex = 0;
-    //    SoftTimer_Reset(&timeoutTimer);
-    //}
-    //else
-    //{
-    //    if (currentReceiveState != RECEIVE_STATE_WAITING && SoftTimer_Check(&timeoutTimer))
-    //    {
-    //        /*RX protocol stuck, reset state */
-    //        RXState = RECEIVE_STATE_WAITING;
-    //    }
-    //}
-    //sei();
-    
-    //*messageSize = index;
-    
 }

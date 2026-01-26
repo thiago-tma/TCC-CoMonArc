@@ -14,7 +14,7 @@ void setup()
     Logger_Create();
 
     SystemClock_Create();
-    HAL_UART_Init(4800);
+    HAL_UART_Init(38400);
     Transmitter_Create();
     Transmitter_AttachTransmitCallback(HAL_UART_SendPayload);
 
