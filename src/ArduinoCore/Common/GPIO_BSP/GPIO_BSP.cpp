@@ -9,7 +9,7 @@ static GPIO_Pin_t bsp_pin_map[BSP_PIN_COUNT] = {
   [BSP_PIN_BUZZER] = { .port = 0, .pin = 7},
   [BSP_PIN_BUTTON] = { .port = 0, .pin = 6},
   [BSP_PIN_ADC0]  = {.port = 0, .pin = INVALID_PIN},
-  [BSP_PIN_PWM0]  = {.port = 0, .pin = INVALID_PIN},
+  [BSP_PIN_PWM0]  = {.port = 0, .pin = 9},  /* Servo */
   [BSP_PIN_SDA]   = {.port = 0, .pin = INVALID_PIN},
   [BSP_PIN_SCL]   = {.port = 0, .pin = INVALID_PIN},
   [BSP_PIN_UART0_RX] = {.port = 0, .pin = 0},

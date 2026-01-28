@@ -55,7 +55,7 @@ YawController_Error_t YawController_Destroy(void)
 
 YawController_Error_t YawController_Run(void)
 {
-    int16_t readingError, controlError, magnetometerReading, newServoHeading;
+    int16_t readingError, controlError, magnetometerReading;
 
     if (!initialized) return YAWCONTROLLER_ERROR_NOT_INITIALIZED;
 
