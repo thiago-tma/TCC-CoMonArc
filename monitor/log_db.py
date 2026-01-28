@@ -47,13 +47,20 @@ LOG_MESSAGES = {
         'format': "Initialized",
     },
     5: {
+        'name': 'LOG_MAGNETOMETER_DATA_READING',
+        'subsystem': 'MAGNETOMETER',
+        'level': 'DATA',
+        'args': ['i16'],
+        'format': "Magnetometer direction: {0} deg",
+    },
+    6: {
         'name': 'LOG_SERVO_DATA_DIRECTION',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Servo arm: {0} deg",
     },
-    6: {
+    7: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',

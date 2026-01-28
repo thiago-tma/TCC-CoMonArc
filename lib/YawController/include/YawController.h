@@ -1,6 +1,10 @@
 #ifndef D_YAWCONTROLLER_H
 #define D_YAWCONTROLLER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Módulo controla um servo motor realinhar a haste do servo à leitura de um magnetometro obtido pelo callback passado na inicialização */
 /* Servo controle a haste em um angulo de 0º a 180º*/
 
@@ -29,5 +33,10 @@ YawController_Error_t YawController_Run(void);
 
 /* Realinha haste e define nova referência após um intervalo de tempo */
 YawController_Error_t YawController_Reset(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /*D_YAWCONTROLLER_H*/

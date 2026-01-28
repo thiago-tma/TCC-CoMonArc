@@ -75,7 +75,11 @@ messages:
     format: "Servo arm: {0} deg"
 
 #MAGNETOMETER
-
+  LOG_MAGNETOMETER_DATA_READING:
+    subsystem: MAGNETOMETER
+    level: DATA
+    args: [i16]
+    format: "Magnetometer direction: {0} deg"
 #CURRENT SENSOR
 
 #USER INTERFACE

@@ -43,6 +43,18 @@ static inline void log_logger_trace_initialized()
         LOG_LOGGER_TRACE_INITIALIZED, NULL, 0);
 }
 
+static inline void log_magnetometer_data_reading(int16_t arg0)
+{
+    uint8_t payload[2];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+
+    Logger_Log(
+        LOG_SUBSYS_MAGNETOMETER,
+        LOG_LEVEL_DATA,
+        LOG_MAGNETOMETER_DATA_READING, payload, sizeof(payload));
+}
+
 static inline void log_servo_data_direction(int16_t arg0)
 {
     uint8_t payload[2];

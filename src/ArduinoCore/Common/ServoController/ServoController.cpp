@@ -2,6 +2,7 @@
 #include <Servo.h>
 #include <ServoController.h>
 #include <BSP_Pins.h>
+#include <Logger/include/log_api.h>
 
 static Servo servo;
 static bool servoInitialized = false;
@@ -46,6 +47,7 @@ ServoController_Error_t ServoController_SetServo(int16_t heading)
     if (heading > 180) heading = 180;
 
     servo.write(heading);
+    log_servo_data_direction(heading);
 
     return SERVOCONTROLLER_OK;
 }

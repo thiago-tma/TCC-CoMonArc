@@ -1,6 +1,7 @@
 /* Implementação faz uso da biblioteca desenvolvida pela AdaFruit */
 #include <Magnetometer.h>
 #include <Adafruit_QMC5883P.h>
+#include <Logger/include/log_api.h>
 
 Adafruit_QMC5883P qmc;
 
@@ -57,6 +58,7 @@ void Magnetometer_NewRead()
     if (heading < 0) heading += 360.0;
 
     savedHeading = (int16_t)heading;
+    log_magnetometer_data_reading(heading);
 }
 
 void Magnetometer_GetHeading(int16_t * heading)
