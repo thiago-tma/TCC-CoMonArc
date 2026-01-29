@@ -40,7 +40,7 @@ void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable,
 /* Realiza a transmissão síncrona das mensagens acumuladas através do Transmitter */
 void Logger_Flush (void);
 
-/* Função chamada quando uma mensagem do tipo 'Error' é registrada (Logger_log) */
+/* Função chamada quando uma mensagem do tipo 'LOG_LEVEL_ERROR' é registrada (Logger_log) */
 void Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
 
 /* Função para remover callBack registrado */

@@ -87,7 +87,7 @@ YawController_Error_t YawController_Run(void)
             controlError *= (readingError > 0 ? -1 : 1);
         }
 
-        setServoHeadingDeg(currentServoHeading+(controlError/2));
+        setServoHeadingDeg(currentServoHeading-(controlError*YAWCONTROLLER_PROPORTIONAL_MULTIPLER/YAWCONTROLLER_PROPORTIONAL_DIVIDER));
     }
 
     return YAWCONTROLLER_OK;

@@ -13,7 +13,10 @@ extern "C" {
 /* Tempo entre realinhar a haste em 90º e definir a próxima leitura como referência */
 #define YAWCONTROLLER_RESET_TIME_MILLISECONDS 500
 #define YAWCONTROLLER_RESET_TIME_MICROSECONDS 500000
- 
+
+#define YAWCONTROLLER_PROPORTIONAL_MULTIPLER -1
+#define YAWCONTROLLER_PROPORTIONAL_DIVIDER   2
+
 typedef enum
 {
     YAWCONTROLLER_OK,

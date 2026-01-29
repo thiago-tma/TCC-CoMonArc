@@ -4,6 +4,10 @@
  *  Descriçâo: Inicia (e reinicia) com haste em 90º. Após um intervalo definido, toma a leitura atual do sensor como referência
  *      e conserva a direção dentro dos limites de atuação da haste.
  * 
+ * TESES SUPOEM 
+ * YAWCONTROLLER_PROPORTIONAL_MULTIPLER 1
+ * YAWCONTROLLER_PROPORTIONAL_DIVIDER   1
+ * 
  * Erro ao chamar funções sem inicialização                                                 OK
  * Inicialização retorna OK                                                                 OK
  * Erro ao inicializar novamente, sem efeito no programa                                    OK
