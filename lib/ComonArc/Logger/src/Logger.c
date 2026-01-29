@@ -134,3 +134,10 @@ void Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback)
 
     storedErrorCallback = errorCallback;
 }
+
+void Logger_DetachErrorCallback (void)
+{
+    if (!loggerEnable) return;
+
+    storedErrorCallback = 0;
+}

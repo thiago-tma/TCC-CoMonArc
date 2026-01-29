@@ -48,6 +48,11 @@ static void Command_Servo (int argc, char ** argv)
     ServoController_SetServo(servoHeading);
 }
 
+static void Command_Error (int argc, char ** argv)
+{
+    log_command_error_false_alarm();
+}
+
 //================================================================
 //    Command Table
 //================================================================
@@ -58,6 +63,7 @@ const CommHandler_Command_t  systemCommands []
     {"led",             Command_Led},
     {"buzz",            Command_Buzz},
     {"servo",           Command_Servo},
+    {"error",           Command_Error},
     {"", 0}
 };
 

@@ -67,6 +67,12 @@ messages:
     args: []
     format: "Initialized"
 
+  LOG_COMMAND_ERROR_FALSE_ALARM:
+    subsystem: COMMAND
+    level: ERROR
+    args: []
+    format: "Error command triggered!"
+
 #SERVO CONTROLLER
   LOG_SERVO_DATA_DIRECTION:
     subsystem: SERVO
@@ -86,6 +92,8 @@ messages:
     level: DATA
     args: [i16]
     format: "Magnetometer direction: {0} deg"
+
+
 #CURRENT SENSOR
 
 #USER INTERFACE

@@ -11,6 +11,14 @@ extern "C" {
 #include "log_ids.h"
 #include "Logger.h"
 
+static inline void log_command_error_false_alarm()
+{
+    Logger_Log(
+        LOG_SUBSYS_COMMAND,
+        LOG_LEVEL_ERROR,
+        LOG_COMMAND_ERROR_FALSE_ALARM, NULL, 0);
+}
+
 static inline void log_command_event_ping()
 {
     Logger_Log(

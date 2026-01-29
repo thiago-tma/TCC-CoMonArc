@@ -43,6 +43,8 @@ void Logger_Flush (void);
 /* Função chamada quando uma mensagem do tipo 'Error' é registrada (Logger_log) */
 void Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
 
+/* Função para remover callBack registrado */
+void Logger_DetachErrorCallback (void);
 
 #ifdef __cplusplus
 }
