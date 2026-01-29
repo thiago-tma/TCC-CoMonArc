@@ -5,16 +5,22 @@
 
 Adafruit_QMC5883P qmc;
 
-/* Values acquired from calibration */
-static int16_t Xmin = -9990;
-static int16_t Xmax = -5970;
-static int16_t Ymin = -5040; 
-static int16_t Ymax = -180;
+/* Values acquired from calibration for QMC5883 1 */
+//static int16_t Xmin = -9990;
+//static int16_t Xmax = -5970;
+//static int16_t Ymin = -5040; 
+//static int16_t Ymax = -180;
+
+/* Values acquired from calibration for QMC5883 2 */
+static int16_t Xmin = -3413;
+static int16_t Xmax = 6592;
+static int16_t Ymin = -8963; 
+static int16_t Ymax = 1252;
 
 static int16_t Xoffset = 0;
 static int16_t Yoffset = 0;
 
-static int16_t savedHeading = 0;
+static float savedHeading = 0;
 
 void Magnetometer_Create()
 {

@@ -74,6 +74,12 @@ messages:
     args: [i16]
     format: "Servo arm: {0} deg"
 
+  LOG_SERVO_DATA_REFERENCE:
+    subsystem: SERVO
+    level: DATA
+    args: [i16]
+    format: "Yaw Controller Reference: {0} deg"
+
 #MAGNETOMETER
   LOG_MAGNETOMETER_DATA_READING:
     subsystem: MAGNETOMETER

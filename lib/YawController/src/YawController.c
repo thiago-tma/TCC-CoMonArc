@@ -5,6 +5,7 @@
 #include <ServoController.h>
 #include <Magnetometer.h>
 #include <SoftTimer.h>
+#include <Logger/include/log_api.h>
 
 static bool initialized = false;
 
@@ -67,6 +68,7 @@ YawController_Error_t YawController_Run(void)
         {
             Magnetometer_GetHeading(&currentReference);
             referenceSet = true;
+            log_servo_data_reference(currentReference);
             return YAWCONTROLLER_OK;
         }   
     }
@@ -85,7 +87,7 @@ YawController_Error_t YawController_Run(void)
             controlError *= (readingError > 0 ? -1 : 1);
         }
 
-        setServoHeadingDeg(currentServoHeading-controlError);
+        setServoHeadingDeg(currentServoHeading+(controlError/2));
     }
 
     return YAWCONTROLLER_OK;

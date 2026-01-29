@@ -67,6 +67,18 @@ static inline void log_servo_data_direction(int16_t arg0)
         LOG_SERVO_DATA_DIRECTION, payload, sizeof(payload));
 }
 
+static inline void log_servo_data_reference(int16_t arg0)
+{
+    uint8_t payload[2];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+
+    Logger_Log(
+        LOG_SUBSYS_SERVO,
+        LOG_LEVEL_DATA,
+        LOG_SERVO_DATA_REFERENCE, payload, sizeof(payload));
+}
+
 static inline void log_system_trace_initialized()
 {
     Logger_Log(

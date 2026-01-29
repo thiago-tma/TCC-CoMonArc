@@ -29,7 +29,7 @@ static void initializeReceiver (void)
 
 void setup (void)
 {
-    HAL_UART_Init(9600);
+    HAL_UART_Init(115200);
     CommandHandler_Create(Commands_GetCommandTable());
 
     initializeLogger();
@@ -45,5 +45,5 @@ void loop (void)
     YawController_Run();
     Receiver_Run();
     Logger_Flush();
-    delay(1000);
+    delay(50);
 }

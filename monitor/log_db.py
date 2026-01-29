@@ -61,6 +61,13 @@ LOG_MESSAGES = {
         'format': "Servo arm: {0} deg",
     },
     7: {
+        'name': 'LOG_SERVO_DATA_REFERENCE',
+        'subsystem': 'SERVO',
+        'level': 'DATA',
+        'args': ['i16'],
+        'format': "Yaw Controller Reference: {0} deg",
+    },
+    8: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
