@@ -1,32 +1,48 @@
 #include <Transmitter/include/Transmitter.h>
 
+static bool initialized = false;
 static TransmitCallback_t storedCallbacks[TRANSMITTER_MAX_ATTACHED_CALLBACKS];
 
-void Transmitter_Create     (void) {}
-
-void Transmitter_Destroy    (void) 
+Transmitter_Error_t Transmitter_Create     (void)
 {
+    if (initialized) return TRANSMITTER_ERROR_INITIALIZED;
+    initialized = true;
+
+    return TRANSMITTER_OK;
+}
+
+Transmitter_Error_t Transmitter_Destroy    (void) 
+{   
+    if (!initialized) return TRANSMITTER_ERROR_NOT_INITIALIZED;
+
     for (int i = 0; i < TRANSMITTER_MAX_ATTACHED_CALLBACKS; i++)
     {
         storedCallbacks[i] = 0;
     }
+
+    initialized = false;
+    return TRANSMITTER_OK;
 }
 
-bool Transmitter_AttachTransmitCallback(TransmitCallback_t channel)
+Transmitter_Error_t Transmitter_AttachTransmitCallback(TransmitCallback_t channel)
 {
+    if (!initialized) return TRANSMITTER_ERROR_NOT_INITIALIZED;
+
     for (int i = 0; i < TRANSMITTER_MAX_ATTACHED_CALLBACKS; i++)
     {
         if (!storedCallbacks[i])
         {
             storedCallbacks[i] = channel;
-            return true;
+            return TRANSMITTER_OK;
         }
     }
-    return false;
+    return TRANSMITTER_ERROR_CALLBACK_CAPACITY_FULL;
 }
 
-void Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize)
+Transmitter_Error_t Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize)
 {
+    if (!initialized) return TRANSMITTER_ERROR_NOT_INITIALIZED;
+
     for (int i = 0; i < TRANSMITTER_MAX_ATTACHED_CALLBACKS; i++)
     {
         if(storedCallbacks[i]) storedCallbacks[i](payload, payloadSize);
