@@ -3,6 +3,9 @@
 
 #include <Transmitter/include/Transmitter.h>
 
+void FakeTransmitter_Reset (void);
+
+bool FakeTransmitter_GetInitialized (void);
 void FakeTransmitter_ResetTransmitBuffer (void);
 void FakeTransmitter_GetTransmitBuffer  (uint8_t ** buffer, size_t * bufferSize);
 

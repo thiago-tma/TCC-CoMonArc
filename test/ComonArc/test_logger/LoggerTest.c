@@ -5,8 +5,13 @@
  *            Realiza transferência síncrona quando desejado
  *            Capacidade de executar um callback ao receber uma mensagem de erro
  *            
+ * Chamar funções sem inicializar retorna erro                                          OK
+ * Primeira inicialização retorna OK, próximas inicializações retoram aviso             OK
+ * Deinicialização                                                                      OK
+ * Módulo inicializa dependências durante inicialização                                 OK
  * Log de erro e Flush enviam mensagem                                                  OK
  * Log de outro nível e Flush não enviam mensagem                                       OK
+ *      Log de outro nível retorna aviso de mensagem filtrada                           OK
  * Log sem inicializar módulo não envia mensagem                                        OK
  * Destruir módulo apaga logs armazenados                                               OK
  * Habilitar nível permite envio de mensagem do nível e subsistemas selecionados        OK
@@ -15,7 +20,7 @@
  * Habilitar nível inclusivo para todos os sistemas                                     OK
  * Armazenar e enviar mensagem, duas vezes separadamente                                OK
  * Log com payload transmite payload corretamente                                       OK
- * Tentar Log com buffer cheio causa mensagem de erro                                   OK
+ * Tentar Log com buffer cheio causa mensagem de erro                                   
  *      Tentar múltiplas vezes causa somente uma única mensagem de erro                 OK
  * Mensagem de erro causa execução de callback caso seja registrado                     OK
  *      Não executa callback se mensagem de erro não estiver habilitada                 OK
@@ -38,8 +43,9 @@ void testCallback (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t m
 
 void setUp(void)
 {
-    Logger_Create();
+    FakeTransmitter_Reset();
     FakeTransmitter_ResetTransmitBuffer();
+    Logger_Create();
     payloadTransmitted = 0;
     payloadTransmittedSize = 0;
     callbackVar = 0;
@@ -58,6 +64,35 @@ void test_CreateAndDestroy (void)
     Logger_Destroy();
 }
 
+void test_CallingInterfaceWithoutInitializationReturnsError (void)
+{
+    Logger_Destroy();
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_Destroy(), "function 1");
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_Log(0,0,0,0,0), "function 2");
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_SetFilter(0,0,0,0), "function 3");  
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_Flush(), "function 4");
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_AttachErrorCallback (0), "function 5");
+    TEST_ASSERT_EQUAL_MESSAGE(LOGGER_ERROR_NOT_INITIALIZED, Logger_DetachErrorCallback(), "function 6");
+}
+
+void test_FirstAndNextInitializations (void)
+{
+    Logger_Destroy();
+    TEST_ASSERT_EQUAL(LOGGER_OK, Logger_Create());
+    TEST_ASSERT_EQUAL(LOGGER_ERROR_ALREADY_INITIALIZED, Logger_Create());
+}
+
+void test_Deinitialization (void)
+{
+    TEST_ASSERT_EQUAL(LOGGER_OK, Logger_Destroy());
+    TEST_ASSERT_EQUAL(LOGGER_ERROR_NOT_INITIALIZED, Logger_Destroy());
+}
+
+void test_InitializationOfDependencies (void)
+{
+    TEST_ASSERT_TRUE(FakeTransmitter_GetInitialized());
+}
+
 void test_LogAndFlushErrorMessage (void)
 {
     uint8_t testID = 10;
@@ -73,7 +108,7 @@ void test_LogAndFlushErrorMessage (void)
 void test_LogAndFlushLowLevelMessageDoesNotTransmit (void)
 {
     uint8_t testID = 10;
-    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, testID, 0, 0);
+    TEST_ASSERT_EQUAL(LOGGER_ERROR_MESSAGE_FILTERED, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_EVENT, testID, 0, 0));
     Logger_Flush();
 
     FakeTransmitter_GetTransmitBuffer(&payloadTransmitted, &payloadTransmittedSize);
@@ -211,7 +246,7 @@ void test_AddLoggerErrorWhenBufferOverflows (void)
         index++;
     }
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[LOGGER_MESSAGE_MIN_LENGHT], payloadSize);
-    Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[LOGGER_MESSAGE_MIN_LENGHT], payloadSize); /* Overflow, no bytes kept */
+    TEST_ASSERT_EQUAL(LOGGER_ERROR_MESSAGE_BUFFER_FULL, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[LOGGER_MESSAGE_MIN_LENGHT], payloadSize)); /* Overflow, no bytes kept */
     Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, &expectedTransmit[LOGGER_MESSAGE_MIN_LENGHT], payloadSize); /* Multiple attempts before a flush incurs in only one error message */
     Logger_Flush();
 
@@ -269,6 +304,10 @@ int main( int argc, char **argv) {
     UNITY_BEGIN();
 
     RUN_TEST(test_CreateAndDestroy);
+    RUN_TEST(test_CallingInterfaceWithoutInitializationReturnsError);
+    RUN_TEST(test_FirstAndNextInitializations);
+    RUN_TEST(test_Deinitialization);
+    RUN_TEST(test_InitializationOfDependencies);
     RUN_TEST(test_LogAndFlushErrorMessage);
     RUN_TEST(test_LogAndFlushLowLevelMessageDoesNotTransmit);
     RUN_TEST(test_NoInitializationPreventsLogging);

@@ -19,24 +19,34 @@ static void resetFilter (void)
     }
 }
 
-void Logger_Create      (void) 
+Logger_Error_t Logger_Create      (void) 
 {
+    if (loggerEnable) return LOGGER_ERROR_ALREADY_INITIALIZED;
+
     logBufferIndex = 0;
     resetFilter();
     overflowFlag = false;
     storedErrorCallback = 0;
 
+    Transmitter_Create();
+
     loggerEnable = true;
+
+    return LOGGER_OK;
 }
 
-void Logger_Destroy     (void) 
+Logger_Error_t Logger_Destroy     (void) 
 {
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+
     loggerEnable = false;
+
+    return LOGGER_OK;
 }
 
-void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize) 
+Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize) 
 {
-    if (!loggerEnable) return;
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     /* If not enough space available in buffer for the whole message */
     /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize)*/
@@ -52,7 +62,7 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
 
             if (storedErrorCallback) storedErrorCallback(origin, level, messageID, payload, payloadSize);
         }
-        return;
+        return LOGGER_ERROR_MESSAGE_BUFFER_FULL;
     }
 
     /* Keep message */
@@ -72,15 +82,19 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
         /* Run error callback if error message and callback available */
         if (storedErrorCallback && level == LOG_LEVEL_ERROR) storedErrorCallback(origin, level, messageID, payload, payloadSize);
     }
+    else return LOGGER_ERROR_MESSAGE_FILTERED;
     
+    return LOGGER_OK;
 }
 
-void  setFilterInOneSubsystem(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive)
+Logger_Error_t  setFilterInOneSubsystem(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive)
 {
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+
     if( !inclusive)
     {
         logFilter[subsystem][level] = enable;
-        return;
+        return LOGGER_OK;
     }
     
     /* if inclusive */
@@ -100,16 +114,18 @@ void  setFilterInOneSubsystem(Log_Subsystem_t subsystem, Log_Level_t level, bool
             level++;
         }
     }
+
+    return LOGGER_OK;
 }
 
-void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive) 
+Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive) 
 {
-    if (!loggerEnable) return;
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     if (subsystem != LOG_SUBSYSTEM_COUNT)
     {
         setFilterInOneSubsystem( subsystem, level, enable, inclusive);
-        return;
+        return LOGGER_OK;
     }
 
     while(subsystem-- > 0)
@@ -117,27 +133,30 @@ void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable,
         setFilterInOneSubsystem( subsystem, level, enable, inclusive);
     }
 
+    return LOGGER_OK;
 }
 
-void Logger_Flush (void) 
+Logger_Error_t Logger_Flush (void) 
 {
-    if (!loggerEnable) return;
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     Transmitter_TransmitPayload(logBuffer, logBufferIndex);
     logBufferIndex = 0;
     overflowFlag = false;
 }
 
-void Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback) 
+Logger_Error_t Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback) 
 {
-    if (!loggerEnable) return;
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     storedErrorCallback = errorCallback;
+
+    return LOGGER_OK;
 }
 
-void Logger_DetachErrorCallback (void)
+Logger_Error_t Logger_DetachErrorCallback (void)
 {
-    if (!loggerEnable) return;
+    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     storedErrorCallback = 0;
 }

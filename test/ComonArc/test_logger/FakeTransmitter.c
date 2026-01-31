@@ -1,20 +1,39 @@
 #include "FakeTransmitter.h"
 
+static bool initialized = false;
 static size_t bufferWriteIndex;
 static uint8_t transmissionBuffer[500];
 
-void Transmitter_Create     (void){}
-void Transmitter_Destroy    (void){}
+Transmitter_Error_t Transmitter_Create     (void)
+{
+    initialized = true;
+}
 
-bool Transmitter_AttachTransmitCallback(TransmitCallback_t channel){}
+Transmitter_Error_t Transmitter_Destroy    (void)
+{
+    initialized = false;
+}
 
-void Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize)
+Transmitter_Error_t Transmitter_AttachTransmitCallback(TransmitCallback_t channel){}
+
+Transmitter_Error_t Transmitter_TransmitPayload (uint8_t * payload, size_t payloadSize)
 {
     for (int i = 0; i < payloadSize; i++)
     {
         transmissionBuffer[bufferWriteIndex+i] = payload[i];
     }
     bufferWriteIndex += payloadSize;
+}
+
+void FakeTransmitter_Reset (void)
+{
+    initialized = false;
+    bufferWriteIndex = 0;
+}
+
+bool FakeTransmitter_GetInitialized (void)
+{
+    return  initialized;
 }
 
 void FakeTransmitter_ResetTransmitBuffer (void)

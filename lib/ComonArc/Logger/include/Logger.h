@@ -18,15 +18,24 @@ extern "C" {
 
 typedef void (*Log_ErrorCallback_t)(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
+typedef enum
+{
+    LOGGER_OK,
+    LOGGER_ERROR_NOT_INITIALIZED,
+    LOGGER_ERROR_ALREADY_INITIALIZED,
+    LOGGER_ERROR_MESSAGE_BUFFER_FULL,
+    LOGGER_ERROR_MESSAGE_FILTERED
+}   Logger_Error_t;
+
 /* Habilita módulo */
-void Logger_Create      (void);
+Logger_Error_t Logger_Create      (void);
 
 /* Apaga estado interno (mensagens e callback) e desabilita módulo */
-void Logger_Destroy     (void);
+Logger_Error_t Logger_Destroy     (void);
 
 /* Verifica nível da mensagem e armazena caso esteja habilitada */
 /* Use messageID = 0 para passar uma string como o payload ao invés de um token */
-void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
+Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
 /* Passar LOG_SUBSYSTEM_COUNT (número de subsistemas existentes) aplica o filtro para todos os subsistemas      */
 /* inclusive = true aplica o estado do filtro para os outros níveis                                             */
@@ -35,16 +44,16 @@ void Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t mess
 /* Estado inicial do filtro sempre está em todos os níveis desabilitados                                        */
 /* Supõe-se que Log_Subsystem_t e Log_Level_t sejam enums com começo em zero e tenham o último elemento         */
 /*      reservado para contagem dos subsistemas e níveis existentes (LOG_SUBSYSTEM_COUNT e LOG_LEVEL_COUNT)     */
-void Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive);
+Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive);
 
 /* Realiza a transmissão síncrona das mensagens acumuladas através do Transmitter */
-void Logger_Flush (void);
+Logger_Error_t Logger_Flush (void);
 
 /* Função chamada quando uma mensagem do tipo 'LOG_LEVEL_ERROR' é registrada (Logger_log) */
-void Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
+Logger_Error_t Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
 
 /* Função para remover callBack registrado */
-void Logger_DetachErrorCallback (void);
+Logger_Error_t Logger_DetachErrorCallback (void);
 
 #ifdef __cplusplus
 }
