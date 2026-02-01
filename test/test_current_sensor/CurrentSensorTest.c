@@ -57,7 +57,7 @@ void test_Deinitialization (void)
 void test_UsingTheModuleWithoutInitializationReturnsError (void)
 {
     CurrentSensor_Destroy();
-    TEST_ASSERT_EQUAL(CURRENTSENSOR_ERROR_NOT_INITIALIZED,CurrentSensor_GetValue(0));
+    TEST_ASSERT_EQUAL(CURRENTSENSOR_ERROR_NOT_INITIALIZED,CurrentSensor_GetCurrent(0));
     TEST_ASSERT_EQUAL(CURRENTSENSOR_ERROR_NOT_INITIALIZED,CurrentSensor_NewRead());
 }
 
@@ -71,7 +71,7 @@ void test_InitializeAndDeinitializeDependecies (void)
 void test_GetCurrentWithoutFirstReadReturnsError (void)
 {
     Current_Microamps_t reading;
-    TEST_ASSERT_EQUAL(CURRENTSENSOR_ERROR_NO_AVAILABLE_READING, CurrentSensor_GetValue(&reading));
+    TEST_ASSERT_EQUAL(CURRENTSENSOR_ERROR_NO_AVAILABLE_READING, CurrentSensor_GetCurrent(&reading));
 }
 
 void test_NullADCParametersReturnsError (void)
@@ -93,77 +93,77 @@ void test_NewReadOnADCType1 (void)
 {
     Current_Microamps_t current;
     int32_t resistanceMilliohms = 100000, referenceVoltageMillivolts=5000, adcMax = 1023;
-    int64_t numerator, denominator, conversionFactor;
+    float numerator, denominator, conversionFactor;
     CS_ADC_Parameters_t testParameters = (CS_ADC_Parameters_t){.adcMaxValue=adcMax, .referenceVoltageMillivolts = referenceVoltageMillivolts, .shuntResistanceMilliohms = resistanceMilliohms};
 
-    numerator = (int64_t)referenceVoltageMillivolts*1000000;
-    denominator = (int64_t)adcMax*resistanceMilliohms;
-    conversionFactor = (numerator/denominator);
+    numerator = (float)referenceVoltageMillivolts*1000000;
+    denominator = (float)adcMax*resistanceMilliohms;
+    conversionFactor = (numerator*1000/denominator);
 
     setNewADC(testParameters);
     FakeCS_ADC_SetRead(500);
     CurrentSensor_NewRead();
-    CurrentSensor_GetValue(&current);
-    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*500, current, "Read with ADC failed (1)");
+    CurrentSensor_GetCurrent(&current);
+    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*500/1000, current, "Read with ADC failed (1)");
 }
 
 void test_NewReadOnADCType2 (void)
 {
     Current_Microamps_t current;
     int32_t resistanceMilliohms = 47000, referenceVoltageMillivolts=5000, adcMax = 1023;
-    int64_t numerator, denominator, conversionFactor;
+    float numerator, denominator, conversionFactor;
     CS_ADC_Parameters_t testParameters = (CS_ADC_Parameters_t){.adcMaxValue=adcMax, .referenceVoltageMillivolts = referenceVoltageMillivolts, .shuntResistanceMilliohms = resistanceMilliohms};
 
-    numerator = (int64_t)referenceVoltageMillivolts*1000000;
-    denominator = (int64_t)adcMax*resistanceMilliohms;
-    conversionFactor = (numerator/denominator);
+    numerator = (float)referenceVoltageMillivolts*1000000;
+    denominator = (float)adcMax*resistanceMilliohms;
+    conversionFactor = (numerator*1000/denominator);
 
     setNewADC(testParameters);
     FakeCS_ADC_SetRead(700);
     CurrentSensor_NewRead();
-    CurrentSensor_GetValue(&current);
-    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*700, current, "Read with ADC failed (2)");
+    CurrentSensor_GetCurrent(&current);
+    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*700/1000, current, "Read with ADC failed (2)");
 }
 
 void test_NewReadOnADCType3 (void)
 {
     Current_Microamps_t current;
     int32_t resistanceMilliohms = 100000, referenceVoltageMillivolts=1000, adcMax = 4095;
-    int64_t numerator, denominator, conversionFactor;
+    float numerator, denominator, conversionFactor;
     CS_ADC_Parameters_t testParameters = (CS_ADC_Parameters_t){.adcMaxValue=adcMax, .referenceVoltageMillivolts = referenceVoltageMillivolts, .shuntResistanceMilliohms = resistanceMilliohms};
 
-    numerator = (int64_t)referenceVoltageMillivolts*1000000;
-    denominator = (int64_t)adcMax*resistanceMilliohms;
-    conversionFactor = (numerator/denominator);
+    numerator = (float)referenceVoltageMillivolts*1000000;
+    denominator = (float)adcMax*resistanceMilliohms;
+    conversionFactor = (numerator*1000/denominator);
 
     setNewADC(testParameters);
     FakeCS_ADC_SetRead(2500);
     CurrentSensor_NewRead();
-    CurrentSensor_GetValue(&current);
-    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*2500, current, "Read with ADC failed (3)");
+    CurrentSensor_GetCurrent(&current);
+    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*2500/1000, current, "Read with ADC failed (3)");
 }
 
 void test_NewReadCorrectConversionTwice (void)
 {
     Current_Microamps_t current;
     int32_t resistanceMilliohms = 100000, referenceVoltageMillivolts=5000, adcMax = 1023;
-    int64_t numerator, denominator, conversionFactor;
+    float numerator, denominator, conversionFactor;
     CS_ADC_Parameters_t testParameters = (CS_ADC_Parameters_t){.adcMaxValue=adcMax, .referenceVoltageMillivolts = referenceVoltageMillivolts, .shuntResistanceMilliohms = resistanceMilliohms};
 
-    numerator = (int64_t)referenceVoltageMillivolts*1000000;
-    denominator = (int64_t)adcMax*resistanceMilliohms;
-    conversionFactor = (numerator/denominator);
+    numerator = (float)referenceVoltageMillivolts*1000000;
+    denominator = (float)adcMax*resistanceMilliohms;
+    conversionFactor = (numerator*1000/denominator);
 
     setNewADC(testParameters);
     FakeCS_ADC_SetRead(500);
     CurrentSensor_NewRead();
-    CurrentSensor_GetValue(&current);
-    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*500, current, "Read with ADC failed (1)");
+    CurrentSensor_GetCurrent(&current);
+    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*500/1000, current, "Read with ADC failed (1)");
 
     FakeCS_ADC_SetRead(333);
     CurrentSensor_NewRead();
-    CurrentSensor_GetValue(&current);
-    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*333, current, "Read with ADC failed (1)");
+    CurrentSensor_GetCurrent(&current);
+    TEST_ASSERT_EQUAL_MESSAGE((int32_t)conversionFactor*333/1000, current, "Read with ADC failed (1)");
 }
 
 int main (int argc, char ** argv)

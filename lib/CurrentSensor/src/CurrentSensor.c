@@ -7,6 +7,7 @@ static CS_ADC_Parameters_t adcParameters;
 static int64_t conversionFactor = 0;
 
 static Current_Microamps_t currentReading;
+static Voltage_Millivolts_t voltageReading;
 static bool readAvailable = false;
 
 static CurrentSensor_Error_t setConversionFactor (void)
@@ -17,9 +18,9 @@ static CurrentSensor_Error_t setConversionFactor (void)
     }
 
     /*Fixed-point conversion of (referece(mV)/resolution)/resistance(mOhm) = current(uA) */
-    int64_t numerator = (int64_t)adcParameters.referenceVoltageMillivolts*1000000;
-    int64_t denominator = (int64_t)adcParameters.adcMaxValue*adcParameters.shuntResistanceMilliohms;
-    conversionFactor = (numerator/denominator);
+    float numerator = (float)adcParameters.referenceVoltageMillivolts*1000000;
+    float denominator = (float)adcParameters.adcMaxValue*adcParameters.shuntResistanceMilliohms;
+    conversionFactor = (int64_t)(numerator*1000/denominator);
     return CURRENTSENSOR_OK;
 }
 
@@ -55,13 +56,13 @@ CurrentSensor_Error_t CurrentSensor_NewRead(void)
     if (!initialized) return CURRENTSENSOR_ERROR_NOT_INITIALIZED;
 
     CS_ADC_GetValue(&rawValue);
-    currentReading = (Current_Microamps_t)(rawValue*conversionFactor);
+    currentReading = (Current_Microamps_t)(rawValue*conversionFactor/1000);
 
     readAvailable = true;
     return CURRENTSENSOR_OK;
 }
 
-CurrentSensor_Error_t CurrentSensor_GetValue(Current_Microamps_t * current)
+CurrentSensor_Error_t CurrentSensor_GetCurrent(Current_Microamps_t * current)
 {
     if (!initialized) return CURRENTSENSOR_ERROR_NOT_INITIALIZED;
 
