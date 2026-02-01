@@ -50,6 +50,8 @@ YawController_Error_t YawController_Create(void)
 YawController_Error_t YawController_Destroy(void)
 {
     if (!initialized) return YAWCONTROLLER_ERROR_NOT_INITIALIZED;
+
+    ServoController_Destroy();
     initialized = false;
     return YAWCONTROLLER_OK;
 }
