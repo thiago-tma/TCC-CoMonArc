@@ -16,15 +16,19 @@ static Adafruit_QMC5883P qmc;
 //static int16_t Ymax = -180;
 
 /* Values acquired from calibration for QMC5883 2 */
-static int16_t Xmin = -2670;
-static int16_t Xmax = 2025;
-static int16_t Ymin = -7125; 
-static int16_t Ymax = -2363;
+static int16_t Xmin = -3225;
+static int16_t Xmax = -623;
+static int16_t Ymin = -3465; 
+static int16_t Ymax =  975;
+
+static float filterAlpha = 0.8;
 
 static int16_t Xoffset = 0;
 static int16_t Yoffset = 0;
+static float Xfiltered = 0;
+static float Yfiltered = 0;
 
-static float savedHeading = 0;
+static int16_t savedHeading_int16 = 0;
 
 Magnetometer_Error_t Magnetometer_Create()
 {
@@ -58,7 +62,9 @@ Magnetometer_Error_t Magnetometer_Destroy()
     if (!initialized) return MAGNETOMETER_ERROR_NOT_INITIALIZED;
 
     qmc.softReset();
-    savedHeading = 0;
+    savedHeading_int16 = 0;
+    Xfiltered = 0;
+    Yfiltered = 0;
 
     return MAGNETOMETER_OK;
 }
@@ -75,13 +81,17 @@ Magnetometer_Error_t Magnetometer_NewRead()
     /* Apply hard-iron calibration correction */
     x -= Xoffset;
     y -= Yoffset;
-    
-    /* Heading computation */
-    float heading = atan2((float)y, (float)x) * 180.0 / PI;
-    if (heading < 0) heading += 360.0;
 
-    savedHeading = (int16_t)heading;
-    log_magnetometer_data_reading(heading);
+    Xfiltered = Xfiltered*filterAlpha + (1-filterAlpha)*x;
+    Yfiltered = Yfiltered*filterAlpha + (1-filterAlpha)*y;
+
+    /* Heading computation */
+    float heading = atan2((float)Yfiltered, (float)Xfiltered) * 180.0 / PI;
+
+    if (heading < 0) heading += 360.0;
+    savedHeading_int16 = (int16_t)heading;
+
+    log_magnetometer_data_reading(savedHeading_int16);
 
     return MAGNETOMETER_OK;
 }
@@ -90,6 +100,6 @@ Magnetometer_Error_t Magnetometer_GetHeading(int16_t * heading)
 {
     if (!initialized) return MAGNETOMETER_ERROR_NOT_INITIALIZED;
 
-    *heading = savedHeading;
+    *heading = savedHeading_int16;
     return MAGNETOMETER_OK;
 }
