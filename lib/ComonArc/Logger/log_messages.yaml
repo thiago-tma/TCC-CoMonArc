@@ -95,8 +95,18 @@ messages:
 
 
 #CURRENT SENSOR
+  LOG_CURRENT_DATA_READING:
+    subsystem: CURRENT
+    level: DATA
+    args: [i16]
+    format: "Current sensor reading: {0} uA"
 
 #USER INTERFACE
+  LOG_USER_INTERFACE_EVENT_BUTTON:
+    subsystem: USER_INTERFACE
+    level: EVENT
+    args: []
+    format: "Button pressed"
 
 #SYSTEM
   LOG_SYSTEM_TRACE_INITIALIZED:
@@ -104,3 +114,9 @@ messages:
     level: TRACE
     args: []
     format: "Initialized"
+
+  LOG_SYSTEM_TRACE_LOOP_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [i32]
+    format: "Loop time: {0} us"

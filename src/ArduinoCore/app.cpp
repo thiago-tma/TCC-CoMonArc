@@ -8,8 +8,13 @@
 #include <YawController.h>
 #include <Magnetometer.h>
 #include <UserInterface.h>
+#include <CurrentSensor.h>
+#include <SoftTimer.h>
+
+#define SYSTEM_LOOP_PERIOD_US 50000
 
 static bool yawControllerRunning = false;
+static SoftTimer loopTimer;
 
 static void buttonFunction (void)
 {
@@ -51,25 +56,21 @@ void setup (void)
     initializeLogger();
     initializeReceiver();
 
-    if (Magnetometer_Create() != MAGNETOMETER_OK)
-    {
-        pinMode(LED_BUILTIN, OUTPUT);
-        while(1)
-        {
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(1000);
-            digitalWrite(LED_BUILTIN, LOW);
-            delay(1000);
-        }
-    }
+    if (Magnetometer_Create() != MAGNETOMETER_OK) while (1);
+
+    CurrentSensor_Create();
+
+    SoftTimer_Create(&loopTimer, SYSTEM_LOOP_PERIOD_US);
 }
 
 void loop (void)
 {
     Magnetometer_NewRead();
     if (yawControllerRunning) YawController_Run();
+    CurrentSensor_NewRead();
     UserInterface_Run();
     Receiver_Run();
     Logger_Flush();
-    delay(50);
+    
+    while(!SoftTimer_Check(&loopTimer));
 }

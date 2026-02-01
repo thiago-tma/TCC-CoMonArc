@@ -24,6 +24,7 @@ static void setServoHeadingDeg (int16_t heading)
     
     currentServoHeading = heading;
     ServoController_SetServo(heading);
+    log_servo_data_reference(currentReference);
 }
 
 static void resetYawControl (void)
