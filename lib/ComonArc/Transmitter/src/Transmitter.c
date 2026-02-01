@@ -47,4 +47,6 @@ Transmitter_Error_t Transmitter_TransmitPayload (uint8_t * payload, size_t paylo
     {
         if(storedCallbacks[i]) storedCallbacks[i](payload, payloadSize);
     }
+
+    return TRANSMITTER_OK;
 }

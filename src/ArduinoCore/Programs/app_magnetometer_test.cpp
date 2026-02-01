@@ -3,7 +3,7 @@
 
 void setup (void)
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Initializing magnetometer...");
     Magnetometer_Create();
     Serial.println("Magnetometer OK!");
@@ -24,5 +24,5 @@ void loop (void)
     unsigned long elapsed = t1 - t0;
     Serial.print("Time to take and process new read (us): ");
     Serial.println(elapsed);
-    delay(1000);
+    delay(50);
 }

@@ -62,7 +62,7 @@ const CommHandler_Command_t  systemCommands []
     {"ping",            Command_Ping},
     {"led",             Command_Led},
     {"buzz",            Command_Buzz},
-    {"servo",           Command_Servo},
+    {"servo",           Command_Servo}, /*Ex: [servo 90] para posicionar servo em 90 deg, de 0 a 180 deg */
     {"error",           Command_Error},
     {"", 0}
 };

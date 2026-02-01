@@ -143,6 +143,8 @@ Logger_Error_t Logger_Flush (void)
     Transmitter_TransmitPayload(logBuffer, logBufferIndex);
     logBufferIndex = 0;
     overflowFlag = false;
+
+    return LOGGER_OK;
 }
 
 Logger_Error_t Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback) 
@@ -159,4 +161,6 @@ Logger_Error_t Logger_DetachErrorCallback (void)
     if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
 
     storedErrorCallback = 0;
+
+    return LOGGER_OK;
 }

@@ -7,7 +7,7 @@ static CS_ADC_Parameters_t adcParameters;
 static int64_t conversionFactor = 0;
 
 static Current_Microamps_t currentReading;
-static Voltage_Millivolts_t voltageReading;
+/*static Voltage_Millivolts_t voltageReading;*/
 static bool readAvailable = false;
 
 static CurrentSensor_Error_t setConversionFactor (void)

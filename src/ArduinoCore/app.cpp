@@ -7,7 +7,23 @@
 #include <HAL/UART.h>
 #include <YawController.h>
 #include <Magnetometer.h>
+#include <UserInterface.h>
 
+static bool yawControllerRunning = false;
+
+static void buttonFunction (void)
+{
+    if (yawControllerRunning)
+    {
+        YawController_Destroy();
+        yawControllerRunning = false;
+    }
+    else
+    {
+        YawController_Create();
+        yawControllerRunning = true;
+    }
+}
 
 static void initializeLogger (void)
 {
@@ -19,30 +35,40 @@ static void initializeLogger (void)
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_TRACE, true, true); /* Enable all messages */
 }
 
-
-
 static void initializeReceiver (void)
 {
-    
     Receiver_Create(true, HAL_UART_ReceivePayload, micros);       
 }
 
 void setup (void)
 {
+    UserInterface_Create();
+    UserInterface_AddButtonFunction(buttonFunction);
+
     HAL_UART_Init(115200);
     CommandHandler_Create(Commands_GetCommandTable());
 
     initializeLogger();
     initializeReceiver();
 
-    YawController_Create();
-    Magnetometer_Create();
+    if (Magnetometer_Create() != MAGNETOMETER_OK)
+    {
+        pinMode(LED_BUILTIN, OUTPUT);
+        while(1)
+        {
+            digitalWrite(LED_BUILTIN, HIGH);
+            delay(1000);
+            digitalWrite(LED_BUILTIN, LOW);
+            delay(1000);
+        }
+    }
 }
 
 void loop (void)
 {
     Magnetometer_NewRead();
-    YawController_Run();
+    if (yawControllerRunning) YawController_Run();
+    UserInterface_Run();
     Receiver_Run();
     Logger_Flush();
     delay(50);
