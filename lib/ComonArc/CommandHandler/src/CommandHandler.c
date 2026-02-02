@@ -1,4 +1,5 @@
 #include <CommandHandler/include/CommandHandler.h>
+#include <Logger/include/log_api.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -11,6 +12,8 @@ CommHandler_Error_t CommandHandler_Create(const CommHandler_Command_t * commandT
     
     storedCommandTable = commandTable;
     initialized = true;
+
+    log_command_trace_command_handler_initialized();
 
     return COMMHANDLER_OK;
 }

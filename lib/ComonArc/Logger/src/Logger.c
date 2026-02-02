@@ -31,6 +31,7 @@ Logger_Error_t Logger_Create      (void)
     Transmitter_Create();
 
     loggerEnable = true;
+    log_logger_trace_logger_initialized();
 
     return LOGGER_OK;
 }

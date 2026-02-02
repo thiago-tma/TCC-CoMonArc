@@ -45,6 +45,8 @@ YawController_Error_t YawController_Create(void)
 
     initialized = true;
 
+    log_servo_trace_initialized();
+
     return YAWCONTROLLER_OK;
 }
 

@@ -8,6 +8,8 @@ Transmitter_Error_t Transmitter_Create     (void)
     if (initialized) return TRANSMITTER_ERROR_INITIALIZED;
     initialized = true;
 
+    log_logger_trace_transmitter_initialized();
+
     return TRANSMITTER_OK;
 }
 

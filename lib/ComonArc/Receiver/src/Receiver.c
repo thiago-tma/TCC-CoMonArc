@@ -1,3 +1,4 @@
+#include <Logger/include/log_api.h>
 #include <Receiver/include/Receiver.h>
 #include <CommandHandler/include/CommandHandler.h>
 
@@ -13,10 +14,19 @@ static timeMicroseconds timeoutTimer = 0;
 
 Receiver_Error_t Receiver_Create (bool callbackOperation, Receiver_Command_Callback_t commandCallback, Receiver_Timer_Callback_t timerCallback)
 {
-    if (!timerCallback) return RECEIVER_ERROR_NO_TIMER_CALLBACK;
+    if (!timerCallback)
+    {
+        log_command_error_receiver_initialization_failed();
+        return RECEIVER_ERROR_NO_TIMER_CALLBACK;
+    } 
+
     if (callbackOperation)
     {
-        if (!commandCallback) return RECEIVER_ERROR_NO_COMMAND_CALLBACK;
+        if (!commandCallback)
+        {
+            log_command_error_receiver_initialization_failed();
+            return RECEIVER_ERROR_NO_COMMAND_CALLBACK;
+        } 
         storedCommandCallback = commandCallback;
         commandCallbackOperation = true;
     }
@@ -24,6 +34,8 @@ Receiver_Error_t Receiver_Create (bool callbackOperation, Receiver_Command_Callb
     commandBufferIndex = 0;
     storedTimerCallback = timerCallback;
     initialized = true;
+    log_command_trace_receiver_initialized();
+
     return RECEIVER_OK;
 }
 
@@ -39,18 +51,23 @@ Receiver_Error_t Receiver_Destroy (void)
 
 static Receiver_Error_t commHandlerErrorTranslate (CommHandler_Error_t commHandlerError)
 {
+    CommHandler_Error_t errorCode;
+
     switch (commHandlerError)
     {
     case COMMHANDLER_ERROR_NOT_INITIALIZED:
-        return RECEIVER_ERROR_COMMAND_HANDLER_NOT_INITIALIZED;
+        errorCode = RECEIVER_ERROR_COMMAND_HANDLER_NOT_INITIALIZED;
         break;
     case COMMHANDLER_ERROR_NO_COMMAND_FOUND:
-        return RECEIVER_ERROR_COMMAND_HANDLER_NO_COMMAND_FOUND;
+        errorCode = RECEIVER_ERROR_COMMAND_HANDLER_NO_COMMAND_FOUND;
         break;
     default:
-        return RECEIVER_ERROR_COMMAND_HANDLER_ERROR;
+        errorCode = RECEIVER_ERROR_COMMAND_HANDLER_ERROR;
         break;
     }
+
+    log_command_error_receiver_error_code(errorCode);
+    return errorCode;
 }
 
 Receiver_Error_t Receiver_Run()
@@ -79,6 +96,7 @@ Receiver_Error_t Receiver_Run()
         if (storedTimerCallback() - timeoutTimer > RECEIVER_TIMEOUT_MICROSECONDS)
         {
             commandBufferIndex = 0;
+            log_command_event_receiver_timeout();
             return RECEIVER_ERROR_TIMEOUT;
         }
     }
@@ -106,11 +124,13 @@ Receiver_Error_t Receiver_Run()
         {
             return commHandlerErrorTranslate(commHandlerError);
         }
+        else log_command_event_command_executed();
             
     }
     else if (commandBufferIndex == RECEIVER_MAX_COMMAND_BUFFER_SIZE)
     {
         /*Check if buffer is full and no command is detected*/
+        log_command_error_receiver_buffer_overflow();
         return RECEIVER_ERROR_BUFFER_CAPACITY_REACHED;
     }
 
