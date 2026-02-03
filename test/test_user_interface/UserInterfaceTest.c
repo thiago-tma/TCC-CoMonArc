@@ -2,6 +2,9 @@
  * Lista de Testes do UserInterface
  * Objetivo: Gerenciar controle de Leds, Campainhas e Botões
  * 
+ * Chamar funções sem inicialização retorna erro
+ * Inicializar retorna OK, inicializar novamente retorna aviso
+ * Deinicialização
  * Módulo inicializa módulo GPIO                                                                        OK
  * Módulo inicializa GPIOs usados durante inicialização                                                 OK
  *      LED, Campainha e Botão                                                                          ok
@@ -23,6 +26,7 @@
  *      Pressionamento do botão pós debounce (50ms ativo) ativa função atrelada                         ok
  *      Pressionamento do botão pós debounce sem função atrelada não tem efeito                         ok
  *      Pressionar o botão por 20ms, soltar e pressionar novamente ativa função somente aos 70ms        ok
+ *      Pressionar o botão por 20ms e soltar não deve ativar função
  *      Para botão ir de pressionado para não pressionado, deve ficar não pressionado por 50ms          ok
  *      Ativar botão duas vezes                                                                         ok
  * 
@@ -62,6 +66,30 @@ void test_CreateAndDestroy (void)
 {
     UserInterface_Create();
     UserInterface_Destroy();
+}
+
+void test_FunctionsReturnErrorIfNoInitialization (void)
+{
+    UserInterface_Destroy();
+
+    TEST_ASSERT_EQUAL( USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_Destroy());
+    TEST_ASSERT_EQUAL( USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_Run());
+    TEST_ASSERT_EQUAL( USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_BlinkComponent (0,0,0,0));
+    TEST_ASSERT_EQUAL( USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_ReadButton (0));
+    TEST_ASSERT_EQUAL( USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_AddButtonFunction (0));
+}
+
+void test_Initialization (void)
+{
+    UserInterface_Destroy();
+    TEST_ASSERT_EQUAL(USERINTERFACE_OK,  UserInterface_Create());
+    TEST_ASSERT_EQUAL(USERINTERFACE_ERROR_ALREADY_INITIALIZED,  UserInterface_Create());
+}
+
+void test_Deinitialization (void)
+{
+    TEST_ASSERT_EQUAL(USERINTERFACE_OK, UserInterface_Destroy());
+    TEST_ASSERT_EQUAL(USERINTERFACE_ERROR_NOT_INITIALIZED, UserInterface_Destroy());
 }
 
 void test_InitializeGPIOModuleOnInitialization (void)
@@ -276,6 +304,9 @@ void test_PressButtonTwice (void)
 int main( int argc, char **argv) {
     UNITY_BEGIN();
 
+    RUN_TEST(test_FunctionsReturnErrorIfNoInitialization);
+    RUN_TEST(test_Initialization);
+    RUN_TEST(test_Deinitialization);
     RUN_TEST(test_CreateAndDestroy);
     RUN_TEST(test_InitializeGPIOModuleOnInitialization);
     RUN_TEST(test_SetPinsDirectionAndValueOnInitialization);

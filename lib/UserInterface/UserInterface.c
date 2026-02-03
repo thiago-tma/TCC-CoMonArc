@@ -20,6 +20,8 @@ static GPIO_Value_t buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
 static SoftTimer    buttonTimer;
 static triggerFunction buttonCallback = 0;
 
+static bool initialized = false;
+
 static void actuatorWrite(Actuator_t actuator, GPIO_Value_t value)
 {
     if (actuatorPins[actuator])
@@ -29,8 +31,10 @@ static void actuatorWrite(Actuator_t actuator, GPIO_Value_t value)
     }
 }
 
-void UserInterface_Create (void)
+UserInterface_Error_t UserInterface_Create (void)
 {
+    if (initialized) return USERINTERFACE_ERROR_ALREADY_INITIALIZED;
+
     GPIO_Create();
 
     actuatorPins[ACTUATOR_LED] = BSP_GetPin(BSP_PIN_LED);
@@ -41,10 +45,16 @@ void UserInterface_Create (void)
     GPIO_ConfigPin(*actuatorPins[ACTUATOR_LED], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
     GPIO_ConfigPin(*actuatorPins[ACTUATOR_BUZZER], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
     GPIO_ConfigPin(*buttonPin, GPIO_DIR_INPUT, GPIO_VALUE_LOW);
+
+    initialized = true;
+
+    return USERINTERFACE_OK;
 }
 
-void UserInterface_Destroy (void)
+UserInterface_Error_t UserInterface_Destroy (void)
 {
+    if (!initialized) return USERINTERFACE_ERROR_NOT_INITIALIZED;
+
     /* Turn off actuators and reset static memory */
     actuatorWrite(ACTUATOR_LED, GPIO_VALUE_LOW);
     actuatorWrite(ACTUATOR_BUZZER, GPIO_VALUE_LOW);
@@ -60,6 +70,10 @@ void UserInterface_Destroy (void)
     buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
     buttonTimer = (SoftTimer){0};
     buttonCallback = 0;
+
+    initialized = false;
+
+    return USERINTERFACE_OK;
 }
 
 void checkActuatorsBlink(void)
@@ -95,6 +109,8 @@ void checkActuatorsBlink(void)
 
 void checkButton(void)
 {
+    /* Button debounce */
+
     GPIO_Value_t newReading;
     GPIO_ReadPin(*buttonPin, &newReading);
 
@@ -114,20 +130,26 @@ void checkButton(void)
     lastReading = newReading;
 }
 
-void UserInterface_Run (void)
+UserInterface_Error_t UserInterface_Run (void)
 {
+    if (!initialized) return USERINTERFACE_ERROR_NOT_INITIALIZED;
+
     checkActuatorsBlink();
     checkButton();
+
+    return USERINTERFACE_OK;
 }
 
-void UserInterface_BlinkComponent (Actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff)
+UserInterface_Error_t UserInterface_BlinkComponent (Actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff)
 {
+    if (!initialized) return USERINTERFACE_ERROR_NOT_INITIALIZED;
+
     if (repetitions == 0)
     {
         actuatorWrite(blinkActuator, GPIO_VALUE_LOW);
         actuatorSchedulers[blinkActuator].repetitions = repetitions;
         SoftTimer_Destroy(&actuatorSchedulers[blinkActuator].actuatorTimer);
-        return;
+        return USERINTERFACE_OK;
     }
 
     /* Put pin on ACTIVE state and time when it should be turned off */
@@ -137,14 +159,24 @@ void UserInterface_BlinkComponent (Actuator_t  blinkActuator, unsigned int repet
     actuatorSchedulers[blinkActuator].repetitions = repetitions;
     actuatorSchedulers[blinkActuator].intervalOn = intervalOn;
     actuatorSchedulers[blinkActuator].intervalOff = intervalOff;
+
+    return USERINTERFACE_OK;
 }
 
-void UserInterface_AddButtonFunction (triggerFunction function)
+UserInterface_Error_t UserInterface_AddButtonFunction (triggerFunction function)
 {
+    if (!initialized) return USERINTERFACE_ERROR_NOT_INITIALIZED;
+
     buttonCallback = function;
+
+    return USERINTERFACE_OK;
 }
 
-void UserInterface_ReadButton (Button_State_t * state)
+UserInterface_Error_t UserInterface_ReadButton (Button_State_t * state)
 {
+    if (!initialized) return USERINTERFACE_ERROR_NOT_INITIALIZED;
+
     *state = (buttonState == GPIO_VALUE_HIGH) ? BUTTON_ACTIVE : BUTTON_INACTIVE;
+
+    return USERINTERFACE_OK;
 }

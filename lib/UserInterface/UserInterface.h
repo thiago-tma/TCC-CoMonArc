@@ -23,16 +23,24 @@ typedef enum
     BUTTON_INACTIVE
 }   Button_State_t;
 
-void UserInterface_Create           (void);
-void UserInterface_Destroy          (void);
+typedef enum
+{
+    USERINTERFACE_OK,
+    USERINTERFACE_ERROR_NOT_INITIALIZED,
+    USERINTERFACE_ERROR_ALREADY_INITIALIZED,
+    USERINTERFACE_ERROR_INITIALIZATION_FAILED
+}   UserInterface_Error_t;
 
-void UserInterface_Run              (void);
+UserInterface_Error_t UserInterface_Create           (void);
+UserInterface_Error_t UserInterface_Destroy          (void);
 
-void UserInterface_BlinkComponent   (Actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff);
+UserInterface_Error_t UserInterface_Run              (void);
 
-void UserInterface_ReadButton (Button_State_t * state);
+UserInterface_Error_t UserInterface_BlinkComponent   (Actuator_t  blinkActuator, unsigned int repetitions, timeMicroseconds intervalOn, timeMicroseconds intervalOff);
 
-void UserInterface_AddButtonFunction (triggerFunction function);
+UserInterface_Error_t UserInterface_ReadButton (Button_State_t * state);
+
+UserInterface_Error_t UserInterface_AddButtonFunction (triggerFunction function);
 
 #ifdef __cplusplus
 }
