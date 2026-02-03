@@ -134,6 +134,30 @@ static inline void log_magnetometer_data_reading(int16_t arg0)
         LOG_MAGNETOMETER_DATA_READING, payload, sizeof(payload));
 }
 
+static inline void log_magnetometer_error_initialization_failed()
+{
+    Logger_Log(
+        LOG_SUBSYS_MAGNETOMETER,
+        LOG_LEVEL_ERROR,
+        LOG_MAGNETOMETER_ERROR_INITIALIZATION_FAILED, NULL, 0);
+}
+
+static inline void log_magnetometer_event_new_read_failed()
+{
+    Logger_Log(
+        LOG_SUBSYS_MAGNETOMETER,
+        LOG_LEVEL_EVENT,
+        LOG_MAGNETOMETER_EVENT_NEW_READ_FAILED, NULL, 0);
+}
+
+static inline void log_magnetometer_trace_initialization()
+{
+    Logger_Log(
+        LOG_SUBSYS_MAGNETOMETER,
+        LOG_LEVEL_TRACE,
+        LOG_MAGNETOMETER_TRACE_INITIALIZATION, NULL, 0);
+}
+
 static inline void log_servo_data_direction(int16_t arg0)
 {
     uint8_t payload[2];

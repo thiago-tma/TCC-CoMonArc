@@ -136,12 +136,29 @@ messages:
     format: "Servo Initialized"
 
 #MAGNETOMETER
+  LOG_MAGNETOMETER_ERROR_INITIALIZATION_FAILED:
+    subsystem: MAGNETOMETER
+    level: ERROR
+    args: []
+    format: "Magnetometer initialization failed"
+
+  LOG_MAGNETOMETER_EVENT_NEW_READ_FAILED:
+    subsystem: MAGNETOMETER
+    level: EVENT
+    args: []
+    format: "New read attempt failed"
+
   LOG_MAGNETOMETER_DATA_READING:
     subsystem: MAGNETOMETER
     level: DATA
     args: [i16]
     format: "Magnetometer direction: {0} deg"
 
+  LOG_MAGNETOMETER_TRACE_INITIALIZATION:
+    subsystem: MAGNETOMETER
+    level: TRACE
+    args: []
+    format: "Magnetometer initialized"
 
 #CURRENT SENSOR
   LOG_CURRENT_DATA_READING:

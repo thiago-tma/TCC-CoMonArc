@@ -39,7 +39,11 @@ Magnetometer_Error_t Magnetometer_Create()
     {
         tries++;
     }
-    if (tries >= MAGNETOMETER_INITIALIZATION_MAX_ATTEMPTS) return MAGNETOMETER_ERROR_INITIALIZATION_FAILED;
+    if (tries >= MAGNETOMETER_INITIALIZATION_MAX_ATTEMPTS) 
+    {
+        log_magnetometer_error_initialization_failed();
+        return MAGNETOMETER_ERROR_INITIALIZATION_FAILED;
+    }
     
     /* Calibration offset */
     Xoffset = (Xmax + Xmin) / 2;
@@ -53,6 +57,8 @@ Magnetometer_Error_t Magnetometer_Create()
     qmc.setMode(QMC5883P_MODE_CONTINUOUS);
 
     initialized = true;
+
+    log_magnetometer_trace_initialization();
 
     return MAGNETOMETER_OK;
 }
@@ -76,7 +82,11 @@ Magnetometer_Error_t Magnetometer_NewRead()
     int16_t x, y, z;
 
     /* Read raw magnetic field data */
-    if (!qmc.getRawMagnetic(&x, &y, &z)) return MAGNETOMETER_ERROR_NEWREAD_FAILED;
+    if (!qmc.getRawMagnetic(&x, &y, &z))
+    {
+        log_magnetometer_event_new_read_failed();
+        return MAGNETOMETER_ERROR_NEWREAD_FAILED;
+    }
 
     /* Apply hard-iron calibration correction */
     x -= Xoffset;
