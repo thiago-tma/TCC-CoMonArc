@@ -161,11 +161,29 @@ messages:
     format: "Magnetometer initialized"
 
 #CURRENT SENSOR
+  LOG_CURRENT_ERROR_INITIALIZATION_FAILED_ADC:
+    subsystem: CURRENT
+    level: ERROR
+    args: []
+    format: "No pin assigned to ADC"
+
+  LOG_CURRENT_ERROR_INITIALIZATION_FAILED:
+    subsystem: CURRENT
+    level: ERROR
+    args: []
+    format: "Initialization failed, no ADC parameters"
+
   LOG_CURRENT_DATA_READING:
     subsystem: CURRENT
     level: DATA
     args: [i16]
     format: "Current sensor reading: {0} uA"
+
+  LOG_CURRENT_TRACE_INITIALIZATION:
+    subsystem: CURRENT
+    level: TRACE
+    args: []
+    format: "Current sensor initialized"
 
 #USER INTERFACE
   LOG_USER_INTERFACE_EVENT_BUTTON:

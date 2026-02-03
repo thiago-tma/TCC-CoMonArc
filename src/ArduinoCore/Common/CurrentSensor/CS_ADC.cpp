@@ -2,6 +2,7 @@
 #include <CS_ADC.h>
 #include <BSP_Pins.h>
 #include <GPIO.h>
+#include <Logger/include/log_api.h>
 
 static GPIO_Pin_t * adcPin;
 
@@ -18,7 +19,11 @@ CS_ADC_Error_t CS_ADC_Create(CS_ADC_Parameters_t * currentSensorADC)
     if (currentSensorADC == NULL) return CS_ADC_ERROR_NULL_PTR;
 
     adcPin = BSP_GetPin(BSP_PIN_ADC0);
-    if (!adcPin) return CS_ADC_ERROR_NO_PIN_ASSIGNED;
+    if (!adcPin)
+    {
+        log_current_error_initialization_failed_adc();
+        return CS_ADC_ERROR_NO_PIN_ASSIGNED;
+    } 
 
     pinMode(adcPin->pin, INPUT);
     analogReference(INTERNAL); /* Ref = 1.1V */

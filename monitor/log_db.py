@@ -89,90 +89,111 @@ LOG_MESSAGES = {
         'format': "Current sensor reading: {0} uA",
     },
     11: {
+        'name': 'LOG_CURRENT_ERROR_INITIALIZATION_FAILED',
+        'subsystem': 'CURRENT',
+        'level': 'ERROR',
+        'args': [],
+        'format': "Initialization failed, no ADC parameters",
+    },
+    12: {
+        'name': 'LOG_CURRENT_ERROR_INITIALIZATION_FAILED_ADC',
+        'subsystem': 'CURRENT',
+        'level': 'ERROR',
+        'args': [],
+        'format': "No pin assigned to ADC",
+    },
+    13: {
+        'name': 'LOG_CURRENT_TRACE_INITIALIZATION',
+        'subsystem': 'CURRENT',
+        'level': 'TRACE',
+        'args': [],
+        'format': "Current sensor initialized",
+    },
+    14: {
         'name': 'LOG_LOGGER_ERROR_BUFFER_OVERFLOW',
         'subsystem': 'LOGGER',
         'level': 'ERROR',
         'args': [],
         'format': "Message buffer overflow, too many messages were accumulated",
     },
-    12: {
+    15: {
         'name': 'LOG_LOGGER_TRACE_LOGGER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    13: {
+    16: {
         'name': 'LOG_LOGGER_TRACE_TRANSMITTER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    14: {
+    17: {
         'name': 'LOG_MAGNETOMETER_DATA_READING',
         'subsystem': 'MAGNETOMETER',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Magnetometer direction: {0} deg",
     },
-    15: {
+    18: {
         'name': 'LOG_MAGNETOMETER_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'ERROR',
         'args': [],
         'format': "Magnetometer initialization failed",
     },
-    16: {
+    19: {
         'name': 'LOG_MAGNETOMETER_EVENT_NEW_READ_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'EVENT',
         'args': [],
         'format': "New read attempt failed",
     },
-    17: {
+    20: {
         'name': 'LOG_MAGNETOMETER_TRACE_INITIALIZATION',
         'subsystem': 'MAGNETOMETER',
         'level': 'TRACE',
         'args': [],
         'format': "Magnetometer initialized",
     },
-    18: {
+    21: {
         'name': 'LOG_SERVO_DATA_DIRECTION',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Servo arm: {0} deg",
     },
-    19: {
+    22: {
         'name': 'LOG_SERVO_DATA_REFERENCE',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Yaw Controller Reference: {0} deg",
     },
-    20: {
+    23: {
         'name': 'LOG_SERVO_TRACE_INITIALIZED',
         'subsystem': 'SERVO',
         'level': 'TRACE',
         'args': [],
         'format': "Servo Initialized",
     },
-    21: {
+    24: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Initialized",
     },
-    22: {
+    25: {
         'name': 'LOG_SYSTEM_TRACE_LOOP_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['i32'],
         'format': "Loop time: {0} us",
     },
-    23: {
+    26: {
         'name': 'LOG_USER_INTERFACE_EVENT_BUTTON',
         'subsystem': 'USER_INTERFACE',
         'level': 'EVENT',

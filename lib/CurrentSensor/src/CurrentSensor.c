@@ -32,9 +32,16 @@ CurrentSensor_Error_t CurrentSensor_Create(void)
     CS_ADC_Create(&adcParameters);
     readAvailable = false;
     error = setConversionFactor();
-    if( error != CURRENTSENSOR_OK) return error;
+    if( error != CURRENTSENSOR_OK)
+    {
+        log_current_error_initialization_failed();
+        return error;
+    }
 
     initialized = true;
+
+    log_current_trace_initialization();
+
     return CURRENTSENSOR_OK;
 }
 

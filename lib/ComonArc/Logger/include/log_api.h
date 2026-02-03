@@ -98,6 +98,30 @@ static inline void log_current_data_reading(int16_t arg0)
         LOG_CURRENT_DATA_READING, payload, sizeof(payload));
 }
 
+static inline void log_current_error_initialization_failed()
+{
+    Logger_Log(
+        LOG_SUBSYS_CURRENT,
+        LOG_LEVEL_ERROR,
+        LOG_CURRENT_ERROR_INITIALIZATION_FAILED, NULL, 0);
+}
+
+static inline void log_current_error_initialization_failed_adc()
+{
+    Logger_Log(
+        LOG_SUBSYS_CURRENT,
+        LOG_LEVEL_ERROR,
+        LOG_CURRENT_ERROR_INITIALIZATION_FAILED_ADC, NULL, 0);
+}
+
+static inline void log_current_trace_initialization()
+{
+    Logger_Log(
+        LOG_SUBSYS_CURRENT,
+        LOG_LEVEL_TRACE,
+        LOG_CURRENT_TRACE_INITIALIZATION, NULL, 0);
+}
+
 static inline void log_logger_error_buffer_overflow()
 {
     Logger_Log(
