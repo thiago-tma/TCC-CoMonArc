@@ -1,4 +1,5 @@
 #include <Transmitter/include/Transmitter.h>
+#include <Logger/include/log_api.h>
 
 static bool initialized = false;
 static TransmitCallback_t storedCallbacks[TRANSMITTER_MAX_ATTACHED_CALLBACKS];

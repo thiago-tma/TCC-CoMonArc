@@ -1,4 +1,5 @@
 #include <Logger/include/Logger.h>
+#include <Logger/include/log_api.h>
 #include <Transmitter/include/Transmitter.h>
 
 static uint8_t logBuffer[LOGGER_MAX_BUFFER_SIZE]; 

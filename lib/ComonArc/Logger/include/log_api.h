@@ -236,12 +236,39 @@ static inline void log_system_trace_loop_time(int32_t arg0)
         LOG_SYSTEM_TRACE_LOOP_TIME, payload, sizeof(payload));
 }
 
+static inline void log_user_interface_data_button_state(uint8_t arg0)
+{
+    uint8_t payload[1];
+    payload[0] = (uint8_t)arg0;
+
+    Logger_Log(
+        LOG_SUBSYS_USER_INTERFACE,
+        LOG_LEVEL_DATA,
+        LOG_USER_INTERFACE_DATA_BUTTON_STATE, payload, sizeof(payload));
+}
+
+static inline void log_user_interface_error_initialization_failed()
+{
+    Logger_Log(
+        LOG_SUBSYS_USER_INTERFACE,
+        LOG_LEVEL_ERROR,
+        LOG_USER_INTERFACE_ERROR_INITIALIZATION_FAILED, NULL, 0);
+}
+
 static inline void log_user_interface_event_button()
 {
     Logger_Log(
         LOG_SUBSYS_USER_INTERFACE,
         LOG_LEVEL_EVENT,
         LOG_USER_INTERFACE_EVENT_BUTTON, NULL, 0);
+}
+
+static inline void log_user_interface_trace_initialized()
+{
+    Logger_Log(
+        LOG_SUBSYS_USER_INTERFACE,
+        LOG_LEVEL_TRACE,
+        LOG_USER_INTERFACE_TRACE_INITIALIZED, NULL, 0);
 }
 
 #ifdef __cplusplus

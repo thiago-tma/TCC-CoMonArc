@@ -2,6 +2,7 @@
 #include <GPIO.h>
 #include <BSP_Pins.h>
 #include <SoftTimer.h>
+#include <Logger/include/log_api.h>
 
 typedef struct 
 {
@@ -42,11 +43,19 @@ UserInterface_Error_t UserInterface_Create (void)
 
     buttonPin = BSP_GetPin(BSP_PIN_BUTTON);
 
-    GPIO_ConfigPin(*actuatorPins[ACTUATOR_LED], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
-    GPIO_ConfigPin(*actuatorPins[ACTUATOR_BUZZER], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
-    GPIO_ConfigPin(*buttonPin, GPIO_DIR_INPUT, GPIO_VALUE_LOW);
+    int errorVar = 0;
+    errorVar += GPIO_ConfigPin(*actuatorPins[ACTUATOR_LED], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
+    errorVar += GPIO_ConfigPin(*actuatorPins[ACTUATOR_BUZZER], GPIO_DIR_OUTPUT, GPIO_VALUE_LOW);
+    errorVar += GPIO_ConfigPin(*buttonPin, GPIO_DIR_INPUT, GPIO_VALUE_LOW);
+
+    if (errorVar)
+    {
+        log_user_interface_error_initialization_failed();
+        return USERINTERFACE_ERROR_INITIALIZATION_FAILED;
+    }
 
     initialized = true;
+    log_user_interface_trace_initialized();
 
     return USERINTERFACE_OK;
 }
@@ -137,6 +146,8 @@ UserInterface_Error_t UserInterface_Run (void)
 
     checkActuatorsBlink();
     checkButton();
+
+    log_user_interface_data_button_state(buttonState);
 
     return USERINTERFACE_OK;
 }
