@@ -214,6 +214,14 @@ static inline void log_servo_trace_initialized()
         LOG_SERVO_TRACE_INITIALIZED, NULL, 0);
 }
 
+static inline void log_system_error_loop_time_exceeded()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_ERROR,
+        LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED, NULL, 0);
+}
+
 static inline void log_system_trace_initialized()
 {
     Logger_Log(
@@ -222,7 +230,7 @@ static inline void log_system_trace_initialized()
         LOG_SYSTEM_TRACE_INITIALIZED, NULL, 0);
 }
 
-static inline void log_system_trace_loop_time(int32_t arg0)
+static inline void log_system_trace_loop_time(uint32_t arg0)
 {
     uint8_t payload[4];
     payload[0] = (uint8_t)(arg0 >> 0);

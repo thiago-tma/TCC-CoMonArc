@@ -1,14 +1,19 @@
 #include <Arduino.h>
+
 #include <CommandHandler/include/CommandHandler.h>
 #include <Commands.h>
 #include <Receiver/include/Receiver.h>
+
 #include <Logger/include/Logger.h>
+#include <Logger/include/log_api.h>
 #include <Transmitter/include/Transmitter.h>
 #include <HAL/UART.h>
+
 #include <YawController.h>
 #include <Magnetometer.h>
 #include <UserInterface.h>
 #include <CurrentSensor.h>
+
 #include <SoftTimer.h>
 
 #define SYSTEM_LOOP_PERIOD_US 50000
@@ -61,16 +66,27 @@ void setup (void)
     CurrentSensor_Create();
 
     SoftTimer_Create(&loopTimer, SYSTEM_LOOP_PERIOD_US);
+
+    log_system_trace_initialized();
 }
 
 void loop (void)
 {
+    unsigned long looptime = micros();
+
     Magnetometer_NewRead();
     if (yawControllerRunning) YawController_Run();
     CurrentSensor_NewRead();
     UserInterface_Run();
     Receiver_Run();
     Logger_Flush();
+    
+    looptime = micros() - looptime;
+    log_system_trace_loop_time(looptime);
+    if (looptime > SYSTEM_LOOP_PERIOD_US)
+    {
+        log_system_error_loop_time_exceeded();
+    }
     
     while(!SoftTimer_Check(&loopTimer));
 }

@@ -180,41 +180,48 @@ LOG_MESSAGES = {
         'format': "Servo Initialized",
     },
     24: {
+        'name': 'LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED',
+        'subsystem': 'SYSTEM',
+        'level': 'ERROR',
+        'args': [],
+        'format': "Loop time exceeded",
+    },
+    25: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
-        'format': "Initialized",
+        'format': "System Initialized",
     },
-    25: {
+    26: {
         'name': 'LOG_SYSTEM_TRACE_LOOP_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
-        'args': ['i32'],
+        'args': ['u32'],
         'format': "Loop time: {0} us",
     },
-    26: {
+    27: {
         'name': 'LOG_USER_INTERFACE_DATA_BUTTON_STATE',
         'subsystem': 'USER_INTERFACE',
         'level': 'DATA',
         'args': ['u8'],
         'format': "Button state: {0}",
     },
-    27: {
+    28: {
         'name': 'LOG_USER_INTERFACE_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'USER_INTERFACE',
         'level': 'ERROR',
         'args': [],
         'format': "User Interface initialization failed",
     },
-    28: {
+    29: {
         'name': 'LOG_USER_INTERFACE_EVENT_BUTTON',
         'subsystem': 'USER_INTERFACE',
         'level': 'EVENT',
         'args': [],
         'format': "Button pressed",
     },
-    29: {
+    30: {
         'name': 'LOG_USER_INTERFACE_TRACE_INITIALIZED',
         'subsystem': 'USER_INTERFACE',
         'level': 'TRACE',

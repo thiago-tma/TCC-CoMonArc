@@ -211,14 +211,20 @@ messages:
     format: "User interface initialized"
 
 #SYSTEM
+  LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED:
+    subsystem: SYSTEM
+    level: ERROR
+    args: []
+    format: "Loop time exceeded"
+
   LOG_SYSTEM_TRACE_INITIALIZED:
     subsystem: SYSTEM
     level: TRACE
     args: []
-    format: "Initialized"
+    format: "System Initialized"
 
   LOG_SYSTEM_TRACE_LOOP_TIME:
     subsystem: SYSTEM
     level: TRACE
-    args: [i32]
+    args: [u32]
     format: "Loop time: {0} us"
