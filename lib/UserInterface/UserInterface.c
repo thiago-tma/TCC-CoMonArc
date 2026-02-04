@@ -68,7 +68,7 @@ UserInterface_Error_t UserInterface_Destroy (void)
     
     buttonPin = 0;
     buttonState = GPIO_VALUE_LOW, lastReading = GPIO_VALUE_LOW;
-    buttonTimer = (SoftTimer){0};
+    SoftTimer_Destroy(&buttonTimer);
     buttonCallback = 0;
 
     initialized = false;
@@ -114,9 +114,10 @@ void checkButton(void)
     GPIO_Value_t newReading;
     GPIO_ReadPin(*buttonPin, &newReading);
 
-    if (newReading != lastReading && newReading != buttonState)
+    if (newReading != lastReading)
     {
-        SoftTimer_Create(&buttonTimer, 50000);
+        if (newReading != buttonState) SoftTimer_Create(&buttonTimer, 50000);
+        else SoftTimer_Destroy(&buttonTimer);
     }
 
     if (SoftTimer_Check(&buttonTimer))

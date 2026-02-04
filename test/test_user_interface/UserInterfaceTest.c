@@ -2,9 +2,9 @@
  * Lista de Testes do UserInterface
  * Objetivo: Gerenciar controle de Leds, Campainhas e Botões
  * 
- * Chamar funções sem inicialização retorna erro
- * Inicializar retorna OK, inicializar novamente retorna aviso
- * Deinicialização
+ * Chamar funções sem inicialização retorna erro                                                        OK
+ * Inicializar retorna OK, inicializar novamente retorna aviso                                          OK
+ * Deinicialização                                                                                      OK
  * Módulo inicializa módulo GPIO                                                                        OK
  * Módulo inicializa GPIOs usados durante inicialização                                                 OK
  *      LED, Campainha e Botão                                                                          ok
@@ -272,6 +272,26 @@ void test_ButtonBounceIsIgnored (void)
     TEST_ASSERT_EQUAL_MESSAGE(1, timesCallbackCalled, "Button should have activated callback function");
 }
 
+void test_PressingAndReleasingButtonWithinDebounceTimeHasNoEffect (void)
+{
+    Button_State_t buttonState;
+    UserInterface_AddButtonFunction(testCallback);
+
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_HIGH);
+    UserInterface_Run();
+
+    FakeSystemTimer_AddTime(20000);
+    UserInterface_Run();
+    FakeGPIO_SetPinValue(BSP_PIN_BUTTON, GPIO_VALUE_LOW);
+    UserInterface_Run();
+
+    FakeSystemTimer_AddTime(80001);
+    UserInterface_Run();
+    UserInterface_ReadButton(&buttonState);
+    TEST_ASSERT_EQUAL_MESSAGE(BUTTON_INACTIVE, buttonState, "Button should be inactive");
+    TEST_ASSERT_EQUAL_MESSAGE(0, timesCallbackCalled, "Button should not have activated callback function");
+}
+
 void test_PressButtonTwice (void)
 {
     Button_State_t buttonState;
@@ -318,6 +338,7 @@ int main( int argc, char **argv) {
     RUN_TEST(test_DebouncedButtonActivatesCallback);
     RUN_TEST(test_ButtonPressWithoutCallbackHasNoEffect);
     RUN_TEST(test_ButtonBounceIsIgnored);
+    RUN_TEST(test_PressingAndReleasingButtonWithinDebounceTimeHasNoEffect);
     RUN_TEST(test_PressButtonTwice);
 
     UNITY_END();
