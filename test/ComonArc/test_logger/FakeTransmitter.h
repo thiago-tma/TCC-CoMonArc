@@ -7,6 +7,6 @@ void FakeTransmitter_Reset (void);
 
 bool FakeTransmitter_GetInitialized (void);
 void FakeTransmitter_ResetTransmitBuffer (void);
-void FakeTransmitter_GetTransmitBuffer  (uint8_t ** buffer, size_t * bufferSize);
+void FakeTransmitter_GetTransmitBuffer  (Transmitter_Callback_Group_t group, uint8_t ** buffer, size_t * bufferSize);
 
 #endif /*D_COMONARCFAKETRANSMITTER_H*/

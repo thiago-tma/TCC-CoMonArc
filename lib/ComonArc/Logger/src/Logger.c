@@ -5,9 +5,9 @@
 static uint8_t logBuffer[LOGGER_MAX_BUFFER_SIZE]; 
 static size_t logBufferIndex;
 static bool logFilter[LOG_SUBSYSTEM_COUNT][LOG_LEVEL_COUNT];
-static bool loggerEnable = false;
+static bool initialized = false;
 static bool overflowFlag = false;
-static Log_ErrorCallback_t storedErrorCallback = 0;
+static Logger_Mode_t operatingMode;
 
 static void resetFilter (void)
 {
@@ -20,18 +20,19 @@ static void resetFilter (void)
     }
 }
 
-Logger_Error_t Logger_Create      (void) 
+Logger_Error_t Logger_Create      (Logger_Mode_t mode) 
 {
-    if (loggerEnable) return LOGGER_ERROR_ALREADY_INITIALIZED;
+    if (initialized) return LOGGER_ERROR_ALREADY_INITIALIZED;
 
     logBufferIndex = 0;
     resetFilter();
     overflowFlag = false;
-    storedErrorCallback = 0;
+
+    operatingMode = mode;
 
     Transmitter_Create();
 
-    loggerEnable = true;
+    initialized = true;
     log_logger_trace_logger_initialized();
 
     return LOGGER_OK;
@@ -39,59 +40,59 @@ Logger_Error_t Logger_Create      (void)
 
 Logger_Error_t Logger_Destroy     (void) 
 {
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
 
-    loggerEnable = false;
+    initialized = false;
 
+    return LOGGER_OK;
+}
+
+Logger_Error_t Logger_ResetFilter()
+{
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
+    resetFilter();
     return LOGGER_OK;
 }
 
 Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize) 
 {
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
 
-    /* If not enough space available in buffer for the whole message */
-    /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize)*/
-    if ((LOGGER_MAX_BUFFER_SIZE) < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize + logBufferIndex + LOGGER_BUFFER_OVERFLOW_ERROR_SPACE))
+    /* Filter message */
+    if (logFilter[origin][level] != true) return LOGGER_ERROR_MESSAGE_FILTERED;
+    
+    if (operatingMode == LOGGER_MODE_INSTANT || operatingMode == LOGGER_MODE_MIXED)
     {
-        if (!overflowFlag)
+        Transmitter_Transmit(TRANSMITTER_CALLBACK_GROUP_INSTANT, origin, level, messageID, payload, payloadSize);
+    }
+    
+    if (operatingMode == LOGGER_MODE_BUFFERED || operatingMode == LOGGER_MODE_MIXED)
+    {
+        /* If not enough space available in buffer for the whole message */
+        /*(LOGGER_MAX_BUFFER_SIZE-LOGGER_BUFFER_OVERFLOW_ERROR_SPACE) - logBufferIndex < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize)*/
+        if ((LOGGER_MAX_BUFFER_SIZE) < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize + logBufferIndex))
         {
             overflowFlag = true;
-
-            logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
-            logBuffer[logBufferIndex++] = LOG_LOGGER_ERROR_BUFFER_OVERFLOW;
-            logBuffer[logBufferIndex++] = 0;
-
-            if (storedErrorCallback) storedErrorCallback(origin, level, messageID, payload, payloadSize);
+            return LOGGER_ERROR_MESSAGE_BUFFER_FULL;
         }
-        return LOGGER_ERROR_MESSAGE_BUFFER_FULL;
-    }
-
-    /* Keep message */
-    if (logFilter[origin][level] == true)
-    {
-        logBuffer[logBufferIndex++] = LOGGER_START_BYTE;
+    
+        logBuffer[logBufferIndex++] = origin;
+        logBuffer[logBufferIndex++] = level;
         logBuffer[logBufferIndex++] = messageID;
-
         logBuffer[logBufferIndex++] = payloadSize;
-
+    
         for (int index = 0; index < payloadSize; index++)
         {
-
             logBuffer[logBufferIndex++] = payload[index];
         }
-
-        /* Run error callback if error message and callback available */
-        if (storedErrorCallback && level == LOG_LEVEL_ERROR) storedErrorCallback(origin, level, messageID, payload, payloadSize);
     }
-    else return LOGGER_ERROR_MESSAGE_FILTERED;
     
     return LOGGER_OK;
 }
 
 Logger_Error_t  setFilterInOneSubsystem(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive)
 {
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
 
     if( !inclusive)
     {
@@ -122,7 +123,7 @@ Logger_Error_t  setFilterInOneSubsystem(Log_Subsystem_t subsystem, Log_Level_t l
 
 Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive) 
 {
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
 
     if (subsystem != LOG_SUBSYSTEM_COUNT)
     {
@@ -140,29 +141,32 @@ Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bo
 
 Logger_Error_t Logger_Flush (void) 
 {
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
+    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
 
-    Transmitter_TransmitPayload(logBuffer, logBufferIndex);
+    size_t transmitIndex = 0;
+    Log_Subsystem_t origin = 0;
+    Log_Level_t level = 0;
+    Log_MessageId_t messageID = 0;
+    size_t payloadSize = 0;
+    uint8_t * payload = 0;
+
+    while (transmitIndex < logBufferIndex)
+    {
+        origin          =   logBuffer[transmitIndex++];
+        level           =   logBuffer[transmitIndex++];
+        messageID       =   logBuffer[transmitIndex++];
+        payloadSize     =   logBuffer[transmitIndex++];
+        payload = &logBuffer[transmitIndex];
+
+        transmitIndex += payloadSize;
+        Transmitter_Transmit(TRANSMITTER_CALLBACK_GROUP_DELAYED, origin, level, messageID, payload, payloadSize);
+    }
+
     logBufferIndex = 0;
+
+    Logger_Error_t returnCode = LOGGER_OK;
+    if (overflowFlag) returnCode = LOGGER_ERROR_MESSAGE_BUFFER_FULL;
     overflowFlag = false;
 
-    return LOGGER_OK;
-}
-
-Logger_Error_t Logger_AttachErrorCallback(Log_ErrorCallback_t errorCallback) 
-{
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
-
-    storedErrorCallback = errorCallback;
-
-    return LOGGER_OK;
-}
-
-Logger_Error_t Logger_DetachErrorCallback (void)
-{
-    if (!loggerEnable) return LOGGER_ERROR_NOT_INITIALIZED;
-
-    storedErrorCallback = 0;
-
-    return LOGGER_OK;
+    return returnCode;
 }

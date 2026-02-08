@@ -11,10 +11,7 @@ extern "C" {
 #include "log_ids.h"
 
 #define LOGGER_MAX_BUFFER_SIZE 180
-#define LOGGER_BUFFER_OVERFLOW_ERROR_SPACE 10       /* Espaço no buffer reservado para registrar erro de buffer overflow */
-
-#define LOGGER_START_BYTE 0xAA                      /* Definido na interface para acesso por testes */
-#define LOGGER_MESSAGE_MIN_LENGHT 3                 
+#define LOGGER_MESSAGE_MIN_LENGHT 4  /* Subsystem, Level, Id & messageSize */   
 
 typedef void (*Log_ErrorCallback_t)(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
@@ -27,14 +24,24 @@ typedef enum
     LOGGER_ERROR_MESSAGE_FILTERED
 }   Logger_Error_t;
 
+typedef enum
+{
+    LOGGER_MODE_INSTANT,        /* Mensagens são enviadas ao transmitter durante as chamadas de log */
+    LOGGER_MODE_BUFFERED,       /* Mensagens são armazenadas e repassadas chamanda a função flush */
+    LOGGER_MODE_MIXED           /* Modo com ambos os tipo de operação ativos */
+} Logger_Mode_t;
+
 /* Habilita módulo */
-Logger_Error_t Logger_Create      (void);
+Logger_Error_t Logger_Create      (Logger_Mode_t mode);
 
 /* Apaga estado interno (mensagens e callback) e desabilita módulo */
 Logger_Error_t Logger_Destroy     (void);
 
 /* Verifica nível da mensagem e armazena caso esteja habilitada */
 /* Use messageID = 0 para passar uma string como o payload ao invés de um token */
+/* Mensagens não filtradas são enviadas ao transmitter para serem executadas por callbacks imediatos */
+/* Armazena mensagens para serem executadas por callbacks adiados, registrados peo transmitter */
+/* Caso buffer não tenha espaço para a mensagem completa, mensagem é ignorada */
 Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);
 
 /* Passar LOG_SUBSYSTEM_COUNT (número de subsistemas existentes) aplica o filtro para todos os subsistemas      */
@@ -46,14 +53,11 @@ Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_Messag
 /*      reservado para contagem dos subsistemas e níveis existentes (LOG_SUBSYSTEM_COUNT e LOG_LEVEL_COUNT)     */
 Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bool enable, bool inclusive);
 
-/* Realiza a transmissão síncrona das mensagens acumuladas através do Transmitter */
+Logger_Error_t Logger_ResetFilter();
+
+/* Envia as mensagens armazenadas para o Transmitter, para serem executadas por callbacks adiados */
+/* Em caso de mensagens ignoradas por buffer cheio, retorna erro */
 Logger_Error_t Logger_Flush (void);
-
-/* Função chamada quando uma mensagem do tipo 'LOG_LEVEL_ERROR' é registrada (Logger_log) */
-Logger_Error_t Logger_AttachErrorCallback (Log_ErrorCallback_t errorCallback);
-
-/* Função para remover callBack registrado */
-Logger_Error_t Logger_DetachErrorCallback (void);
 
 #ifdef __cplusplus
 }
