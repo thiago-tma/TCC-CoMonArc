@@ -132,8 +132,18 @@ void HAL_UART_SendPayload(uint8_t *payload, size_t payloadSize)
     while (txHead != txTail || transmitting);
 }
 
+void HAL_UART_SendByte (uint8_t byte)
+{
+    HAL_UART_SendPayload(&byte, 1);
+}
+
 // RX not implemented
 void HAL_UART_ReceivePayload(size_t messageMaxSize, char *message, size_t *messageSize)
 {
     *messageSize = 0;
+}
+
+bool HAL_UART_GetByte   (uint8_t * byte)
+{
+    return false;
 }

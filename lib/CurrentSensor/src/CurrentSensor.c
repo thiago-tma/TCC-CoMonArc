@@ -1,5 +1,6 @@
 #include <CurrentSensor.h>
 #include <stdbool.h>
+#include <Logger/include/log_api.h>
 #include "CS_ADC.h"
 
 static bool initialized = false;

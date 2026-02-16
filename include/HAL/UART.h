@@ -12,7 +12,10 @@ void HAL_UART_Init (uint32_t baudrate);
 void HAL_UART_Deinit (void);
 
 void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize);
+void HAL_UART_SendByte (uint8_t byte);
+
 void HAL_UART_ReceivePayload (size_t messageMaxSize, char * message, size_t * messageSize);
+bool HAL_UART_GetByte   (uint8_t * byte);
 
 #ifdef __cplusplus
 }
