@@ -86,11 +86,13 @@ static inline void log_command_trace_receiver_initialized()
         LOG_COMMAND_TRACE_RECEIVER_INITIALIZED, NULL, 0);
 }
 
-static inline void log_current_data_reading(int16_t arg0)
+static inline void log_current_data_reading(int32_t arg0)
 {
-    uint8_t payload[2];
+    uint8_t payload[4];
     payload[0] = (uint8_t)(arg0 >> 0);
     payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
 
     Logger_Log(
         LOG_SUBSYS_CURRENT,
@@ -112,6 +114,14 @@ static inline void log_current_error_initialization_failed_adc()
         LOG_SUBSYS_CURRENT,
         LOG_LEVEL_ERROR,
         LOG_CURRENT_ERROR_INITIALIZATION_FAILED_ADC, NULL, 0);
+}
+
+static inline void log_current_event_no_current()
+{
+    Logger_Log(
+        LOG_SUBSYS_CURRENT,
+        LOG_LEVEL_EVENT,
+        LOG_CURRENT_EVENT_NO_CURRENT, NULL, 0);
 }
 
 static inline void log_current_trace_initialization()

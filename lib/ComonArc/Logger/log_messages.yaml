@@ -173,10 +173,16 @@ messages:
     args: []
     format: "Initialization failed, no ADC parameters"
 
+  LOG_CURRENT_EVENT_NO_CURRENT:
+    subsystem: CURRENT
+    level: EVENT
+    args: []
+    format: "Sensor detected no current"
+
   LOG_CURRENT_DATA_READING:
     subsystem: CURRENT
     level: DATA
-    args: [i16]
+    args: [i32]
     format: "Current sensor reading: {0} uA"
 
   LOG_CURRENT_TRACE_INITIALIZATION:
