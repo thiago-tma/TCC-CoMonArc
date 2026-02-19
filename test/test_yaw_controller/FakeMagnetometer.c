@@ -3,17 +3,25 @@
 static bool initialized = false;
 static int16_t currentHeading = 0;
 
-void Magnetometer_Create()
+Magnetometer_Error_t Magnetometer_Create(void)
 {
     initialized = true;
+    return MAGNETOMETER_OK;
 }
-void Magnetometer_Destroy();
+Magnetometer_Error_t Magnetometer_Destroy(void)
+{
+    return MAGNETOMETER_OK;
+}
 
-void Magnetometer_NewRead();
+Magnetometer_Error_t Magnetometer_NewRead()
+{
+    return MAGNETOMETER_OK;
+}
 
-void Magnetometer_GetHeading(int16_t * heading)
+Magnetometer_Error_t Magnetometer_GetHeading(int16_t * heading)
 {
     *heading = currentHeading;
+    return MAGNETOMETER_OK;
 }
 
 bool FakeMagnetometer_IsInitialized (void)

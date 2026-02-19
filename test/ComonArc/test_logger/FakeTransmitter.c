@@ -8,14 +8,21 @@ static uint8_t bufferDelayed[500];
 Transmitter_Error_t Transmitter_Create     (void)
 {
     initialized = true;
+    return TRANSMITTER_OK;
 }
 
 Transmitter_Error_t Transmitter_Destroy    (void)
 {
     initialized = false;
+    return TRANSMITTER_OK;
 }
 
-Transmitter_Error_t Transmitter_AttachTransmitCallback(TransmitCallback_t callback, Transmitter_Callback_Group_t group){}
+Transmitter_Error_t Transmitter_AttachTransmitCallback(TransmitCallback_t callback, Transmitter_Callback_Group_t group)
+{
+    (void)callback;
+    (void)group;
+    return TRANSMITTER_OK;
+}
 
 Transmitter_Error_t Transmitter_Transmit (Transmitter_Callback_Group_t group , Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize)
 {
@@ -33,6 +40,8 @@ Transmitter_Error_t Transmitter_Transmit (Transmitter_Callback_Group_t group , L
         payloadIndex++;
     }
     buffer[(*bufferIndex)++] = payloadSize;
+
+    return TRANSMITTER_OK;
 }
 
 void FakeTransmitter_Reset (void)

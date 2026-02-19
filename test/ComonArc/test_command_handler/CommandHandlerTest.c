@@ -47,6 +47,7 @@ bool parse_long(const char *s, long min, long max, long *out)
 
 static void testFunction1 (int argc, char **argv)
 {
+    (void) argc; (void) argv;
     testVar++;
 }
 
@@ -76,7 +77,7 @@ const CommHandler_Command_t testCommandTable[] =
     {"Ping1",       testFunction1},
     {"Ping2",       testFunction2},
     {"Ping3",       testFunction3},
-    {"", 0 }
+    {"", NULL }
 };
 
 void setUp (void)
@@ -154,6 +155,8 @@ void test_CommandWithNumberArguments (void)
 }
 
 int main( int argc, char **argv) {
+    (void) argc; (void) argv;
+    
     UNITY_BEGIN();
 
     RUN_TEST(test_HandlerInitialization);

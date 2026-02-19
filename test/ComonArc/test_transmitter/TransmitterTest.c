@@ -1,6 +1,6 @@
 /* Lista de testes do Transmitter
-/* Função:      Executar funções sobre as mensagens inseridas com base nas funções registradas. Objetivo principal seria a trasnmissão das mesmas
-/* Descrição:   Registra funções de callback e envia mensagens para essas assim que as recebe, semelhante ao padrão Observer
+ * Função:      Executar funções sobre as mensagens inseridas com base nas funções registradas. Objetivo principal seria a trasnmissão das mesmas
+ * Descrição:   Registra funções de callback e envia mensagens para essas assim que as recebe, semelhante ao padrão Observer
  *              Possui dois grupos de callBack, instant e delayed.
  * 
  * Chamar funções sem inicialização retorna erro                                                OK                                                     
@@ -24,7 +24,6 @@
 static int callbackVar = 0;
 static uint8_t storedMessageInstant[100];
 static uint8_t storedMessageDelayed[100];
-static size_t  storedMessageInstantSize = 0, storedMessageDelayedSize = 0;
 
 static void testCallbackInstant (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize)
 {
@@ -35,7 +34,7 @@ static void testCallbackInstant (Log_Subsystem_t  origin, Log_Level_t level, Log
     storedMessageInstant[index++] = level;
     storedMessageInstant[index++] = messageID;
 
-    int payloadIndex = 0;
+    size_t payloadIndex = 0;
     while(payloadIndex < payloadSize)
     {
         storedMessageInstant[index++] = payload[payloadIndex];
@@ -53,7 +52,7 @@ static void testCallbackDelayed (Log_Subsystem_t  origin, Log_Level_t level, Log
     storedMessageDelayed[index++] = level;
     storedMessageDelayed[index++] = messageID;
 
-    int payloadIndex = 0;
+    size_t payloadIndex = 0;
     while(payloadIndex < payloadSize)
     {
         storedMessageDelayed[index++] = payload[payloadIndex];
@@ -82,7 +81,6 @@ void test_CreateAndDestroy(void)
 
 void test_CheckInitialization (void)
 {
-    uint8_t testPayload[] = {0,1,2,3,4};
     Transmitter_Destroy();
 
     TEST_ASSERT_EQUAL_MESSAGE(TRANSMITTER_ERROR_NOT_INITIALIZED, Transmitter_Destroy(), "function 1");
@@ -178,6 +176,8 @@ void test_DeinitializationClearsCallbacks (void)
 }
 
 int main( int argc, char **argv) {
+    (void) argc; (void) argv;
+    
     UNITY_BEGIN();
 
     RUN_TEST(test_CreateAndDestroy);

@@ -168,6 +168,8 @@ void test_NewReadCorrectConversionTwice (void)
 
 int main (int argc, char ** argv)
 {
+    (void) argc; (void) argv;
+    
     UNITY_BEGIN();
 
     RUN_TEST(test_Initialization);

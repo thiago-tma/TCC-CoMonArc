@@ -8,6 +8,7 @@ static CommHandler_Error_t storedError = COMMHANDLER_OK;
 
 CommHandler_Error_t CommandHandler_Create(const CommHandler_Command_t * commandTable)
 {
+    (void)commandTable;
     return COMMHANDLER_OK;
 }
 

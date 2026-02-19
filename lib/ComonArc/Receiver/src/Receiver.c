@@ -51,7 +51,7 @@ Receiver_Error_t Receiver_Destroy (void)
 
 static Receiver_Error_t commHandlerErrorTranslate (CommHandler_Error_t commHandlerError)
 {
-    CommHandler_Error_t errorCode;
+    Receiver_Error_t errorCode;
 
     switch (commHandlerError)
     {

@@ -161,6 +161,8 @@ void test_RemoveCallBack (void)
 }
 
 int main( int argc, char **argv) {
+  (void)argc; (void)argv;
+  
   UNITY_BEGIN();
 
   RUN_TEST(test_TimeIsZeroAfterCreate);

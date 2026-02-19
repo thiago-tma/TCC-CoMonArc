@@ -7,16 +7,19 @@ static bool initialized = false;
 ServoController_Error_t ServoController_Create(void)
 {
     initialized = true;
+    return SERVOCONTROLLER_OK;
 }
 
 ServoController_Error_t ServoController_Destroy(void)
 {
     initialized = false;
+    return SERVOCONTROLLER_OK;
 }
 
 ServoController_Error_t ServoController_SetServo(int16_t heading)
 {
     currentHeading = heading;
+    return SERVOCONTROLLER_OK;
 }
 
 int16_t FakeServoController_ReadHeading (void)

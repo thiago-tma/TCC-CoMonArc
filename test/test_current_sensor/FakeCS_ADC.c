@@ -12,6 +12,8 @@ CS_ADC_Error_t  CS_ADC_Create(CS_ADC_Parameters_t * currentSensorADC)
     currentSensorADC->adcMaxValue =storedParameters.adcMaxValue;
     currentSensorADC->referenceVoltageMillivolts = storedParameters.referenceVoltageMillivolts;
     currentSensorADC->shuntResistanceMilliohms = storedParameters.shuntResistanceMilliohms;
+
+    return CS_ADC_OK;
 }
 
 CS_ADC_Error_t  CS_ADC_Destroy(void)
@@ -19,11 +21,15 @@ CS_ADC_Error_t  CS_ADC_Destroy(void)
     initialized = false;
     FakeCS_ADC_SetParameters((CS_ADC_Parameters_t){.adcMaxValue=1,.referenceVoltageMillivolts=1, .shuntResistanceMilliohms = 1});
     storedValue = 0;
+
+    return CS_ADC_OK;
 }
 
 CS_ADC_Error_t  CS_ADC_GetValue(CS_ADC_Value_t * rawVoltageReading)
 {
     *rawVoltageReading = storedValue;
+
+    return CS_ADC_OK;
 }
 
 void FakeCS_ADC_Reset(void);

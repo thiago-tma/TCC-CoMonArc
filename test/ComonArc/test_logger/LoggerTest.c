@@ -37,7 +37,6 @@
 
 static size_t messagesTransmittedSize;
 static uint8_t * messagesTransmitted; 
-static int callbackVar = 0;
 
 static uint8_t expectedMessage[200];
 static size_t expectedMessageIndex;
@@ -129,9 +128,8 @@ void test_LogFilteredMessage (void)
 
 void test_LogEnabledMessage (void)
 {
-    uint8_t payload[] = {};
-    appendExpectedMessage(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, payload, sizeof(payload));
-    TEST_ASSERT_EQUAL(LOGGER_OK, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, payload, sizeof(payload)));
+    appendExpectedMessage(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, NULL, 0);
+    TEST_ASSERT_EQUAL(LOGGER_OK, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, NULL, 0));
 
     checkTransmittedMessages(TRANSMITTER_CALLBACK_GROUP_INSTANT);
 }
@@ -157,10 +155,9 @@ void test_InstantMessagesOnlyInEnabledModes (void)
 
 void test_DeinitializationClearsFilter (void)
 {
-    uint8_t payload[] = {};
     Logger_Destroy();
     Logger_Create(LOGGER_MODE_INSTANT);
-    TEST_ASSERT_EQUAL(LOGGER_ERROR_MESSAGE_FILTERED, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, payload, sizeof(payload)));
+    TEST_ASSERT_EQUAL(LOGGER_ERROR_MESSAGE_FILTERED, Logger_Log(LOG_SUBSYS_LOGGER, LOG_LEVEL_ERROR, 10, NULL, 0));
 }
 
 void test_SetFilterEnablingLowerLevelMessageFromSingleSubsystemAndLevel (void)
@@ -328,6 +325,9 @@ void test_MixedMessagesSent (void)
 
 
 int main( int argc, char **argv) {
+    (void)argc;
+    (void)argv;
+
     UNITY_BEGIN();
 
     RUN_TEST(test_CreateAndDestroy);

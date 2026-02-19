@@ -114,7 +114,6 @@ void test_CallingFunctionsWithoutInitializationReturnsError (void)
 void test_ReceiveMessageReturnsErrorOnNoParameter (void)
 {
     char testMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE];
-    size_t receivedBytes;
 
     TEST_ASSERT_EQUAL(RECEIVER_ERROR_NO_PARAMETER, Receiver_ReceiveMessage(0, RECEIVER_MAX_COMMAND_BUFFER_SIZE, 0));
     TEST_ASSERT_EQUAL(RECEIVER_ERROR_NO_PARAMETER, Receiver_ReceiveMessage(testMessage, RECEIVER_MAX_COMMAND_BUFFER_SIZE, 0));
@@ -264,7 +263,7 @@ void test_NewCharactersResetTimeout (void)
 
 void test_ReceiverSendsFinishedMessageToCommandHandlerWithCallbackOperation (void)
 {
-    size_t receivedBytes, commHandlerBytes;
+    size_t commHandlerBytes;
     char * commHandlerMessage;
     char testMessage[] = {"This is a test message\n"};
     memcpy(storedMessage, testMessage, sizeof(testMessage));
@@ -290,7 +289,6 @@ void test_CallingReceiveMessageOnCallbackOperationReturnsError (void)
 
 void test_CallbackOperationTimeout (void)
 {
-    size_t receivedBytes;
     char testMessage[] = {"This is a test message\n"};
 
     Receiver_Create(true, testCommandCallback, testSystemTimeCallback);
@@ -304,7 +302,6 @@ void test_CallbackOperationTimeout (void)
 
 void test_CallbackOperationBufferCapacityReached (void)
 {
-    size_t receivedBytes;
     char testMessage[RECEIVER_MAX_COMMAND_BUFFER_SIZE+50] = {"This is a big test message with no end"};
 
     Receiver_Create(true, testCommandCallback, testSystemTimeCallback);
@@ -315,6 +312,8 @@ void test_CallbackOperationBufferCapacityReached (void)
 
 int main (int argc, char ** argv)
 {
+    (void) argc; (void) argv;
+    
     UNITY_BEGIN();
 
     RUN_TEST(test_InitializationWithoutCommandCallback);

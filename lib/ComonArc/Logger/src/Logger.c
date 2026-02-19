@@ -81,7 +81,7 @@ Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_Messag
         logBuffer[logBufferIndex++] = messageID;
         logBuffer[logBufferIndex++] = payloadSize;
     
-        for (int index = 0; index < payloadSize; index++)
+        for (size_t index = 0; index < payloadSize; index++)
         {
             logBuffer[logBufferIndex++] = payload[index];
         }
