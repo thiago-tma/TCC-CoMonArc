@@ -132,6 +132,20 @@ static inline void log_current_trace_initialization()
         LOG_CURRENT_TRACE_INITIALIZATION, NULL, 0);
 }
 
+static inline void log_current_trace_raw_reading(int32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_CURRENT,
+        LOG_LEVEL_TRACE,
+        LOG_CURRENT_TRACE_RAW_READING, payload, sizeof(payload));
+}
+
 static inline void log_logger_error_buffer_overflow()
 {
     Logger_Log(

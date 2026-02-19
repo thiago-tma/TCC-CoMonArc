@@ -117,118 +117,125 @@ LOG_MESSAGES = {
         'format': "Current sensor initialized",
     },
     15: {
+        'name': 'LOG_CURRENT_TRACE_RAW_READING',
+        'subsystem': 'CURRENT',
+        'level': 'TRACE',
+        'args': ['i32'],
+        'format': "Raw ADC reading: {0} ",
+    },
+    16: {
         'name': 'LOG_LOGGER_ERROR_BUFFER_OVERFLOW',
         'subsystem': 'LOGGER',
         'level': 'ERROR',
         'args': [],
         'format': "Message buffer overflow, too many messages were accumulated",
     },
-    16: {
+    17: {
         'name': 'LOG_LOGGER_TRACE_LOGGER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    17: {
+    18: {
         'name': 'LOG_LOGGER_TRACE_TRANSMITTER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    18: {
+    19: {
         'name': 'LOG_MAGNETOMETER_DATA_READING',
         'subsystem': 'MAGNETOMETER',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Magnetometer direction: {0} deg",
     },
-    19: {
+    20: {
         'name': 'LOG_MAGNETOMETER_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'ERROR',
         'args': [],
         'format': "Magnetometer initialization failed",
     },
-    20: {
+    21: {
         'name': 'LOG_MAGNETOMETER_EVENT_NEW_READ_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'EVENT',
         'args': [],
         'format': "New read attempt failed",
     },
-    21: {
+    22: {
         'name': 'LOG_MAGNETOMETER_TRACE_INITIALIZATION',
         'subsystem': 'MAGNETOMETER',
         'level': 'TRACE',
         'args': [],
         'format': "Magnetometer initialized",
     },
-    22: {
+    23: {
         'name': 'LOG_SERVO_DATA_DIRECTION',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Servo arm: {0} deg",
     },
-    23: {
+    24: {
         'name': 'LOG_SERVO_DATA_REFERENCE',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Yaw Controller Reference: {0} deg",
     },
-    24: {
+    25: {
         'name': 'LOG_SERVO_TRACE_INITIALIZED',
         'subsystem': 'SERVO',
         'level': 'TRACE',
         'args': [],
         'format': "Servo Initialized",
     },
-    25: {
+    26: {
         'name': 'LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED',
         'subsystem': 'SYSTEM',
         'level': 'ERROR',
         'args': [],
         'format': "Loop time exceeded",
     },
-    26: {
+    27: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "System Initialized",
     },
-    27: {
+    28: {
         'name': 'LOG_SYSTEM_TRACE_LOOP_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Loop time: {0} us",
     },
-    28: {
+    29: {
         'name': 'LOG_USER_INTERFACE_DATA_BUTTON_STATE',
         'subsystem': 'USER_INTERFACE',
         'level': 'DATA',
         'args': ['u8'],
         'format': "Button state: {0}",
     },
-    29: {
+    30: {
         'name': 'LOG_USER_INTERFACE_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'USER_INTERFACE',
         'level': 'ERROR',
         'args': [],
         'format': "User Interface initialization failed",
     },
-    30: {
+    31: {
         'name': 'LOG_USER_INTERFACE_EVENT_BUTTON',
         'subsystem': 'USER_INTERFACE',
         'level': 'EVENT',
         'args': [],
         'format': "Button pressed",
     },
-    31: {
+    32: {
         'name': 'LOG_USER_INTERFACE_TRACE_INITIALIZED',
         'subsystem': 'USER_INTERFACE',
         'level': 'TRACE',

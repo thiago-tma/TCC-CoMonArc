@@ -12,10 +12,12 @@ timeMicroseconds    SystemClock_Time        (void)
 
 int SystemClock_AddCallback (callBack function)
 {
+    (void)function;
     return -1;
 }
 
 bool                 SystemClock_RemoveCallback (int functionId)
 {
+    (void)functionId;
     return false;
 }

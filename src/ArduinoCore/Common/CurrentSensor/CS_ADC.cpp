@@ -7,12 +7,14 @@
 static GPIO_Pin_t * adcPin;
 
 static bool initialized = 0;
-static CS_ADC_Parameters_t adcParams = {
-    .shuntResistanceMilliohms = 220000,
-    .adcMaxValue = 1023,
-    .referenceVoltageMillivolts = 1100
-};
+static CS_ADC_Parameters_t adcParams;
 
+void setADCParams (void)
+{
+    adcParams.shuntResistanceMilliohms = 1000;
+    adcParams.adcMaxValue = 1023;
+    adcParams.referenceVoltageMillivolts = 1100;
+}
 
 CS_ADC_Error_t CS_ADC_Create(CS_ADC_Parameters_t * currentSensorADC)
 {
@@ -28,6 +30,7 @@ CS_ADC_Error_t CS_ADC_Create(CS_ADC_Parameters_t * currentSensorADC)
     pinMode(adcPin->pin, INPUT);
     analogReference(INTERNAL); /* Ref = 1.1V */
 
+    setADCParams();
     *currentSensorADC = adcParams;
 
     initialized = 1;

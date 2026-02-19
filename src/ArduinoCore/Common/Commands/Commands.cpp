@@ -24,16 +24,19 @@ uint32_t parseUInt(const char * string) {
 
 static void Command_Ping(int argc, char ** argv)
 {
+    (void)argc;(void)argv;
     log_command_event_ping();
 }
 
 static void Command_Led(int argc, char ** argv)
 {
+    (void)argc;(void)argv;
     UserInterface_BlinkComponent(ACTUATOR_LED, 2, 50000, 50000);
 }
 
 static void Command_Buzz(int argc, char ** argv)
 {
+    (void)argc;(void)argv;
     UserInterface_BlinkComponent(ACTUATOR_BUZZER, 2, 50000, 50000);
 }
 
@@ -50,6 +53,7 @@ static void Command_Servo (int argc, char ** argv)
 
 static void Command_Error (int argc, char ** argv)
 {
+    (void)argc;(void)argv;
     log_command_error_false_alarm();
 }
 

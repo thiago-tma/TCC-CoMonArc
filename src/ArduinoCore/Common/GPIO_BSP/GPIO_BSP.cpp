@@ -79,11 +79,13 @@ GPIO_Status_t GPIO_TogglePin(GPIO_Pin_t channel)
 /* Attach  and enable interrupt on channel */
 GPIO_Status_t GPIO_EnableInterrupt(GPIO_Pin_t channel, GPIO_Callback_t callback, GPIO_Int_Trigger_t triggerType )
 {
+    (void)channel;(void)callback;(void)triggerType;
     return GPIO_ERROR_HW_FAILURE;
 }
 
 /* Disable interrupt on channel */
 GPIO_Status_t GPIO_DisableInterrupt(GPIO_Pin_t channel)
 {
+    (void)channel;
     return GPIO_ERROR_HW_FAILURE;
 }

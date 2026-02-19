@@ -185,6 +185,12 @@ messages:
     args: [i32]
     format: "Current sensor reading: {0} uA"
 
+  LOG_CURRENT_TRACE_RAW_READING:
+    subsystem: CURRENT
+    level: TRACE
+    args: [i32]
+    format: "Raw ADC reading: {0} "
+
   LOG_CURRENT_TRACE_INITIALIZATION:
     subsystem: CURRENT
     level: TRACE
