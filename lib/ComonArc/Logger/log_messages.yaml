@@ -215,6 +215,18 @@ messages:
     level: DATA
     args: [u8]
     format: "Button state: {0}"
+  
+  LOG_USER_INTERFACE_DATA_LED_STATE:
+    subsystem: USER_INTERFACE
+    level: DATA
+    args: [u8]
+    format: "LED state: {0}"
+
+  LOG_USER_INTERFACE_DATA_BUZZER_STATE:
+    subsystem: USER_INTERFACE
+    level: DATA
+    args: [u8]
+    format: "Buzzer state: {0}"
 
   LOG_USER_INTERFACE_TRACE_INITIALIZED:
     subsystem: USER_INTERFACE
@@ -234,6 +246,78 @@ messages:
     level: TRACE
     args: []
     format: "System Initialized"
+
+  LOG_SYSTEM_TRACE_MAGNETOMETER_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Magnetometer task running"
+
+  LOG_SYSTEM_TRACE_MAGNETOMETER_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "Magnetometer task time: {0} us"
+
+  LOG_SYSTEM_TRACE_YAW_CONTROLLER_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Yaw Controller task running"
+
+  LOG_SYSTEM_TRACE_YAW_CONTROLLER_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "Yaw Controller task time: {0} us"
+
+  LOG_SYSTEM_TRACE_CURRENT_SENSOR_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Current Sensor task running"
+
+  LOG_SYSTEM_TRACE_CURRENT_SENSOR_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "Current Sensor task time: {0} us"
+  
+  LOG_SYSTEM_TRACE_USER_INTERFACE_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "User Interface task running"
+
+  LOG_SYSTEM_TRACE_USER_INTERFACE_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "User Interface task time: {0} us"
+
+  LOG_SYSTEM_TRACE_COMMAND_HANDLER_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Command Handler task running"
+
+  LOG_SYSTEM_TRACE_COMMAND_HANDLER_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "Command Handler task time: {0} us"
+
+  LOG_SYSTEM_TRACE_LOGGER_RUNNING:
+    subsystem: SYSTEM
+    level: TRACE
+    args: []
+    format: "Logger task running"
+
+  LOG_SYSTEM_TRACE_LOGGER_TIME:
+    subsystem: SYSTEM
+    level: TRACE
+    args: [u32]
+    format: "Logger task time: {0} us"
 
   LOG_SYSTEM_TRACE_LOOP_TIME:
     subsystem: SYSTEM

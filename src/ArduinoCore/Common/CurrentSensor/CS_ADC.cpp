@@ -11,7 +11,7 @@ static CS_ADC_Parameters_t adcParams;
 
 void setADCParams (void)
 {
-    adcParams.shuntResistanceMilliohms = 1000;
+    adcParams.shuntResistanceMilliohms = 1100;
     adcParams.adcMaxValue = 1023;
     adcParams.referenceVoltageMillivolts = 1100;
 }

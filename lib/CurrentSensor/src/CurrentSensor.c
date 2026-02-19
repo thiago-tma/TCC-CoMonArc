@@ -68,7 +68,7 @@ CurrentSensor_Error_t CurrentSensor_NewRead(void)
 
     log_current_trace_raw_reading(rawValue);
     log_current_data_reading(currentReading);
-    if (!currentReading) log_current_event_no_current();
+    //if (!currentReading) log_current_event_no_current();
 
     readAvailable = true;
     return CURRENTSENSOR_OK;

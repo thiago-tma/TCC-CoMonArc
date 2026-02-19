@@ -148,6 +148,8 @@ UserInterface_Error_t UserInterface_Run (void)
     checkButton();
 
     log_user_interface_data_button_state(buttonState);
+    log_user_interface_data_buzzer_state(actuatorSchedulers[ACTUATOR_BUZZER].currentState);
+    log_user_interface_data_led_state(actuatorSchedulers[ACTUATOR_LED].currentState);
 
     return USERINTERFACE_OK;
 }

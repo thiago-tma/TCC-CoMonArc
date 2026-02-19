@@ -11,6 +11,7 @@ void HAL_UART_Deinit (void){}
 void HAL_UART_SendByte (uint8_t byte)
 {
     Serial.write(byte);
+    Serial.flush();
 }
 
 void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize)
@@ -18,6 +19,7 @@ void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize)
     for (size_t index = 0; index < payloadSize; index++)
     {
         Serial.write(payload[index]);
+        Serial.flush();
     }   
 }
 

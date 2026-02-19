@@ -246,12 +246,78 @@ static inline void log_system_error_loop_time_exceeded()
         LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED, NULL, 0);
 }
 
+static inline void log_system_trace_command_handler_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_COMMAND_HANDLER_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_command_handler_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_COMMAND_HANDLER_TIME, payload, sizeof(payload));
+}
+
+static inline void log_system_trace_current_sensor_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_CURRENT_SENSOR_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_current_sensor_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_CURRENT_SENSOR_TIME, payload, sizeof(payload));
+}
+
 static inline void log_system_trace_initialized()
 {
     Logger_Log(
         LOG_SUBSYS_SYSTEM,
         LOG_LEVEL_TRACE,
         LOG_SYSTEM_TRACE_INITIALIZED, NULL, 0);
+}
+
+static inline void log_system_trace_logger_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_LOGGER_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_logger_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_LOGGER_TIME, payload, sizeof(payload));
 }
 
 static inline void log_system_trace_loop_time(uint32_t arg0)
@@ -268,6 +334,72 @@ static inline void log_system_trace_loop_time(uint32_t arg0)
         LOG_SYSTEM_TRACE_LOOP_TIME, payload, sizeof(payload));
 }
 
+static inline void log_system_trace_magnetometer_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_MAGNETOMETER_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_magnetometer_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_MAGNETOMETER_TIME, payload, sizeof(payload));
+}
+
+static inline void log_system_trace_user_interface_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_USER_INTERFACE_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_user_interface_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_USER_INTERFACE_TIME, payload, sizeof(payload));
+}
+
+static inline void log_system_trace_yaw_controller_running()
+{
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_YAW_CONTROLLER_RUNNING, NULL, 0);
+}
+
+static inline void log_system_trace_yaw_controller_time(uint32_t arg0)
+{
+    uint8_t payload[4];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+    payload[2] = (uint8_t)(arg0 >> 16);
+    payload[3] = (uint8_t)(arg0 >> 24);
+
+    Logger_Log(
+        LOG_SUBSYS_SYSTEM,
+        LOG_LEVEL_TRACE,
+        LOG_SYSTEM_TRACE_YAW_CONTROLLER_TIME, payload, sizeof(payload));
+}
+
 static inline void log_user_interface_data_button_state(uint8_t arg0)
 {
     uint8_t payload[1];
@@ -277,6 +409,28 @@ static inline void log_user_interface_data_button_state(uint8_t arg0)
         LOG_SUBSYS_USER_INTERFACE,
         LOG_LEVEL_DATA,
         LOG_USER_INTERFACE_DATA_BUTTON_STATE, payload, sizeof(payload));
+}
+
+static inline void log_user_interface_data_buzzer_state(uint8_t arg0)
+{
+    uint8_t payload[1];
+    payload[0] = (uint8_t)arg0;
+
+    Logger_Log(
+        LOG_SUBSYS_USER_INTERFACE,
+        LOG_LEVEL_DATA,
+        LOG_USER_INTERFACE_DATA_BUZZER_STATE, payload, sizeof(payload));
+}
+
+static inline void log_user_interface_data_led_state(uint8_t arg0)
+{
+    uint8_t payload[1];
+    payload[0] = (uint8_t)arg0;
+
+    Logger_Log(
+        LOG_SUBSYS_USER_INTERFACE,
+        LOG_LEVEL_DATA,
+        LOG_USER_INTERFACE_DATA_LED_STATE, payload, sizeof(payload));
 }
 
 static inline void log_user_interface_error_initialization_failed()
