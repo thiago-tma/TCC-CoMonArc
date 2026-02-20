@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <SystemConfig.h>
 
 #include <CommandHandler/include/CommandHandler.h>
 #include <Commands.h>
@@ -111,6 +112,8 @@ static void initializeReceiver (void)
 }
 void setup (void)
 {
+    SystemConfig_Init();
+
     UserInterface_Create();
     UserInterface_AddButtonFunction(buttonFunction);
 
