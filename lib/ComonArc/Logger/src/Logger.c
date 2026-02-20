@@ -142,6 +142,7 @@ Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bo
 Logger_Error_t Logger_Flush (void) 
 {
     if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
+    log_logger_trace_buffer_usage((uint16_t)logBufferIndex);
 
     size_t transmitIndex = 0;
     Log_Subsystem_t origin = 0;

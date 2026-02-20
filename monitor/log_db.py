@@ -131,209 +131,216 @@ LOG_MESSAGES = {
         'format': "Message buffer overflow, too many messages were accumulated",
     },
     17: {
+        'name': 'LOG_LOGGER_TRACE_BUFFER_USAGE',
+        'subsystem': 'LOGGER',
+        'level': 'TRACE',
+        'args': ['u16'],
+        'format': "Size of buffer on flush: {0}",
+    },
+    18: {
         'name': 'LOG_LOGGER_TRACE_LOGGER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    18: {
+    19: {
         'name': 'LOG_LOGGER_TRACE_TRANSMITTER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
     },
-    19: {
+    20: {
         'name': 'LOG_MAGNETOMETER_DATA_READING',
         'subsystem': 'MAGNETOMETER',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Magnetometer direction: {0} deg",
     },
-    20: {
+    21: {
         'name': 'LOG_MAGNETOMETER_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'ERROR',
         'args': [],
         'format': "Magnetometer initialization failed",
     },
-    21: {
+    22: {
         'name': 'LOG_MAGNETOMETER_EVENT_NEW_READ_FAILED',
         'subsystem': 'MAGNETOMETER',
         'level': 'EVENT',
         'args': [],
         'format': "New read attempt failed",
     },
-    22: {
+    23: {
         'name': 'LOG_MAGNETOMETER_TRACE_INITIALIZATION',
         'subsystem': 'MAGNETOMETER',
         'level': 'TRACE',
         'args': [],
         'format': "Magnetometer initialized",
     },
-    23: {
+    24: {
         'name': 'LOG_SERVO_DATA_DIRECTION',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Servo arm: {0} deg",
     },
-    24: {
+    25: {
         'name': 'LOG_SERVO_DATA_REFERENCE',
         'subsystem': 'SERVO',
         'level': 'DATA',
         'args': ['i16'],
         'format': "Yaw Controller Reference: {0} deg",
     },
-    25: {
+    26: {
         'name': 'LOG_SERVO_TRACE_INITIALIZED',
         'subsystem': 'SERVO',
         'level': 'TRACE',
         'args': [],
         'format': "Servo Initialized",
     },
-    26: {
+    27: {
         'name': 'LOG_SYSTEM_ERROR_LOOP_TIME_EXCEEDED',
         'subsystem': 'SYSTEM',
         'level': 'ERROR',
         'args': [],
         'format': "Loop time exceeded",
     },
-    27: {
+    28: {
         'name': 'LOG_SYSTEM_TRACE_COMMAND_HANDLER_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Command Handler task running",
     },
-    28: {
+    29: {
         'name': 'LOG_SYSTEM_TRACE_COMMAND_HANDLER_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Command Handler task time: {0} us",
     },
-    29: {
+    30: {
         'name': 'LOG_SYSTEM_TRACE_CURRENT_SENSOR_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Current Sensor task running",
     },
-    30: {
+    31: {
         'name': 'LOG_SYSTEM_TRACE_CURRENT_SENSOR_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Current Sensor task time: {0} us",
     },
-    31: {
+    32: {
         'name': 'LOG_SYSTEM_TRACE_INITIALIZED',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "System Initialized",
     },
-    32: {
+    33: {
         'name': 'LOG_SYSTEM_TRACE_LOGGER_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Logger task running",
     },
-    33: {
+    34: {
         'name': 'LOG_SYSTEM_TRACE_LOGGER_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Logger task time: {0} us",
     },
-    34: {
+    35: {
         'name': 'LOG_SYSTEM_TRACE_LOOP_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Loop time: {0} us",
     },
-    35: {
+    36: {
         'name': 'LOG_SYSTEM_TRACE_MAGNETOMETER_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Magnetometer task running",
     },
-    36: {
+    37: {
         'name': 'LOG_SYSTEM_TRACE_MAGNETOMETER_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Magnetometer task time: {0} us",
     },
-    37: {
+    38: {
         'name': 'LOG_SYSTEM_TRACE_USER_INTERFACE_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "User Interface task running",
     },
-    38: {
+    39: {
         'name': 'LOG_SYSTEM_TRACE_USER_INTERFACE_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "User Interface task time: {0} us",
     },
-    39: {
+    40: {
         'name': 'LOG_SYSTEM_TRACE_YAW_CONTROLLER_RUNNING',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': [],
         'format': "Yaw Controller task running",
     },
-    40: {
+    41: {
         'name': 'LOG_SYSTEM_TRACE_YAW_CONTROLLER_TIME',
         'subsystem': 'SYSTEM',
         'level': 'TRACE',
         'args': ['u32'],
         'format': "Yaw Controller task time: {0} us",
     },
-    41: {
+    42: {
         'name': 'LOG_USER_INTERFACE_DATA_BUTTON_STATE',
         'subsystem': 'USER_INTERFACE',
         'level': 'DATA',
         'args': ['u8'],
         'format': "Button state: {0}",
     },
-    42: {
+    43: {
         'name': 'LOG_USER_INTERFACE_DATA_BUZZER_STATE',
         'subsystem': 'USER_INTERFACE',
         'level': 'DATA',
         'args': ['u8'],
         'format': "Buzzer state: {0}",
     },
-    43: {
+    44: {
         'name': 'LOG_USER_INTERFACE_DATA_LED_STATE',
         'subsystem': 'USER_INTERFACE',
         'level': 'DATA',
         'args': ['u8'],
         'format': "LED state: {0}",
     },
-    44: {
+    45: {
         'name': 'LOG_USER_INTERFACE_ERROR_INITIALIZATION_FAILED',
         'subsystem': 'USER_INTERFACE',
         'level': 'ERROR',
         'args': [],
         'format': "User Interface initialization failed",
     },
-    45: {
+    46: {
         'name': 'LOG_USER_INTERFACE_EVENT_BUTTON',
         'subsystem': 'USER_INTERFACE',
         'level': 'EVENT',
         'args': [],
         'format': "Button pressed",
     },
-    46: {
+    47: {
         'name': 'LOG_USER_INTERFACE_TRACE_INITIALIZED',
         'subsystem': 'USER_INTERFACE',
         'level': 'TRACE',

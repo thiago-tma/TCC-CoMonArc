@@ -10,7 +10,7 @@ extern "C" {
 #include <stdbool.h>
 #include "log_ids.h"
 
-#define LOGGER_MAX_BUFFER_SIZE 180
+#define LOGGER_MAX_BUFFER_SIZE 200
 #define LOGGER_MESSAGE_MIN_LENGHT 4  /* Subsystem, Level, Id & messageSize */   
 
 typedef void (*Log_ErrorCallback_t)(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize);

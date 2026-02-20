@@ -70,7 +70,7 @@ static void ErrorLoop (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId
 
 static void initializeLogger (void)
 {
-    HAL_UART_Init(19200);
+    HAL_UART_Init(115200);
     Logger_Create(LOGGER_MODE_MIXED);
 
     Transmitter_Create();
@@ -100,6 +100,7 @@ static void initializeLogger (void)
     Logger_SetFilter(LOG_SUBSYS_USER_INTERFACE, LOG_LEVEL_DATA, true, true);
     Logger_SetFilter(LOG_SUBSYS_CURRENT, LOG_LEVEL_DATA, true, true);
 
+    Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_TRACE, true, true);
 }
 
 

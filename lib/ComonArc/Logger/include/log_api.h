@@ -154,6 +154,18 @@ static inline void log_logger_error_buffer_overflow()
         LOG_LOGGER_ERROR_BUFFER_OVERFLOW, NULL, 0);
 }
 
+static inline void log_logger_trace_buffer_usage(uint16_t arg0)
+{
+    uint8_t payload[2];
+    payload[0] = (uint8_t)(arg0 >> 0);
+    payload[1] = (uint8_t)(arg0 >> 8);
+
+    Logger_Log(
+        LOG_SUBSYS_LOGGER,
+        LOG_LEVEL_TRACE,
+        LOG_LOGGER_TRACE_BUFFER_USAGE, payload, sizeof(payload));
+}
+
 static inline void log_logger_trace_logger_initialized()
 {
     Logger_Log(
