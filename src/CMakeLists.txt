@@ -1,27 +1,11 @@
-# Simplified CMakeLists.txt template
+# This file was automatically generated for projects
+# without default 'CMakeLists.txt' file.
 
-# === CONFIGURATION ===
+FILE(GLOB_RECURSE app_sources 
+    ${CMAKE_SOURCE_DIR}/src/ArduinoCore/app.cpp     # Main file
+    ${CMAKE_SOURCE_DIR}/src/ArduinoCore/Common/*.*
+    ${CMAKE_SOURCE_DIR}/src/ArduinoCore/BSP/ESP32/*.*
+    ${CMAKE_SOURCE_DIR}/src/ArduinoCore/Arduino_UART/*.*
+    )
 
-# Main file (required)
-set(MAIN_FILE "ArduinoCore/Programs/ESP32/app_config_check.cpp")
-
-# Additional source files (list them individually or use directories)
-set(ADDITIONAL_SOURCES
-    "ArduinoCore/Common"
-    "ArduinoCore/BSP/ESP32"
-    "ArduinoCore/Arduino_UART"
-)
-
-# === BUILD SETUP ===
-
-# Convert relative paths to absolute
-set(ALL_SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/${MAIN_FILE}
-)
-
-foreach(SOURCE ${ADDITIONAL_SOURCES})
-    list(APPEND ALL_SOURCES ${CMAKE_SOURCE_DIR}/src/${SOURCE})
-endforeach()
-
-# Register component
-idf_component_register(SRCS ${ALL_SOURCES})
+idf_component_register(SRCS ${app_sources})

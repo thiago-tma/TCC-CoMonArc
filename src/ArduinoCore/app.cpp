@@ -55,6 +55,7 @@ static void ErrorLoop (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId
     errorState = true;
 
     YawController_Destroy();
+    Logger_ResetFilter();
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_ERROR, true, true); /*Enable only errors */
 
     SoftTimer errorLogTimer;
