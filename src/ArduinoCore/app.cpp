@@ -19,6 +19,10 @@
 
 #define SYSTEM_LOOP_PERIOD_US 50000
 
+#ifndef UART_BAUDRATE
+#define UART_BAUDRATE 9600   // default fallback
+#endif
+
 static bool yawControllerRunning = false;
 static SoftTimer loopTimer;
 
@@ -72,7 +76,7 @@ static void ErrorLoop (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId
 
 static void initializeLogger (void)
 {
-    HAL_UART_Init(115200);
+    HAL_UART_Init(UART_BAUDRATE);
     Logger_Create(LOGGER_MODE_MIXED);
 
     Transmitter_Create();
