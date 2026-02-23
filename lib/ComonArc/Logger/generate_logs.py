@@ -5,10 +5,31 @@
 #   log_ids.h: header with message IDs, the existing subsystems and message levels
 #   log_api.h: functions to call each message (prevents mistakes in sending messages)
 #   log_db.py: messages in JSON for the host-side decoder to use
+#
+# Usage:
+#   python generate_logs.py              # Normal mode (with implementation)
+#   python generate_logs.py --mode empty # Empty mode (empty functions for analysis)
 
 import yaml
 import sys
+import argparse
 from pathlib import Path
+
+# ------------------------------------------------------------
+# Argument parsing
+# ------------------------------------------------------------
+
+parser = argparse.ArgumentParser(description='Embedded log generator')
+parser.add_argument('--mode', '-m', 
+                    type=str, 
+                    choices=['normal', 'empty'],
+                    default='normal',
+                    help='Operation mode: "normal" (real implementation) or "empty" (empty functions for analysis)')
+parser.add_argument('--verbose', '-v',
+                    action='store_true',
+                    help='Show detailed information')
+
+args = parser.parse_args()
 
 # ------------------------------------------------------------
 # Path handling
@@ -33,6 +54,11 @@ MONITOR_DIR = PROJECT_ROOT / "monitor"        # goes to project root
 
 GEN_DIR.mkdir(exist_ok=True)
 MONITOR_DIR.mkdir(exist_ok=True)
+
+if args.verbose:
+    print(f"Mode: {args.mode}")
+    print(f"GEN_DIR: {GEN_DIR}")
+    print(f"MONITOR_DIR: {MONITOR_DIR}")
 
 # --- Argument sizes --------------------------------------------
 
@@ -165,14 +191,18 @@ with open(GEN_DIR / "log_ids.h", "w") as f:
 
     f.write("#endif /* D_LOGS_IDS_H */")
 
+if args.verbose:
+    print(f"Generated: {GEN_DIR / 'log_ids.h'}")
+
 # ------------------------------------------------------------
-# Generate log_api.h
+# Generate log_api.h (MODE-DEPENDENT)
 # ------------------------------------------------------------
 
 log_api_h = GEN_DIR / "log_api.h"
 
 with open(log_api_h, "w") as f:
-    f.write("// AUTO-GENERATED FILE — DO NOT EDIT\n\n")
+    f.write("// AUTO-GENERATED FILE — DO NOT EDIT\n")
+    f.write(f"// MODE: {args.mode.upper()}\n\n")
 
     f.write("#ifndef D_LOG_API_H\n")
     f.write("#define D_LOG_API_H\n\n")
@@ -183,51 +213,64 @@ with open(log_api_h, "w") as f:
 
     f.write("#include <stdint.h>\n")
     f.write("#include \"log_ids.h\"\n")
-    f.write("#include \"Logger.h\"\n\n")
+    
+    # Only include Logger.h in normal mode
+    if args.mode == "normal":
+        f.write("#include \"Logger.h\"\n")
+    
+    f.write("\n")
 
     for name in sorted_names:
         msg = messages[name]
-        args = msg["args"]
+        args_list = msg["args"]
 
         # Function signature
         params = ", ".join(
             f"{ARG_TYPE_INFO[a]['ctype']} arg{i}"
-            for i, a in enumerate(args)
+            for i, a in enumerate(args_list)
         )
 
         f.write(f"static inline void {name.lower()}({params})\n")
         f.write("{\n")
 
-        if msg["payload_size"] > 0:
-            f.write(f"    uint8_t payload[{msg['payload_size']}];\n")
-            offset = 0
+        if args.mode == "normal":
+            # --- NORMAL MODE: real implementation ---
+            if msg["payload_size"] > 0:
+                f.write(f"    uint8_t payload[{msg['payload_size']}];\n")
+                offset = 0
 
-            for i, a in enumerate(args):
-                size = ARG_TYPE_INFO[a]["size"]
+                for i, a in enumerate(args_list):
+                    size = ARG_TYPE_INFO[a]["size"]
 
-                if size == 1:
-                    f.write(f"    payload[{offset}] = (uint8_t)arg{i};\n")
+                    if size == 1:
+                        f.write(f"    payload[{offset}] = (uint8_t)arg{i};\n")
 
-                else:
-                    for b in range(size):
-                        f.write(
-                            f"    payload[{offset + b}] = "
-                            f"(uint8_t)(arg{i} >> {8 * b});\n"
-                        )
+                    else:
+                        for b in range(size):
+                            f.write(
+                                f"    payload[{offset + b}] = "
+                                f"(uint8_t)(arg{i} >> {8 * b});\n"
+                            )
 
-                offset += size
+                    offset += size
 
-            f.write("\n")
-            f.write("    Logger_Log(\n")
-            f.write(f"        LOG_SUBSYS_{msg['subsystem']},\n")
-            f.write(f"        LOG_LEVEL_{msg['level']},\n")
-            f.write(f"        {name}, payload, sizeof(payload));\n")
+                f.write("\n")
+                f.write("    Logger_Log(\n")
+                f.write(f"        LOG_SUBSYS_{msg['subsystem']},\n")
+                f.write(f"        LOG_LEVEL_{msg['level']},\n")
+                f.write(f"        {name}, payload, sizeof(payload));\n")
 
-        else:
-            f.write("    Logger_Log(\n")
-            f.write(f"        LOG_SUBSYS_{msg['subsystem']},\n")
-            f.write(f"        LOG_LEVEL_{msg['level']},\n")
-            f.write(f"        {name}, NULL, 0);\n")
+            else:
+                f.write("    Logger_Log(\n")
+                f.write(f"        LOG_SUBSYS_{msg['subsystem']},\n")
+                f.write(f"        LOG_LEVEL_{msg['level']},\n")
+                f.write(f"        {name}, NULL, 0);\n")
+
+        #else:  # args.mode == "empty"
+            # --- EMPTY MODE: empty functions for size analysis ---
+            # Just return, doing nothing
+            # For functions with return values (if added in the future), would return 0
+            # pass
 
         f.write("}\n\n")
 
@@ -236,6 +279,9 @@ with open(log_api_h, "w") as f:
     f.write("#endif\n\n")
 
     f.write("#endif /* D_LOG_API_H */")
+
+if args.verbose:
+    print(f"Generated: {log_api_h} (mode: {args.mode})")
 
 # ------------------------------------------------------------
 # Generate decoder database (PROJECT ROOT / tools)
@@ -270,3 +316,8 @@ with open(log_db_py, "w") as f:
         f.write(f"        'format': \"{msg['format']}\",\n")
         f.write("    },\n")
     f.write("}\n")
+
+if args.verbose:
+    print(f"Generated: {log_db_py}")
+
+print(f"\nGeneration completed successfully (mode: {args.mode})")
