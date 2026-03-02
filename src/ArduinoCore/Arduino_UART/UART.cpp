@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <HAL/UART.h>
+#include <TracePin.h>
 
 void HAL_UART_Init (uint32_t baudrate)
 {
@@ -11,7 +12,9 @@ void HAL_UART_Deinit (void){}
 void HAL_UART_SendByte (uint8_t byte)
 {
     Serial.write(byte);
+    TracePin_Off();
     Serial.flush();         /* Synchronous transmission */
+    TracePin_On();
 }
 
 void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize)
@@ -19,7 +22,9 @@ void HAL_UART_SendPayload (uint8_t * payload, size_t payloadSize)
     for (size_t index = 0; index < payloadSize; index++)
     {
         Serial.write(payload[index]);
+        TracePin_Off();
         Serial.flush();     /* Synchronous transmission */
+        TracePin_On();
     }   
 }
 

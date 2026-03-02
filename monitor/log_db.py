@@ -131,18 +131,18 @@ LOG_MESSAGES = {
         'format': "Message buffer overflow, too many messages were accumulated",
     },
     17: {
-        'name': 'LOG_LOGGER_TRACE_BUFFER_USAGE',
-        'subsystem': 'LOGGER',
-        'level': 'TRACE',
-        'args': ['u16'],
-        'format': "Size of buffer on flush: {0}",
-    },
-    18: {
         'name': 'LOG_LOGGER_TRACE_LOGGER_INITIALIZED',
         'subsystem': 'LOGGER',
         'level': 'TRACE',
         'args': [],
         'format': "Logger Initialized",
+    },
+    18: {
+        'name': 'LOG_LOGGER_TRACE_TRANSMISSION_BYTES',
+        'subsystem': 'LOGGER',
+        'level': 'TRACE',
+        'args': ['u16'],
+        'format': "Bytes sent on Logger Flush: {0}",
     },
     19: {
         'name': 'LOG_LOGGER_TRACE_TRANSMITTER_INITIALIZED',

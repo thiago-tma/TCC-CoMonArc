@@ -60,11 +60,11 @@ messages:
     args: []
     format: "Logger Initialized"
 
-  LOG_LOGGER_TRACE_BUFFER_USAGE:
+  LOG_LOGGER_TRACE_TRANSMISSION_BYTES:
     subsystem: LOGGER
     level: TRACE
     args: [u16]
-    format: "Size of buffer on flush: {0}"
+    format: "Bytes sent on Logger Flush: {0}"
 
 #COMMAND HANDLER
   LOG_COMMAND_ERROR_FALSE_ALARM:

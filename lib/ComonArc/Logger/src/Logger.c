@@ -2,6 +2,8 @@
 #include <Logger/include/log_api.h>
 #include <Transmitter/include/Transmitter.h>
 
+#include <TracePin.h>
+
 static uint8_t logBuffer[LOGGER_MAX_BUFFER_SIZE]; 
 static size_t logBufferIndex;
 static bool logFilter[LOG_SUBSYSTEM_COUNT][LOG_LEVEL_COUNT];
@@ -56,10 +58,19 @@ Logger_Error_t Logger_ResetFilter()
 
 Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId_t messageID, uint8_t * payload, size_t payloadSize) 
 {
-    if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
+    TracePin_On();
+    if (!initialized)
+    {
+        TracePin_Off();
+        return LOGGER_ERROR_NOT_INITIALIZED;
+    } 
 
     /* Filter message */
-    if (logFilter[origin][level] != true) return LOGGER_ERROR_MESSAGE_FILTERED;
+    if (logFilter[origin][level] != true)
+    {
+        TracePin_Off();
+        return LOGGER_ERROR_MESSAGE_FILTERED;
+    } 
     
     if (operatingMode == LOGGER_MODE_INSTANT || operatingMode == LOGGER_MODE_MIXED)
     {
@@ -73,6 +84,7 @@ Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_Messag
         if ((LOGGER_MAX_BUFFER_SIZE) < (LOGGER_MESSAGE_MIN_LENGHT + payloadSize + logBufferIndex))
         {
             overflowFlag = true;
+            TracePin_Off();
             return LOGGER_ERROR_MESSAGE_BUFFER_FULL;
         }
     
@@ -87,6 +99,7 @@ Logger_Error_t Logger_Log(Log_Subsystem_t  origin, Log_Level_t level, Log_Messag
         }
     }
     
+    TracePin_Off();
     return LOGGER_OK;
 }
 
@@ -142,7 +155,8 @@ Logger_Error_t Logger_SetFilter(Log_Subsystem_t subsystem, Log_Level_t level, bo
 Logger_Error_t Logger_Flush (void) 
 {
     if (!initialized) return LOGGER_ERROR_NOT_INITIALIZED;
-    log_logger_trace_buffer_usage((uint16_t)logBufferIndex);
+    uint16_t transmissionBytes = 0; 
+    TracePin_On();
 
     size_t transmitIndex = 0;
     Log_Subsystem_t origin = 0;
@@ -161,9 +175,11 @@ Logger_Error_t Logger_Flush (void)
 
         transmitIndex += payloadSize;
         Transmitter_Transmit(TRANSMITTER_CALLBACK_GROUP_DELAYED, origin, level, messageID, payload, payloadSize);
+        transmissionBytes += 3 + payloadSize;
     }
-
     logBufferIndex = 0;
+
+    log_logger_trace_transmission_bytes(transmissionBytes);
 
     Logger_Error_t returnCode = LOGGER_OK;
     if (overflowFlag) returnCode = LOGGER_ERROR_MESSAGE_BUFFER_FULL;

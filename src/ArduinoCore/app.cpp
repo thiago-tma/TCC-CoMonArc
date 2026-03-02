@@ -17,6 +17,8 @@
 
 #include <SoftTimer.h>
 
+#include <TracePin.h>
+
 #define SYSTEM_LOOP_PERIOD_US 50000
 
 #ifndef UART_BAUDRATE
@@ -66,7 +68,12 @@ static void ErrorLoop (Log_Subsystem_t  origin, Log_Level_t level, Log_MessageId
     SoftTimer_Create(&errorLogTimer, 2000000);
     while(1)
     {
-        if (SoftTimer_Check(&errorLogTimer)) Logger_Log(origin, level, messageID, payload, payloadSize);
+        if (SoftTimer_Check(&errorLogTimer))
+        {   
+            Logger_Log(origin, level, messageID, payload, payloadSize);
+            UserInterface_BlinkComponent(ACTUATOR_BUZZER, 3, 50000, 50000);
+            UserInterface_BlinkComponent(ACTUATOR_LED, 3, 50000, 50000);
+        } 
         UserInterface_Run();
         Receiver_Run();
         Logger_Flush();
@@ -88,25 +95,25 @@ static void initializeLogger (void)
     Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_EVENT, true, true); 
 
     /* Cenário 2 */
-    Logger_SetFilter(LOG_SUBSYS_MAGNETOMETER, LOG_LEVEL_DATA, true, true);
-    Logger_SetFilter(LOG_SUBSYS_SERVO, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_MAGNETOMETER, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_SERVO, LOG_LEVEL_DATA, true, true);
 
     /* Cenário 3 */
-    Logger_SetFilter(LOG_SUBSYS_USER_INTERFACE, LOG_LEVEL_DATA, true, true);
-    Logger_SetFilter(LOG_SUBSYS_CURRENT, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_USER_INTERFACE, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_CURRENT, LOG_LEVEL_DATA, true, true);
 
     /* Cenário 4 */
-    Logger_ResetFilter();
-    Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_EVENT, true, true);
-    Logger_SetFilter(LOG_SUBSYS_SYSTEM,LOG_LEVEL_TRACE, true, true);
+    //Logger_ResetFilter();
+    //Logger_SetFilter(LOG_SUBSYSTEM_COUNT, LOG_LEVEL_EVENT, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_SYSTEM,LOG_LEVEL_TRACE, true, true);
 
     /* Cenário 5 */
-    Logger_SetFilter(LOG_SUBSYS_MAGNETOMETER, LOG_LEVEL_DATA, true, true);
-    Logger_SetFilter(LOG_SUBSYS_SERVO, LOG_LEVEL_DATA, true, true);
-    Logger_SetFilter(LOG_SUBSYS_USER_INTERFACE, LOG_LEVEL_DATA, true, true);
-    Logger_SetFilter(LOG_SUBSYS_CURRENT, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_MAGNETOMETER, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_SERVO, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_USER_INTERFACE, LOG_LEVEL_DATA, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_CURRENT, LOG_LEVEL_DATA, true, true);
 
-    Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_TRACE, true, true);
+    //Logger_SetFilter(LOG_SUBSYS_LOGGER, LOG_LEVEL_TRACE, true, true); /* Bytes transmitidos a cada flush */
 }
 
 
@@ -129,6 +136,8 @@ void setup (void)
     CurrentSensor_Create();
 
     SoftTimer_Create(&loopTimer, SYSTEM_LOOP_PERIOD_US);
+
+    TracePin_Initialize();
 
     log_system_trace_initialized();
 }
@@ -168,13 +177,17 @@ void loop (void)
     /* Command Handler task */
     log_system_trace_command_handler_running();
     taskTime = micros();
+    TracePin_On();
     Receiver_Run();
+    TracePin_Off();
     log_system_trace_command_handler_time((micros()-taskTime));
 
     /* Logger task */
     log_system_trace_logger_running();
     taskTime = micros();
+    TracePin_On();
     Logger_Flush();
+    TracePin_Off();
     log_system_trace_logger_time((micros()-taskTime));
     
     looptime = micros() - looptime;
