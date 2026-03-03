@@ -1202,7 +1202,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000     0x4b94
+.text           0x0000000000000000     0x4bd8
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x0000000000000000                __vectors
@@ -1412,524 +1412,524 @@ END GROUP
                 0x0000000000000952       0x44 .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
  .text._ZL9ErrorLoop15Log_Subsystem_t11Log_Level_t15Log_MessageId_tPhj
                 0x0000000000000996       0xf8 .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
- .text.setup    0x0000000000000a8e       0xc4 .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
+ .text.setup    0x0000000000000a8e      0x108 .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
                 0x0000000000000a8e                setup
- .text.loop     0x0000000000000b52      0x2ca .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
-                0x0000000000000b52                loop
+ .text.loop     0x0000000000000b96      0x2ca .pio/build/app_uno_bitbang/src/ArduinoCore/app.cpp.o
+                0x0000000000000b96                loop
  .text._ZN5Print17availableForWriteEv
-                0x0000000000000e1c        0x6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e1c                _ZN5Print17availableForWriteEv
+                0x0000000000000e60        0x6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000e60                _ZN5Print17availableForWriteEv
  .text._ZN7TwoWire9availableEv
-                0x0000000000000e22        0xe .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e22                _ZN7TwoWire9availableEv
+                0x0000000000000e66        0xe .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000e66                _ZN7TwoWire9availableEv
  .text._ZN7TwoWire4readEv
-                0x0000000000000e30       0x26 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e30                _ZN7TwoWire4readEv
+                0x0000000000000e74       0x26 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000e74                _ZN7TwoWire4readEv
  .text._ZN7TwoWire4peekEv
-                0x0000000000000e56       0x1e .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e56                _ZN7TwoWire4peekEv
+                0x0000000000000e9a       0x1e .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000e9a                _ZN7TwoWire4peekEv
  .text._ZN7TwoWire5flushEv
-                0x0000000000000e74        0x2 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e74                _ZN7TwoWire5flushEv
+                0x0000000000000eb8        0x2 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000eb8                _ZN7TwoWire5flushEv
  .text._ZN7TwoWire16onReceiveServiceEPhi
-                0x0000000000000e76       0x54 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000e76                _ZN7TwoWire16onReceiveServiceEPhi
+                0x0000000000000eba       0x54 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000eba                _ZN7TwoWire16onReceiveServiceEPhi
  .text._ZN7TwoWire16onRequestServiceEv
-                0x0000000000000eca       0x18 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000eca                _ZN7TwoWire16onRequestServiceEv
+                0x0000000000000f0e       0x18 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000f0e                _ZN7TwoWire16onRequestServiceEv
  .text._ZN7TwoWire5writeEh
-                0x0000000000000ee2       0x5e .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000ee2                _ZN7TwoWire5writeEh
+                0x0000000000000f26       0x5e .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000f26                _ZN7TwoWire5writeEh
  .text._ZN7TwoWire5writeEPKhj
-                0x0000000000000f40       0x5a .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000f40                _ZN7TwoWire5writeEPKhj
+                0x0000000000000f84       0x5a .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000f84                _ZN7TwoWire5writeEPKhj
  .text._ZN7TwoWire5beginEv
-                0x0000000000000f9a       0x24 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000f9a                _ZN7TwoWire5beginEv
+                0x0000000000000fde       0x24 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000000fde                _ZN7TwoWire5beginEv
  .text._ZN7TwoWire17beginTransmissionEh
-                0x0000000000000fbe       0x14 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000fbe                _ZN7TwoWire17beginTransmissionEh
+                0x0000000000001002       0x14 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000001002                _ZN7TwoWire17beginTransmissionEh
  .text._ZN7TwoWire15endTransmissionEh
-                0x0000000000000fd2       0x26 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000fd2                _ZN7TwoWire15endTransmissionEh
+                0x0000000000001016       0x26 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000001016                _ZN7TwoWire15endTransmissionEh
  .text._ZN7TwoWire11requestFromEhhmhh
-                0x0000000000000ff8       0xa6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x0000000000000ff8                _ZN7TwoWire11requestFromEhhmhh
+                0x000000000000103c       0xa6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x000000000000103c                _ZN7TwoWire11requestFromEhhmhh
  .text._ZN7TwoWire11requestFromEhhh
-                0x000000000000109e       0x20 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x000000000000109e                _ZN7TwoWire11requestFromEhhh
+                0x00000000000010e2       0x20 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x00000000000010e2                _ZN7TwoWire11requestFromEhhh
  .text._ZN7TwoWire15endTransmissionEv
-                0x00000000000010be        0x6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
-                0x00000000000010be                _ZN7TwoWire15endTransmissionEv
+                0x0000000000001102        0x6 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000001102                _ZN7TwoWire15endTransmissionEv
  .text.startup._GLOBAL__sub_I__ZN7TwoWire8rxBufferE
-                0x00000000000010c4       0x22 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
+                0x0000000000001108       0x22 .pio/build/app_uno_bitbang/lib195/libWire.a(Wire.cpp.o)
  .text.twi_init
-                0x00000000000010e6       0x3c .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x00000000000010e6                twi_init
+                0x000000000000112a       0x3c .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x000000000000112a                twi_init
  .text.twi_disable
-                0x0000000000001122       0x1a .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x0000000000001122                twi_disable
+                0x0000000000001166       0x1a .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x0000000000001166                twi_disable
  .text.twi_transmit
-                0x000000000000113c       0x4e .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x000000000000113c                twi_transmit
+                0x0000000000001180       0x4e .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x0000000000001180                twi_transmit
  .text.twi_attachSlaveRxEvent
-                0x000000000000118a        0xa .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x000000000000118a                twi_attachSlaveRxEvent
+                0x00000000000011ce        0xa .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000011ce                twi_attachSlaveRxEvent
  .text.twi_attachSlaveTxEvent
-                0x0000000000001194        0xa .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x0000000000001194                twi_attachSlaveTxEvent
+                0x00000000000011d8        0xa .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000011d8                twi_attachSlaveTxEvent
  .text.twi_releaseBus
-                0x000000000000119e        0xc .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x000000000000119e                twi_releaseBus
+                0x00000000000011e2        0xc .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000011e2                twi_releaseBus
  .text.twi_handleTimeout
-                0x00000000000011aa       0x2c .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x00000000000011aa                twi_handleTimeout
+                0x00000000000011ee       0x2c .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000011ee                twi_handleTimeout
  .text.twi_readFrom
-                0x00000000000011d6      0x1c8 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x00000000000011d6                twi_readFrom
+                0x000000000000121a      0x1c8 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x000000000000121a                twi_readFrom
  .text.twi_writeTo
-                0x000000000000139e      0x1e4 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x000000000000139e                twi_writeTo
+                0x00000000000013e2      0x1e4 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000013e2                twi_writeTo
  .text.twi_stop
-                0x0000000000001582       0x70 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x0000000000001582                twi_stop
+                0x00000000000015c6       0x70 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x00000000000015c6                twi_stop
  .text.__vector_24
-                0x00000000000015f2      0x240 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
-                0x00000000000015f2                __vector_24
+                0x0000000000001636      0x240 .pio/build/app_uno_bitbang/lib195/libWire.a(twi.c.o)
+                0x0000000000001636                __vector_24
  .text._ZN17Adafruit_QMC5883PC2Ev
-                0x0000000000001832        0x8 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x0000000000001832                _ZN17Adafruit_QMC5883PC2Ev
-                0x0000000000001832                _ZN17Adafruit_QMC5883PC1Ev
+                0x0000000000001876        0x8 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001876                _ZN17Adafruit_QMC5883PC2Ev
+                0x0000000000001876                _ZN17Adafruit_QMC5883PC1Ev
  .text._ZN17Adafruit_QMC5883PD2Ev
-                0x000000000000183a       0x14 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x000000000000183a                _ZN17Adafruit_QMC5883PD2Ev
-                0x000000000000183a                _ZN17Adafruit_QMC5883PD1Ev
+                0x000000000000187e       0x14 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x000000000000187e                _ZN17Adafruit_QMC5883PD2Ev
+                0x000000000000187e                _ZN17Adafruit_QMC5883PD1Ev
  .text._ZN17Adafruit_QMC5883P5beginEhP7TwoWire
-                0x000000000000184e       0xa8 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x000000000000184e                _ZN17Adafruit_QMC5883P5beginEhP7TwoWire
+                0x0000000000001892       0xa8 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001892                _ZN17Adafruit_QMC5883P5beginEhP7TwoWire
  .text._ZN17Adafruit_QMC5883P14getRawMagneticEPiS0_S0_
-                0x00000000000018f6       0x98 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x00000000000018f6                _ZN17Adafruit_QMC5883P14getRawMagneticEPiS0_S0_
+                0x000000000000193a       0x98 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x000000000000193a                _ZN17Adafruit_QMC5883P14getRawMagneticEPiS0_S0_
  .text._ZN17Adafruit_QMC5883P7setModeE15qmc5883p_mode_t
-                0x000000000000198e       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x000000000000198e                _ZN17Adafruit_QMC5883P7setModeE15qmc5883p_mode_t
+                0x00000000000019d2       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x00000000000019d2                _ZN17Adafruit_QMC5883P7setModeE15qmc5883p_mode_t
  .text._ZN17Adafruit_QMC5883P6setODRE14qmc5883p_odr_t
-                0x0000000000001a00       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x0000000000001a00                _ZN17Adafruit_QMC5883P6setODRE14qmc5883p_odr_t
+                0x0000000000001a44       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001a44                _ZN17Adafruit_QMC5883P6setODRE14qmc5883p_odr_t
  .text._ZN17Adafruit_QMC5883P6setOSRE14qmc5883p_osr_t
-                0x0000000000001a72       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x0000000000001a72                _ZN17Adafruit_QMC5883P6setOSRE14qmc5883p_osr_t
+                0x0000000000001ab6       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001ab6                _ZN17Adafruit_QMC5883P6setOSRE14qmc5883p_osr_t
  .text._ZN17Adafruit_QMC5883P6setDSRE14qmc5883p_dsr_t
-                0x0000000000001ae4       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x0000000000001ae4                _ZN17Adafruit_QMC5883P6setDSRE14qmc5883p_dsr_t
+                0x0000000000001b28       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001b28                _ZN17Adafruit_QMC5883P6setDSRE14qmc5883p_dsr_t
  .text._ZN17Adafruit_QMC5883P8setRangeE16qmc5883p_range_t
-                0x0000000000001b56       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
-                0x0000000000001b56                _ZN17Adafruit_QMC5883P8setRangeE16qmc5883p_range_t
+                0x0000000000001b9a       0x72 .pio/build/app_uno_bitbang/lib056/libAdafruit QMC5883P Library.a(Adafruit_QMC5883P.cpp.o)
+                0x0000000000001b9a                _ZN17Adafruit_QMC5883P8setRangeE16qmc5883p_range_t
  .text.__vector_11
-                0x0000000000001bc8      0x176 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001bc8                __vector_11
+                0x0000000000001c0c      0x176 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001c0c                __vector_11
  .text._ZN5ServoC2Ev
-                0x0000000000001d3e       0x36 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001d3e                _ZN5ServoC2Ev
-                0x0000000000001d3e                _ZN5ServoC1Ev
+                0x0000000000001d82       0x36 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001d82                _ZN5ServoC2Ev
+                0x0000000000001d82                _ZN5ServoC1Ev
  .text._ZN5Servo6attachEiii
-                0x0000000000001d74       0xfe .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001d74                _ZN5Servo6attachEiii
+                0x0000000000001db8       0xfe .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001db8                _ZN5Servo6attachEiii
  .text._ZN5Servo6attachEi
-                0x0000000000001e72        0xc .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001e72                _ZN5Servo6attachEi
+                0x0000000000001eb6        0xc .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001eb6                _ZN5Servo6attachEi
  .text._ZN5Servo6detachEv
-                0x0000000000001e7e       0x1e .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001e7e                _ZN5Servo6detachEv
+                0x0000000000001ec2       0x1e .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001ec2                _ZN5Servo6detachEv
  .text._ZN5Servo17writeMicrosecondsEi
-                0x0000000000001e9c       0x6e .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001e9c                _ZN5Servo17writeMicrosecondsEi
+                0x0000000000001ee0       0x6e .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001ee0                _ZN5Servo17writeMicrosecondsEi
  .text._ZN5Servo5writeEi
-                0x0000000000001f0a       0xb6 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
-                0x0000000000001f0a                _ZN5Servo5writeEi
+                0x0000000000001f4e       0xb6 .pio/build/app_uno_bitbang/libf12/libServo.a(Servo.cpp.o)
+                0x0000000000001f4e                _ZN5Servo5writeEi
  .text.CommandHandler_Create
-                0x0000000000001fc0       0x3e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
-                0x0000000000001fc0                CommandHandler_Create
+                0x0000000000002004       0x3e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
+                0x0000000000002004                CommandHandler_Create
  .text.local_strtok_r
-                0x0000000000001ffe       0x68 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
-                0x0000000000001ffe                local_strtok_r
+                0x0000000000002042       0x68 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
+                0x0000000000002042                local_strtok_r
  .text.parseCommandString
-                0x0000000000002066       0x7a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
-                0x0000000000002066                parseCommandString
+                0x00000000000020aa       0x7a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
+                0x00000000000020aa                parseCommandString
  .text.CommandHandler_ProcessCommand
-                0x00000000000020e0       0xc6 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
-                0x00000000000020e0                CommandHandler_ProcessCommand
+                0x0000000000002124       0xc6 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(CommandHandler.c.o)
+                0x0000000000002124                CommandHandler_ProcessCommand
  .text.resetFilter
-                0x00000000000021a6       0x18 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x00000000000021ea       0x18 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
  .text.Logger_ResetFilter
-                0x00000000000021be       0x18 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x00000000000021be                Logger_ResetFilter
+                0x0000000000002202       0x18 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x0000000000002202                Logger_ResetFilter
  .text.Logger_Log
-                0x00000000000021d6      0x110 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x00000000000021d6                Logger_Log
+                0x000000000000221a      0x110 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x000000000000221a                Logger_Log
  .text.Logger_Create
-                0x00000000000022e6       0x60 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x00000000000022e6                Logger_Create
+                0x000000000000232a       0x60 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x000000000000232a                Logger_Create
  .text.setFilterInOneSubsystem
-                0x0000000000002346       0x6e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x0000000000002346                setFilterInOneSubsystem
+                0x000000000000238a       0x6e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x000000000000238a                setFilterInOneSubsystem
  .text.Logger_SetFilter
-                0x00000000000023b4       0x52 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x00000000000023b4                Logger_SetFilter
+                0x00000000000023f8       0x52 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x00000000000023f8                Logger_SetFilter
  .text.Logger_Flush
-                0x0000000000002406       0xde .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
-                0x0000000000002406                Logger_Flush
+                0x000000000000244a       0xde .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Logger.c.o)
+                0x000000000000244a                Logger_Flush
  .text.log_command_error_receiver_initialization_failed
-                0x00000000000024e4       0x22 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
+                0x0000000000002528       0x22 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
  .text.Receiver_Create
-                0x0000000000002506       0x6e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
-                0x0000000000002506                Receiver_Create
+                0x000000000000254a       0x6e .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
+                0x000000000000254a                Receiver_Create
  .text.Receiver_Run
-                0x0000000000002574      0x1a4 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
-                0x0000000000002574                Receiver_Run
+                0x00000000000025b8      0x1a4 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Receiver.c.o)
+                0x00000000000025b8                Receiver_Run
  .text.Transmitter_Create
-                0x0000000000002718       0x6a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
-                0x0000000000002718                Transmitter_Create
+                0x000000000000275c       0x6a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
+                0x000000000000275c                Transmitter_Create
  .text.Transmitter_AttachTransmitCallback
-                0x0000000000002782       0x48 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
-                0x0000000000002782                Transmitter_AttachTransmitCallback
+                0x00000000000027c6       0x48 .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
+                0x00000000000027c6                Transmitter_AttachTransmitCallback
  .text.Transmitter_Transmit
-                0x00000000000027ca       0x8a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
-                0x00000000000027ca                Transmitter_Transmit
+                0x000000000000280e       0x8a .pio/build/app_uno_bitbang/lib12a/libComonArc.a(Transmitter.c.o)
+                0x000000000000280e                Transmitter_Transmit
  .text.CurrentSensor_Create
-                0x0000000000002854      0x158 .pio/build/app_uno_bitbang/lib043/libCurrentSensor.a(CurrentSensor.c.o)
-                0x0000000000002854                CurrentSensor_Create
+                0x0000000000002898      0x158 .pio/build/app_uno_bitbang/lib043/libCurrentSensor.a(CurrentSensor.c.o)
+                0x0000000000002898                CurrentSensor_Create
  .text.CurrentSensor_NewRead
-                0x00000000000029ac      0x13c .pio/build/app_uno_bitbang/lib043/libCurrentSensor.a(CurrentSensor.c.o)
-                0x00000000000029ac                CurrentSensor_NewRead
+                0x00000000000029f0      0x13c .pio/build/app_uno_bitbang/lib043/libCurrentSensor.a(CurrentSensor.c.o)
+                0x00000000000029f0                CurrentSensor_NewRead
  .text.SoftTimer_Create
-                0x0000000000002ae8       0x46 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
-                0x0000000000002ae8                SoftTimer_Create
+                0x0000000000002b2c       0x46 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
+                0x0000000000002b2c                SoftTimer_Create
  .text.SoftTimer_Destroy
-                0x0000000000002b2e        0x8 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
-                0x0000000000002b2e                SoftTimer_Destroy
+                0x0000000000002b72        0x8 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
+                0x0000000000002b72                SoftTimer_Destroy
  .text.SoftTimer_Check
-                0x0000000000002b36       0x74 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
-                0x0000000000002b36                SoftTimer_Check
+                0x0000000000002b7a       0x74 .pio/build/app_uno_bitbang/liba69/libTimeService.a(SoftTimer.c.o)
+                0x0000000000002b7a                SoftTimer_Check
  .text.log_servo_data_reference
-                0x0000000000002baa       0x3a .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
+                0x0000000000002bee       0x3a .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
  .text.YawController_Create
-                0x0000000000002be4       0x56 .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
-                0x0000000000002be4                YawController_Create
+                0x0000000000002c28       0x56 .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
+                0x0000000000002c28                YawController_Create
  .text.YawController_Destroy
-                0x0000000000002c3a       0x1c .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
-                0x0000000000002c3a                YawController_Destroy
+                0x0000000000002c7e       0x1c .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
+                0x0000000000002c7e                YawController_Destroy
  .text.YawController_Run
-                0x0000000000002c56      0x10e .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
-                0x0000000000002c56                YawController_Run
+                0x0000000000002c9a      0x10e .pio/build/app_uno_bitbang/libf4d/libYawController.a(YawController.c.o)
+                0x0000000000002c9a                YawController_Run
  .text.actuatorWrite
-                0x0000000000002d64       0x46 .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000002da8       0x46 .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
  .text.UserInterface_Create
-                0x0000000000002daa       0xea .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x0000000000002daa                UserInterface_Create
+                0x0000000000002dee       0xea .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000002dee                UserInterface_Create
  .text.checkActuatorsBlink
-                0x0000000000002e94       0x7c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x0000000000002e94                checkActuatorsBlink
+                0x0000000000002ed8       0x7c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000002ed8                checkActuatorsBlink
  .text.checkButton
-                0x0000000000002f10       0xa2 .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x0000000000002f10                checkButton
+                0x0000000000002f54       0xa2 .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000002f54                checkButton
  .text.UserInterface_Run
-                0x0000000000002fb2       0x8c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x0000000000002fb2                UserInterface_Run
+                0x0000000000002ff6       0x8c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000002ff6                UserInterface_Run
  .text.UserInterface_BlinkComponent
-                0x000000000000303e       0x9c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x000000000000303e                UserInterface_BlinkComponent
+                0x0000000000003082       0x9c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x0000000000003082                UserInterface_BlinkComponent
  .text.UserInterface_AddButtonFunction
-                0x00000000000030da       0x1c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
-                0x00000000000030da                UserInterface_AddButtonFunction
+                0x000000000000311e       0x1c .pio/build/app_uno_bitbang/libe79/libUserInterface.a(UserInterface.c.o)
+                0x000000000000311e                UserInterface_AddButtonFunction
  .text._Z3maplllll
-                0x00000000000030f6       0x82 .pio/build/app_uno_bitbang/libFrameworkArduino.a(WMath.cpp.o)
-                0x00000000000030f6                _Z3maplllll
+                0x000000000000313a       0x82 .pio/build/app_uno_bitbang/libFrameworkArduino.a(WMath.cpp.o)
+                0x000000000000313a                _Z3maplllll
  .text.initVariant
-                0x0000000000003178        0x2 .pio/build/app_uno_bitbang/libFrameworkArduino.a(main.cpp.o)
-                0x0000000000003178                initVariant
+                0x00000000000031bc        0x2 .pio/build/app_uno_bitbang/libFrameworkArduino.a(main.cpp.o)
+                0x00000000000031bc                initVariant
  .text.startup.main
-                0x000000000000317a       0x1e .pio/build/app_uno_bitbang/libFrameworkArduino.a(main.cpp.o)
-                0x000000000000317a                main
- .text._Znwj    0x0000000000003198        0xc .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
-                0x0000000000003198                _Znwj
- .text._ZdlPv   0x00000000000031a4        0x4 .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
-                0x00000000000031a4                _ZdlPv
- .text._ZdlPvj  0x00000000000031a8        0x4 .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
-                0x00000000000031a8                _ZdlPvj
+                0x00000000000031be       0x1e .pio/build/app_uno_bitbang/libFrameworkArduino.a(main.cpp.o)
+                0x00000000000031be                main
+ .text._Znwj    0x00000000000031dc        0xc .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
+                0x00000000000031dc                _Znwj
+ .text._ZdlPv   0x00000000000031e8        0x4 .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
+                0x00000000000031e8                _ZdlPv
+ .text._ZdlPvj  0x00000000000031ec        0x4 .pio/build/app_uno_bitbang/libFrameworkArduino.a(new.cpp.o)
+                0x00000000000031ec                _ZdlPvj
  .text.__vector_16
-                0x00000000000031ac       0x94 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
-                0x00000000000031ac                __vector_16
- .text.micros   0x0000000000003240       0x4a .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
-                0x0000000000003240                micros
+                0x00000000000031f0       0x94 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
+                0x00000000000031f0                __vector_16
+ .text.micros   0x0000000000003284       0x4a .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
+                0x0000000000003284                micros
  .text.delayMicroseconds
-                0x000000000000328a       0x16 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
-                0x000000000000328a                delayMicroseconds
- .text.init     0x00000000000032a0       0x76 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
-                0x00000000000032a0                init
+                0x00000000000032ce       0x16 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
+                0x00000000000032ce                delayMicroseconds
+ .text.init     0x00000000000032e4       0x76 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring.c.o)
+                0x00000000000032e4                init
  .text.analogReference
-                0x0000000000003316        0x6 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_analog.c.o)
-                0x0000000000003316                analogReference
+                0x000000000000335a        0x6 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_analog.c.o)
+                0x000000000000335a                analogReference
  .text.analogRead
-                0x000000000000331c       0x36 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_analog.c.o)
-                0x000000000000331c                analogRead
+                0x0000000000003360       0x36 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_analog.c.o)
+                0x0000000000003360                analogRead
  .text.turnOffPWM
-                0x0000000000003352       0x52 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
- .text.pinMode  0x00000000000033a4       0x78 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
-                0x00000000000033a4                pinMode
+                0x0000000000003396       0x52 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
+ .text.pinMode  0x00000000000033e8       0x78 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
+                0x00000000000033e8                pinMode
  .text.digitalWrite
-                0x000000000000341c       0x5c .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
-                0x000000000000341c                digitalWrite
+                0x0000000000003460       0x5c .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
+                0x0000000000003460                digitalWrite
  .text.digitalRead
-                0x0000000000003478       0x52 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
-                0x0000000000003478                digitalRead
+                0x00000000000034bc       0x52 .pio/build/app_uno_bitbang/libFrameworkArduino.a(wiring_digital.c.o)
+                0x00000000000034bc                digitalRead
  .text._ZN23Adafruit_BusIO_RegisterC2EP18Adafruit_I2CDevicejhhh
-                0x00000000000034ca       0x26 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x00000000000034ca                _ZN23Adafruit_BusIO_RegisterC2EP18Adafruit_I2CDevicejhhh
-                0x00000000000034ca                _ZN23Adafruit_BusIO_RegisterC1EP18Adafruit_I2CDevicejhhh
+                0x000000000000350e       0x26 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x000000000000350e                _ZN23Adafruit_BusIO_RegisterC2EP18Adafruit_I2CDevicejhhh
+                0x000000000000350e                _ZN23Adafruit_BusIO_RegisterC1EP18Adafruit_I2CDevicejhhh
  .text._ZN23Adafruit_BusIO_Register5writeEPhh
-                0x00000000000034f0       0xd8 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x00000000000034f0                _ZN23Adafruit_BusIO_Register5writeEPhh
+                0x0000000000003534       0xd8 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x0000000000003534                _ZN23Adafruit_BusIO_Register5writeEPhh
  .text._ZN23Adafruit_BusIO_Register5writeEmh
-                0x00000000000035c8       0x6c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x00000000000035c8                _ZN23Adafruit_BusIO_Register5writeEmh
+                0x000000000000360c       0x6c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x000000000000360c                _ZN23Adafruit_BusIO_Register5writeEmh
  .text._ZN23Adafruit_BusIO_Register4readEPhh
-                0x0000000000003634       0xda .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x0000000000003634                _ZN23Adafruit_BusIO_Register4readEPhh
+                0x0000000000003678       0xda .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x0000000000003678                _ZN23Adafruit_BusIO_Register4readEPhh
  .text._ZN23Adafruit_BusIO_Register4readEv
-                0x000000000000370e       0x62 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x000000000000370e                _ZN23Adafruit_BusIO_Register4readEv
+                0x0000000000003752       0x62 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x0000000000003752                _ZN23Adafruit_BusIO_Register4readEv
  .text._ZN27Adafruit_BusIO_RegisterBitsC2EP23Adafruit_BusIO_Registerhh
-                0x0000000000003770        0xc .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x0000000000003770                _ZN27Adafruit_BusIO_RegisterBitsC1EP23Adafruit_BusIO_Registerhh
-                0x0000000000003770                _ZN27Adafruit_BusIO_RegisterBitsC2EP23Adafruit_BusIO_Registerhh
+                0x00000000000037b4        0xc .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x00000000000037b4                _ZN27Adafruit_BusIO_RegisterBitsC1EP23Adafruit_BusIO_Registerhh
+                0x00000000000037b4                _ZN27Adafruit_BusIO_RegisterBitsC2EP23Adafruit_BusIO_Registerhh
  .text._ZN27Adafruit_BusIO_RegisterBits5writeEm
-                0x000000000000377c       0xae .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
-                0x000000000000377c                _ZN27Adafruit_BusIO_RegisterBits5writeEm
+                0x00000000000037c0       0xae .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_BusIO_Register.cpp.o)
+                0x00000000000037c0                _ZN27Adafruit_BusIO_RegisterBits5writeEm
  .text._ZN22Adafruit_GenericDevice12readRegisterEPhhS0_j
-                0x000000000000382a       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_GenericDevice.cpp.o)
-                0x000000000000382a                _ZN22Adafruit_GenericDevice12readRegisterEPhhS0_j
+                0x000000000000386e       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_GenericDevice.cpp.o)
+                0x000000000000386e                _ZN22Adafruit_GenericDevice12readRegisterEPhhS0_j
  .text._ZN22Adafruit_GenericDevice13writeRegisterEPhhPKhj
-                0x0000000000003856       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_GenericDevice.cpp.o)
-                0x0000000000003856                _ZN22Adafruit_GenericDevice13writeRegisterEPhhPKhj
+                0x000000000000389a       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_GenericDevice.cpp.o)
+                0x000000000000389a                _ZN22Adafruit_GenericDevice13writeRegisterEPhhPKhj
  .text._ZN18Adafruit_I2CDeviceC2EhP7TwoWire
-                0x0000000000003882       0x14 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x0000000000003882                _ZN18Adafruit_I2CDeviceC1EhP7TwoWire
-                0x0000000000003882                _ZN18Adafruit_I2CDeviceC2EhP7TwoWire
+                0x00000000000038c6       0x14 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x00000000000038c6                _ZN18Adafruit_I2CDeviceC1EhP7TwoWire
+                0x00000000000038c6                _ZN18Adafruit_I2CDeviceC2EhP7TwoWire
  .text._ZN18Adafruit_I2CDevice8detectedEv
-                0x0000000000003896       0x3c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x0000000000003896                _ZN18Adafruit_I2CDevice8detectedEv
+                0x00000000000038da       0x3c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x00000000000038da                _ZN18Adafruit_I2CDevice8detectedEv
  .text._ZN18Adafruit_I2CDevice5beginEb
-                0x00000000000038d2       0x30 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x00000000000038d2                _ZN18Adafruit_I2CDevice5beginEb
+                0x0000000000003916       0x30 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x0000000000003916                _ZN18Adafruit_I2CDevice5beginEb
  .text._ZN18Adafruit_I2CDevice5writeEPKhjbS1_j
-                0x0000000000003902       0xae .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x0000000000003902                _ZN18Adafruit_I2CDevice5writeEPKhjbS1_j
+                0x0000000000003946       0xae .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x0000000000003946                _ZN18Adafruit_I2CDevice5writeEPKhjbS1_j
  .text._ZN18Adafruit_I2CDevice5_readEPhjb
-                0x00000000000039b0       0x66 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x00000000000039b0                _ZN18Adafruit_I2CDevice5_readEPhjb
+                0x00000000000039f4       0x66 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x00000000000039f4                _ZN18Adafruit_I2CDevice5_readEPhjb
  .text._ZN18Adafruit_I2CDevice4readEPhjb
-                0x0000000000003a16       0x7e .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x0000000000003a16                _ZN18Adafruit_I2CDevice4readEPhjb
+                0x0000000000003a5a       0x7e .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x0000000000003a5a                _ZN18Adafruit_I2CDevice4readEPhjb
  .text._ZN18Adafruit_I2CDevice15write_then_readEPKhjPhjb
-                0x0000000000003a94       0x64 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
-                0x0000000000003a94                _ZN18Adafruit_I2CDevice15write_then_readEPKhjPhjb
+                0x0000000000003ad8       0x64 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_I2CDevice.cpp.o)
+                0x0000000000003ad8                _ZN18Adafruit_I2CDevice15write_then_readEPKhjPhjb
  .text._ZN18Adafruit_SPIDevice8transferEPhj
-                0x0000000000003af8      0x220 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003af8                _ZN18Adafruit_SPIDevice8transferEPhj
+                0x0000000000003b3c      0x220 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003b3c                _ZN18Adafruit_SPIDevice8transferEPhj
  .text._ZN18Adafruit_SPIDevice8transferEh
-                0x0000000000003d18       0x24 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003d18                _ZN18Adafruit_SPIDevice8transferEh
+                0x0000000000003d5c       0x24 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003d5c                _ZN18Adafruit_SPIDevice8transferEh
  .text._ZN18Adafruit_SPIDevice16beginTransactionEv
-                0x0000000000003d3c       0x4a .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003d3c                _ZN18Adafruit_SPIDevice16beginTransactionEv
+                0x0000000000003d80       0x4a .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003d80                _ZN18Adafruit_SPIDevice16beginTransactionEv
  .text._ZN18Adafruit_SPIDevice14endTransactionEv
-                0x0000000000003d86       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003d86                _ZN18Adafruit_SPIDevice14endTransactionEv
+                0x0000000000003dca       0x2c .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003dca                _ZN18Adafruit_SPIDevice14endTransactionEv
  .text._ZN18Adafruit_SPIDevice13setChipSelectEi
-                0x0000000000003db2        0xe .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003db2                _ZN18Adafruit_SPIDevice13setChipSelectEi
+                0x0000000000003df6        0xe .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003df6                _ZN18Adafruit_SPIDevice13setChipSelectEi
  .text._ZN18Adafruit_SPIDevice31beginTransactionWithAssertingCSEv
-                0x0000000000003dc0       0x18 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003dc0                _ZN18Adafruit_SPIDevice31beginTransactionWithAssertingCSEv
+                0x0000000000003e04       0x18 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003e04                _ZN18Adafruit_SPIDevice31beginTransactionWithAssertingCSEv
  .text._ZN18Adafruit_SPIDevice31endTransactionWithDeassertingCSEv
-                0x0000000000003dd8       0x18 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003dd8                _ZN18Adafruit_SPIDevice31endTransactionWithDeassertingCSEv
+                0x0000000000003e1c       0x18 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003e1c                _ZN18Adafruit_SPIDevice31endTransactionWithDeassertingCSEv
  .text._ZN18Adafruit_SPIDevice5writeEPKhjS1_j
-                0x0000000000003df0       0x76 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003df0                _ZN18Adafruit_SPIDevice5writeEPKhjS1_j
+                0x0000000000003e34       0x76 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003e34                _ZN18Adafruit_SPIDevice5writeEPKhjS1_j
  .text._ZN18Adafruit_SPIDevice15write_then_readEPKhjPhjh
-                0x0000000000003e66       0x80 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
-                0x0000000000003e66                _ZN18Adafruit_SPIDevice15write_then_readEPKhjPhjh
+                0x0000000000003eaa       0x80 .pio/build/app_uno_bitbang/liba92/libAdafruit BusIO.a(Adafruit_SPIDevice.cpp.o)
+                0x0000000000003eaa                _ZN18Adafruit_SPIDevice15write_then_readEPKhjPhjh
  .text.libgcc.mul
-                0x0000000000003ee6       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_mulsi3.o)
-                0x0000000000003ee6                __mulsi3
+                0x0000000000003f2a       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_mulsi3.o)
+                0x0000000000003f2a                __mulsi3
  .text.libgcc.div
-                0x0000000000003f06       0x18 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodqi4.o)
-                0x0000000000003f06                __udivmodqi4
+                0x0000000000003f4a       0x18 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodqi4.o)
+                0x0000000000003f4a                __udivmodqi4
  .text.libgcc.div
-                0x0000000000003f1e       0x28 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divmodhi4.o)
-                0x0000000000003f1e                __divmodhi4
-                0x0000000000003f1e                _div
+                0x0000000000003f62       0x28 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divmodhi4.o)
+                0x0000000000003f62                __divmodhi4
+                0x0000000000003f62                _div
  .text.libgcc.div
-                0x0000000000003f46       0x44 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodsi4.o)
-                0x0000000000003f46                __udivmodsi4
+                0x0000000000003f8a       0x44 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodsi4.o)
+                0x0000000000003f8a                __udivmodsi4
  .text.libgcc.div
-                0x0000000000003f8a       0x2e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divmodsi4.o)
-                0x0000000000003f8a                __divmodsi4
+                0x0000000000003fce       0x2e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divmodsi4.o)
+                0x0000000000003fce                __divmodsi4
  .text.libgcc.div
-                0x0000000000003fb8       0x10 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_negsi2.o)
-                0x0000000000003fb8                __negsi2
+                0x0000000000003ffc       0x10 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_negsi2.o)
+                0x0000000000003ffc                __negsi2
  .text.libgcc.mul
-                0x0000000000003fc8       0x16 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muluhisi3.o)
-                0x0000000000003fc8                __muluhisi3
+                0x000000000000400c       0x16 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muluhisi3.o)
+                0x000000000000400c                __muluhisi3
  .text.libgcc.mul
-                0x0000000000003fde       0x9e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muldi3.o)
-                0x0000000000003fde                __muldi3
+                0x0000000000004022       0x9e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muldi3.o)
+                0x0000000000004022                __muldi3
  .text.libgcc.mul
-                0x000000000000407c       0x12 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muldi3_6.o)
-                0x000000000000407c                __muldi3_6
+                0x00000000000040c0       0x12 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_muldi3_6.o)
+                0x00000000000040c0                __muldi3_6
  .text.libgcc.div
-                0x000000000000408e       0x62 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divdi3.o)
-                0x000000000000408e                __moddi3
-                0x0000000000004092                __divdi3
-                0x0000000000004094                __divdi3_moddi3
+                0x00000000000040d2       0x62 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_divdi3.o)
+                0x00000000000040d2                __moddi3
+                0x00000000000040d6                __divdi3
+                0x00000000000040d8                __divdi3_moddi3
  .text.libgcc.div
-                0x00000000000040f0       0x1c /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivdi3.o)
-                0x00000000000040f0                __umoddi3
-                0x00000000000040f4                __udivdi3
-                0x00000000000040f6                __udivdi3_umoddi3
+                0x0000000000004134       0x1c /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivdi3.o)
+                0x0000000000004134                __umoddi3
+                0x0000000000004138                __udivdi3
+                0x000000000000413a                __udivdi3_umoddi3
  .text.libgcc.div
-                0x000000000000410c       0xa2 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmod64.o)
-                0x000000000000410c                __udivmod64
- .text.libgcc   0x00000000000041ae       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_negdi2.o)
-                0x00000000000041ae                __negdi2
+                0x0000000000004150       0xa2 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmod64.o)
+                0x0000000000004150                __udivmod64
+ .text.libgcc   0x00000000000041f2       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_negdi2.o)
+                0x00000000000041f2                __negdi2
  .text.libgcc.prologue
-                0x00000000000041ce       0x38 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_prologue.o)
-                0x00000000000041ce                __prologue_saves__
+                0x0000000000004212       0x38 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_prologue.o)
+                0x0000000000004212                __prologue_saves__
  .text.libgcc.prologue
-                0x0000000000004206       0x36 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_epilogue.o)
-                0x0000000000004206                __epilogue_restores__
+                0x000000000000424a       0x36 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_epilogue.o)
+                0x000000000000424a                __epilogue_restores__
  .text.libgcc.div
-                0x000000000000423c       0x28 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodhi4.o)
-                0x000000000000423c                __udivmodhi4
- .text.libgcc   0x0000000000004264        0xc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_tablejump2.o)
-                0x0000000000004264                __tablejump2__
+                0x0000000000004280       0x28 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_udivmodhi4.o)
+                0x0000000000004280                __udivmodhi4
+ .text.libgcc   0x00000000000042a8        0xc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_tablejump2.o)
+                0x00000000000042a8                __tablejump2__
  .text.libgcc.mul
-                0x0000000000004270       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_umulhisi3.o)
-                0x0000000000004270                __umulhisi3
+                0x00000000000042b4       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_umulhisi3.o)
+                0x00000000000042b4                __umulhisi3
  .text.avr-libc.fplib
-                0x000000000000428e        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(addsf3.o)
-                0x000000000000428e                __subsf3
-                0x0000000000004290                __addsf3
+                0x00000000000042d2        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(addsf3.o)
+                0x00000000000042d2                __subsf3
+                0x00000000000042d4                __addsf3
  .text.avr-libc.fplib
-                0x000000000000429c       0xcc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(addsf3x.o)
-                0x00000000000042be                __addsf3x
+                0x00000000000042e0       0xcc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(addsf3x.o)
+                0x0000000000004302                __addsf3x
  .text.avr-libc.fplib
-                0x0000000000004368       0x86 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(atan2.o)
-                0x000000000000438e                atan2
+                0x00000000000043ac       0x86 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(atan2.o)
+                0x00000000000043d2                atan2
  .text.avr-libc.fplib
-                0x00000000000043ee       0x5e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(atan.o)
-                0x00000000000043ee                atan
+                0x0000000000004432       0x5e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(atan.o)
+                0x0000000000004432                atan
  .text.avr-libc.fplib
-                0x000000000000444c        0xa /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
-                0x000000000000444c                __lesf2
-                0x000000000000444c                __nesf2
-                0x000000000000444c                __eqsf2
-                0x000000000000444c                __cmpsf2
-                0x000000000000444c                __ltsf2
+                0x0000000000004490        0xa /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(cmpsf2.o)
+                0x0000000000004490                __lesf2
+                0x0000000000004490                __nesf2
+                0x0000000000004490                __eqsf2
+                0x0000000000004490                __cmpsf2
+                0x0000000000004490                __ltsf2
  .text.avr-libc.fplib
-                0x0000000000004456        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(divsf3.o)
-                0x0000000000004456                __divsf3
+                0x000000000000449a        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(divsf3.o)
+                0x000000000000449a                __divsf3
  .text.avr-libc.fplib
-                0x000000000000445e       0xdc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(divsf3x.o)
-                0x000000000000447e                __divsf3x
-                0x0000000000004484                __divsf3_pse
+                0x00000000000044a2       0xdc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(divsf3x.o)
+                0x00000000000044c2                __divsf3x
+                0x00000000000044c8                __divsf3_pse
  .text.avr-libc.fplib
-                0x000000000000453a       0x78 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixsfdi.o)
-                0x000000000000453a                __fixsfdi
-                0x0000000000004544                __fixunssfdi
+                0x000000000000457e       0x78 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixsfdi.o)
+                0x000000000000457e                __fixsfdi
+                0x0000000000004588                __fixunssfdi
  .text.avr-libc.fplib
-                0x00000000000045b2        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
-                0x00000000000045b2                __fixsfsi
+                0x00000000000045f6        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixsfsi.o)
+                0x00000000000045f6                __fixsfsi
  .text.avr-libc.fplib
-                0x00000000000045c0       0x5e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
-                0x00000000000045c0                __fixunssfsi
+                0x0000000000004604       0x5e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fixunssfsi.o)
+                0x0000000000004604                __fixunssfsi
  .text.avr-libc.fplib
-                0x000000000000461e       0x7a /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(floatsisf.o)
-                0x000000000000461e                __floatunsisf
-                0x0000000000004622                __floatsisf
+                0x0000000000004662       0x7a /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(floatsisf.o)
+                0x0000000000004662                __floatunsisf
+                0x0000000000004666                __floatsisf
  .text.avr-libc.fplib
-                0x0000000000004698       0x48 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
-                0x0000000000004698                __fp_cmp
+                0x00000000000046dc       0x48 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_cmp.o)
+                0x00000000000046dc                __fp_cmp
  .text.avr-libc.fplib
-                0x00000000000046e0        0xc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_inf.o)
-                0x00000000000046e0                __fp_inf
+                0x0000000000004724        0xc /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_inf.o)
+                0x0000000000004724                __fp_inf
  .text.avr-libc.fplib
-                0x00000000000046ec        0x6 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_nan.o)
-                0x00000000000046ec                __fp_nan
+                0x0000000000004730        0x6 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_nan.o)
+                0x0000000000004730                __fp_nan
  .text.avr-libc.fplib
-                0x00000000000046f2       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_negdi.o)
-                0x00000000000046f2                __fp_negdi
+                0x0000000000004736       0x20 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_negdi.o)
+                0x0000000000004736                __fp_negdi
  .text.avr-libc.fplib
-                0x0000000000004712       0x4e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_powser.o)
-                0x0000000000004712                __fp_powser
+                0x0000000000004756       0x4e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_powser.o)
+                0x0000000000004756                __fp_powser
  .text.avr-libc.fplib
-                0x0000000000004760        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
-                0x0000000000004760                __fp_pscA
+                0x00000000000047a4        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_pscA.o)
+                0x00000000000047a4                __fp_pscA
  .text.avr-libc.fplib
-                0x000000000000476e        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
-                0x000000000000476e                __fp_pscB
+                0x00000000000047b2        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_pscB.o)
+                0x00000000000047b2                __fp_pscB
  .text.avr-libc.fplib
-                0x000000000000477c       0x22 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_round.o)
-                0x000000000000477c                __fp_round
+                0x00000000000047c0       0x22 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_round.o)
+                0x00000000000047c0                __fp_round
  .text.avr-libc.fplib
-                0x000000000000479e       0x44 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_split3.o)
-                0x000000000000479e                __fp_split3
-                0x00000000000047ae                __fp_splitA
+                0x00000000000047e2       0x44 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_split3.o)
+                0x00000000000047e2                __fp_split3
+                0x00000000000047f2                __fp_splitA
  .text.avr-libc.fplib
-                0x00000000000047e2        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_zero.o)
-                0x00000000000047e2                __fp_zero
-                0x00000000000047e4                __fp_szero
+                0x0000000000004826        0xe /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(fp_zero.o)
+                0x0000000000004826                __fp_zero
+                0x0000000000004828                __fp_szero
  .text.avr-libc.fplib
-                0x00000000000047f0       0x10 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(inverse.o)
-                0x00000000000047f0                inverse
+                0x0000000000004834       0x10 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(inverse.o)
+                0x0000000000004834                inverse
  .text.avr-libc.fplib
-                0x0000000000004800        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(mulsf3.o)
-                0x0000000000004800                __mulsf3
+                0x0000000000004844        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(mulsf3.o)
+                0x0000000000004844                __mulsf3
  .text.avr-libc.fplib
-                0x0000000000004808       0xd2 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
-                0x0000000000004826                __mulsf3x
-                0x000000000000482c                __mulsf3_pse
+                0x000000000000484c       0xd2 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(mulsf3x.o)
+                0x000000000000486a                __mulsf3x
+                0x0000000000004870                __mulsf3_pse
  .text.avr-libc.fplib
-                0x00000000000048da        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(square.o)
-                0x00000000000048da                square
+                0x000000000000491e        0x8 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libm.a(square.o)
+                0x000000000000491e                square
  .text.avr-libc
-                0x00000000000048e2      0x24a /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(malloc.o)
-                0x00000000000048e2                malloc
-                0x0000000000004a1a                free
+                0x0000000000004926      0x24a /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(malloc.o)
+                0x0000000000004926                malloc
+                0x0000000000004a5e                free
  .text.avr-libc
-                0x0000000000004b2c       0x12 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strcmp.o)
-                0x0000000000004b2c                strcmp
+                0x0000000000004b70       0x12 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strcmp.o)
+                0x0000000000004b70                strcmp
  .text.avr-libc
-                0x0000000000004b3e       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strcspn.o)
-                0x0000000000004b3e                strcspn
+                0x0000000000004b82       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strcspn.o)
+                0x0000000000004b82                strcspn
  .text.avr-libc
-                0x0000000000004b5c       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strspn.o)
-                0x0000000000004b5c                strspn
-                0x0000000000004b7a                . = ALIGN (0x2)
+                0x0000000000004ba0       0x1e /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(strspn.o)
+                0x0000000000004ba0                strspn
+                0x0000000000004bbe                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000004b7a        0x0 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_exit.o)
-                0x0000000000004b7a                exit
-                0x0000000000004b7a                _exit
+ .fini9         0x0000000000004bbe        0x0 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_exit.o)
+                0x0000000000004bbe                exit
+                0x0000000000004bbe                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
  *(.fini7)
  *(.fini7)
  *(.fini6)
- .fini6         0x0000000000004b7a       0x16 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_dtors.o)
-                0x0000000000004b7a                __do_global_dtors
+ .fini6         0x0000000000004bbe       0x16 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_dtors.o)
+                0x0000000000004bbe                __do_global_dtors
  *(.fini6)
  *(.fini5)
  *(.fini5)
@@ -1942,11 +1942,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000004b90        0x4 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x0000000000004bd4        0x4 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000004b94                _etext = .
+                0x0000000000004bd8                _etext = .
 
-.data           0x0000000000800100       0x60 load address 0x0000000000004b94
+.data           0x0000000000800100       0x60 load address 0x0000000000004bd8
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x6 /home/thiago_unix/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/libc.a(malloc.o)
@@ -2185,8 +2185,8 @@ END GROUP
                 0x0000000000800435                __brkval
                 0x0000000000800437                __flp
                 0x0000000000800439                PROVIDE (__bss_end, .)
-                0x0000000000004b94                __data_load_start = LOADADDR (.data)
-                0x0000000000004bf4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000004bd8                __data_load_start = LOADADDR (.data)
+                0x0000000000004c38                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800439        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
